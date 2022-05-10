@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter/services.dart';
+
+import 'package:the_green_whale/pages/home_page.dart';
+import 'package:the_green_whale/pages/search_page.dart';
 
 import 'package:the_green_whale/utils/colors.dart';
 
 void main() {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -20,6 +24,11 @@ class MyApp extends StatelessWidget {
       title: 'The Greenwhale',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(brightness: Brightness.dark, primaryColor: primaryColor),
+      home: const HomePage(),
+      routes: {
+        HomePage.id: (context) => const HomePage(),
+        SearchPage.id: (context) => const SearchPage(),
+      },
     );
   }
 }
