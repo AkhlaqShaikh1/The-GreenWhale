@@ -17,7 +17,7 @@ class DataBox extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: size.height * 0.2,
+          height: size.height * 0.20,
           width: size.width,
           color: boxColor,
           child: Column(
@@ -86,7 +86,7 @@ class DataBox extends StatelessWidget {
 
         //Station Locattion
         Positioned(
-          top: size.height * 0.07,
+          top: size.height * 0.06,
           left: size.height * 0.029,
           child: Text(
             "Luebeckertordamm 60, Munich",
@@ -96,9 +96,12 @@ class DataBox extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-          top: size.height * 0.1,
-          left: size.height * 0.029,
+        Padding(
+          padding: EdgeInsets.only(
+            top: size.height * 0.1,
+            right: size.height * 0.029,
+            left: size.height * 0.029,
+          ),
           child: Row(
             children: [
               Image.asset(
@@ -109,13 +112,20 @@ class DataBox extends StatelessWidget {
               Text(
                 "9 am - 10 pm",
                 style: subtitleTextStyle.copyWith(
-                  fontSize: textFactor * 14,
+                  fontSize: textFactor * 16,
                   fontWeight: FontWeight.w600,
+                  color: Colors.white,
                 ),
+              ),
+              const Spacer(),
+              Text(
+                "22 kw",
+                style: subtitleTextStyle.copyWith(color: Colors.white),
               ),
             ],
           ),
         ),
+        // Divider
         Positioned(
           top: size.height * 0.14,
           left: size.height * 0.004,
@@ -125,44 +135,38 @@ class DataBox extends StatelessWidget {
             color: Colors.black,
           ),
         ),
+        // const SizedBox(height: 25),
         Positioned(
           top: size.height * 0.16,
           left: size.height * 0.029,
+          width: size.width,
           child: Row(
             children: [
               // Will change this according to the API logic
               for (int i = 0; i < 3; i++) ...[
                 Image.asset(
-                  "assets/icons/type1-charger.png",
+                  "assets/icons/type-1.png",
                   height: size.height * 0.025,
                 ),
                 i != 3
                     ? SizedBox(
-                        width: size.height * 0.015,
+                        width: size.height * 0.01,
                       )
                     : const SizedBox(width: 0),
                 Text(
-                  "Type 1",
-                  style: subtitleTextStyle.copyWith(fontSize: textFactor * 18),
+                  "CHAdeMO",
+                  style: subtitleTextStyle.copyWith(
+                    fontSize: textFactor * 14,
+                    color: Colors.white,
+                  ),
                 ),
                 i != 3
                     ? SizedBox(
-                        width: size.height * 0.02,
+                        width: size.height * 0.01,
                       )
                     : const SizedBox(width: 0),
-              ]
+              ],
             ],
-          ),
-        ),
-        Positioned(
-          top: size.height * 0.164,
-          right: size.height * 0.029,
-          child: Text(
-            "22 kw",
-            style: subtitleTextStyle.copyWith(
-              fontSize: textFactor * 18,
-              fontWeight: FontWeight.w600,
-            ),
           ),
         ),
       ],

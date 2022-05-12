@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:the_green_whale/pages/home_page.dart';
+import 'package:the_green_whale/pages/main_page.dart';
+import 'package:the_green_whale/pages/map_page.dart';
 import 'package:the_green_whale/pages/search_page.dart';
 
 import 'package:the_green_whale/utils/colors.dart';
@@ -24,10 +25,11 @@ class MyApp extends StatelessWidget {
       title: 'The Greenwhale',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(brightness: Brightness.dark, primaryColor: primaryColor),
-      home: const HomePage(),
+      home: const MainPage(),
       routes: {
-        HomePage.id: (context) => const HomePage(),
+        MainPage.id: (context) => const MainPage(),
         SearchPage.id: (context) => const SearchPage(),
+        MapPage.id: (context) => const MapPage(),
       },
     );
   }

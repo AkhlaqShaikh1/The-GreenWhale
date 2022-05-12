@@ -29,7 +29,7 @@ class _SearchPageState extends State<SearchPage> {
     double textFactor = MediaQuery.of(context).textScaleFactor;
 
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: primaryColor,
       appBar: AppBar(
         backgroundColor: primaryColor,
         leadingWidth: 60,
@@ -59,7 +59,7 @@ class _SearchPageState extends State<SearchPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: size.height * 0.03),
+            SizedBox(height: size.height * 0.04),
             //Search Bar
             SearchBar(
               size: size,
@@ -85,7 +85,7 @@ class _SearchPageState extends State<SearchPage> {
               height: size.height * 0.02,
             ),
 
-            //DATA BOXES PS will be converted into a listView.builder
+            //DATA BOXES: PS will be converted into a listView.builder
             Padding(
               padding: EdgeInsets.only(
                   left: size.height * 0.025, right: size.height * 0.025),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Color primaryColor = const Color.fromARGB(1, 18, 20, 24);
+Color primaryColor = const Color(0xff121418);
 Color greenColor = const Color(0xff01C29A);
 Color subtitleColor = const Color(0xff797B7F);
 Color borderColor = const Color(0xff878c98);

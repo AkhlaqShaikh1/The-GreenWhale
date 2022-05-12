@@ -68,7 +68,7 @@ class CustomAppBar extends StatelessWidget {
                 ),
                 MyAppBarIcon(
                   size: size,
-                  imgSrc: "menu",
+                  imgSrc: "list",
                   ontap: () {},
                 ),
               ],
