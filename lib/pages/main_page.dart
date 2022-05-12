@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:the_green_whale/pages/favourite_page.dart';
 import 'package:the_green_whale/pages/map_page.dart';
 import 'package:the_green_whale/pages/profile_page.dart';
-import 'package:the_green_whale/pages/search_page.dart';
+import 'package:the_green_whale/pages/reserves_page.dart';
 
-import 'package:the_green_whale/utils/colors.dart';
-import 'package:the_green_whale/utils/text_styles.dart';
-
-import 'package:the_green_whale/widgets/home_page_widgets/my_app_bar.dart';
+import '../utils/colors.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -23,6 +21,8 @@ class _MainPageState extends State<MainPage> {
 
   List pages = const [
     MapPage(),
+    FavouritePage(),
+    ReservePage(),
     ProfilePage(),
   ];
   @override
