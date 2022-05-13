@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:the_green_whale/model/data_box_model.dart';
+import 'package:the_green_whale/pages/search_detail_page.dart';
 
 import 'package:the_green_whale/utils/colors.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
@@ -85,29 +87,43 @@ class _SearchPageState extends State<SearchPage> {
               height: size.height * 0.02,
             ),
 
-            //DATA BOXES: PS will be converted into a listView.builder
             Padding(
               padding: EdgeInsets.only(
                   left: size.height * 0.025, right: size.height * 0.025),
-              child: DataBox(size: size, textFactor: textFactor),
-            ),
-            SizedBox(height: size.height * 0.025),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: size.height * 0.025, right: size.height * 0.025),
-              child: DataBox(size: size, textFactor: textFactor),
-            ),
-            SizedBox(height: size.height * 0.025),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: size.height * 0.025, right: size.height * 0.025),
-              child: DataBox(size: size, textFactor: textFactor),
-            ),
-            SizedBox(height: size.height * 0.025),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: size.height * 0.025, right: size.height * 0.025),
-              child: DataBox(size: size, textFactor: textFactor),
+              child: ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  final item = data[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => SearchDetailPage(data: item),
+                        ),
+                      );
+                      setState(() {});
+                    },
+                    child: Column(
+                      children: [
+                        DataBox(
+                          size: size,
+                          textFactor: textFactor,
+                          stationName: data[index].stationName,
+                          stationDistance: data[index].stationDistance,
+                          stationTime: data[index].stationTime,
+                          stationLocation: data[index].stationLocation,
+                          stationPower: data[index].stationPower,
+                          isAvailable: data[index].isAvailable,
+                        ),
+                        SizedBox(
+                          height: size.height * 0.01,
+                        )
+                      ],
+                    ),
+                  );
+                },
+                shrinkWrap: true,
+              ),
             ),
           ],
         ),

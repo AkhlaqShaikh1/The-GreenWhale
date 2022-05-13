@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:the_green_whale/utils/colors.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
 
@@ -7,11 +8,22 @@ class DataBox extends StatelessWidget {
     Key? key,
     required this.size,
     required this.textFactor,
+    required this.stationName,
+    required this.stationDistance,
+    required this.stationTime,
+    required this.stationLocation,
+    required this.stationPower,
+    required this.isAvailable,
   }) : super(key: key);
 
   final Size size;
   final double textFactor;
-
+  final String stationName;
+  final String stationDistance;
+  final String stationTime;
+  final String stationLocation;
+  final String stationPower;
+  final bool isAvailable;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -31,7 +43,7 @@ class DataBox extends StatelessWidget {
                       Container(
                         height: size.height * 0.2,
                         width: size.width * 0.01,
-                        color: greenColor,
+                        color: isAvailable ? greenColor : notAvailableColor,
                       ),
                     ],
                   ),
@@ -43,7 +55,7 @@ class DataBox extends StatelessWidget {
                       left: size.height * 0.025,
                     ),
                     child: Text(
-                      "BMW - Auotomag",
+                      stationName,
                       style: titleTextStyle.copyWith(
                         fontSize: textFactor * 18,
                         fontWeight: FontWeight.w600,
@@ -68,11 +80,11 @@ class DataBox extends StatelessWidget {
                         SizedBox(width: size.width * 0.02),
                         // Distance
                         Text(
-                          "1.4 km",
+                          stationDistance,
                           style: subtitleTextStyle.copyWith(
                             color: greenColor,
-                            fontWeight: FontWeight.w400,
                             fontSize: textFactor * 17.5,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ],
@@ -89,7 +101,7 @@ class DataBox extends StatelessWidget {
           top: size.height * 0.06,
           left: size.height * 0.029,
           child: Text(
-            "Luebeckertordamm 60, Munich",
+            stationLocation,
             style: subtitleTextStyle.copyWith(
               fontSize: textFactor * 14,
               fontWeight: FontWeight.w600,
@@ -110,7 +122,7 @@ class DataBox extends StatelessWidget {
               ),
               SizedBox(width: size.height * 0.0125),
               Text(
-                "9 am - 10 pm",
+                stationTime,
                 style: subtitleTextStyle.copyWith(
                   fontSize: textFactor * 16,
                   fontWeight: FontWeight.w600,
@@ -119,7 +131,7 @@ class DataBox extends StatelessWidget {
               ),
               const Spacer(),
               Text(
-                "22 kw",
+                stationPower,
                 style: subtitleTextStyle.copyWith(color: Colors.white),
               ),
             ],
