@@ -7,7 +7,7 @@ import 'package:the_green_whale/utils/text_styles.dart';
 import '../widgets/home_page_widgets/my_app_bar_icon.dart';
 
 class SearchDetailPage extends StatelessWidget {
-  SearchDetailPage({
+  const SearchDetailPage({
     Key? key,
     required this.data,
   }) : super(key: key);
@@ -59,6 +59,7 @@ class SearchDetailPage extends StatelessWidget {
                       style: titleTextStyle.copyWith(color: subtitleColor),
                     ),
                     backgroundColor: primaryColor,
+                    duration: const Duration(milliseconds: 800),
                   ),
                 );
                 notInFav ? fav.add(data) : null;
@@ -77,9 +78,8 @@ class SearchDetailPage extends StatelessWidget {
               Stack(
                 children: [
                   Container(
-                    height: 200,
                     width: size.width,
-                    color: Colors.amber,
+                    child: Image.asset("assets/images/map-image2.png"),
                   )
                 ],
               ),
@@ -94,15 +94,24 @@ class SearchDetailPage extends StatelessWidget {
                     children: [
                       Text(
                         data.stationName,
-                        style: titleTextStyle.copyWith(fontSize: textFactor * 28),
+                        style: titleTextStyle.copyWith(
+                          fontSize: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .fontSize! +
+                              10,
+                        ),
                       ),
                       SizedBox(
                         height: size.height * 0.01,
                       ),
                       Text(
                         data.stationLocation,
-                        style:
-                            subtitleTextStyle.copyWith(fontSize: textFactor * 24),
+                        style: subtitleTextStyle.copyWith(
+                          fontSize:
+                              Theme.of(context).textTheme.subtitle2!.fontSize! +
+                                  5,
+                        ),
                       ),
                       SizedBox(
                         height: size.height * 0.04,
@@ -138,19 +147,29 @@ class SearchDetailPage extends StatelessWidget {
                       ),
                       Text(
                         "Charging Plugs",
-                        style: titleTextStyle.copyWith(fontSize: textFactor * 30),
+                        style: titleTextStyle.copyWith(
+                          fontSize: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .fontSize! +
+                              10,
+                        ),
                       ),
                       SizedBox(height: size.height * 0.01),
                       Text(
                         "Pick One To Start Charging",
-                        style:
-                            subtitleTextStyle.copyWith(fontSize: textFactor * 25),
+                        style: subtitleTextStyle.copyWith(
+                          fontSize:
+                              Theme.of(context).textTheme.subtitle2!.fontSize! +
+                                  5,
+                        ),
                       ),
                       SizedBox(height: size.height * 0.02),
                       StatefulBuilder(
                         builder: (context, setState) => GestureDetector(
                           onTap: () {
-                            if (imgPath == "assets/icons/arrow-down-small.png") {
+                            if (imgPath ==
+                                "assets/icons/arrow-down-small.png") {
                               imgPath = "assets/icons/arrow-up-small.png";
                             } else {
                               imgPath = "assets/icons/arrow-down-small.png";
@@ -207,7 +226,7 @@ class TypeBox extends StatelessWidget {
               Text(
                 "Type 1",
                 style: titleTextStyle.copyWith(
-                  fontSize: textFactor * 25,
+                  fontSize: Theme.of(context).textTheme.titleLarge!.fontSize,
                 ),
               ),
               SizedBox(
@@ -272,17 +291,18 @@ class TimeBox extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: size.width * 0.25,
-            height: size.height * 0.08,
+            width: size.width * 0.28,
+            height: size.height * 0.1,
             padding: EdgeInsets.all(size.height * 0.01),
             color: boxColor,
             child: Column(
               children: [
                 Padding(
                   padding: EdgeInsets.only(
-                      left: size.height * 0.008,
-                      top: size.height * 0.012,
-                      bottom: 10),
+                    left: size.height * 0.008,
+                    top: size.height * 0.012,
+                    bottom: size.height * 0.01,
+                  ),
                   child: Row(
                     children: [
                       Image.asset(
@@ -295,8 +315,10 @@ class TimeBox extends StatelessWidget {
                       ),
                       Text(
                         title,
-                        style:
-                            titleTextStyle.copyWith(fontSize: textFactor * 20),
+                        style: titleTextStyle.copyWith(
+                          fontSize:
+                              Theme.of(context).textTheme.titleLarge!.fontSize,
+                        ),
                       ),
                     ],
                   ),
