@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:the_green_whale/model/data_box_model.dart';
+import 'package:the_green_whale/pages/reserve_spot.dart';
 import 'package:the_green_whale/utils/colors.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
 import 'package:the_green_whale/widgets/search_detail_page_widgets/time_box.dart';
@@ -27,8 +28,7 @@ class SearchDetailPage extends StatelessWidget {
         leadingWidth: 60,
         leading: Container(
           margin: EdgeInsets.only(
-            top: size.height * 0.015,
-          ),
+              top: size.height * 0.015, bottom: size.height * 0.003),
           child: MyAppBarIcon(
             size: size,
             imgSrc: "back",
@@ -189,6 +189,17 @@ class SearchDetailPage extends StatelessWidget {
                   ),
                 ),
               ),
+              GestureDetector(
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ReserveSpotPage(data: data),
+                  ),
+                ),
+                child: Text(
+                  "Reserve Spot",
+                  style: titleTextStyle,
+                ),
+              ),
             ],
           ),
         ),
@@ -196,5 +207,3 @@ class SearchDetailPage extends StatelessWidget {
     );
   }
 }
-
-

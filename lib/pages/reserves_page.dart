@@ -14,6 +14,7 @@ class ReservePage extends StatelessWidget {
         backgroundColor: primaryColor,
         title: const Text("Reserves"),
         centerTitle: true,
+        elevation: 0,
       ),
       body: ListView.builder(
         itemCount: reserve.length,

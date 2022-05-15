@@ -90,7 +90,7 @@ class _MapPageState extends State<MapPage> {
               fit: StackFit.loose,
               children: [
                 SizedBox(
-                  height: size.height * 0.78,
+                  height: size.height * 0.77,
                   child: GoogleMap(
                     initialCameraPosition: const CameraPosition(
                         target: LatLng(24.946218, 67.005615)),
@@ -120,7 +120,7 @@ class _MapPageState extends State<MapPage> {
                             controller.animateCamera(
                                 CameraUpdate.newCameraPosition(CameraPosition(
                                     target: LatLng(24.860966, 67.005615),
-                                    zoom: 14 )));
+                                    zoom: 14)));
                             setState(() {});
                           }),
                     )),
