@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:the_green_whale/model/data_box_model.dart';
 import 'package:the_green_whale/utils/colors.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
+import 'package:the_green_whale/widgets/search_detail_page_widgets/time_box.dart';
 
 import '../widgets/home_page_widgets/my_app_bar_icon.dart';
+import '../widgets/search_detail_page_widgets/type_box.dart';
 
 class SearchDetailPage extends StatelessWidget {
   const SearchDetailPage({
@@ -77,7 +79,7 @@ class SearchDetailPage extends StatelessWidget {
               // Map
               Stack(
                 children: [
-                  Container(
+                  SizedBox(
                     width: size.width,
                     child: Image.asset("assets/images/map-image2.png"),
                   )
@@ -195,148 +197,4 @@ class SearchDetailPage extends StatelessWidget {
   }
 }
 
-class TypeBox extends StatelessWidget {
-  TypeBox({
-    Key? key,
-    required this.size,
-    required this.textFactor,
-    required this.imgPath,
-  }) : super(key: key);
 
-  final Size size;
-  final double textFactor;
-  final String imgPath;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: boxColor,
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-      child: Row(
-        children: [
-          Image.asset(
-            "assets/icons/type-1.png",
-            height: 40,
-          ),
-          SizedBox(width: size.height * 0.03),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "Type 1",
-                style: titleTextStyle.copyWith(
-                  fontSize: Theme.of(context).textTheme.titleLarge!.fontSize,
-                ),
-              ),
-              SizedBox(
-                height: size.height * 0.01,
-              ),
-              Row(
-                children: [
-                  Text(
-                    "22 kw",
-                    style: subtitleTextStyle,
-                  ),
-                  SizedBox(
-                    width: size.height * 0.02,
-                  ),
-                  Container(
-                    color: notAvailableColor,
-                    height: 5,
-                    width: 5,
-                  ),
-                  SizedBox(width: size.height * 0.007),
-                  Text(
-                    "Not Available",
-                    style: titleTextStyle.copyWith(
-                      color: notAvailableColor,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const Spacer(),
-          Image.asset(
-            imgPath,
-            height: 15,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class TimeBox extends StatelessWidget {
-  const TimeBox({
-    Key? key,
-    required this.size,
-    required this.textFactor,
-    required this.imgSrc,
-    required this.title,
-    required this.status,
-  }) : super(key: key);
-
-  final Size size;
-  final double textFactor;
-  final String imgSrc;
-  final String title;
-  final String status;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Row(
-        children: [
-          Container(
-            width: size.width * 0.28,
-            height: size.height * 0.1,
-            padding: EdgeInsets.all(size.height * 0.01),
-            color: boxColor,
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: size.height * 0.008,
-                    top: size.height * 0.012,
-                    bottom: size.height * 0.01,
-                  ),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        "assets/icons/$imgSrc.png",
-                        color: Colors.white,
-                        height: 15,
-                      ),
-                      SizedBox(
-                        width: size.height * 0.015,
-                      ),
-                      Text(
-                        title,
-                        style: titleTextStyle.copyWith(
-                          fontSize:
-                              Theme.of(context).textTheme.titleLarge!.fontSize,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: size.height * 0.003,
-                  ),
-                  child: Text(
-                    status,
-                    style: subtitleTextStyle,
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
