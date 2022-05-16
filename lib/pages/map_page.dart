@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
@@ -19,6 +21,8 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   late GoogleMapController controller;
   double lat = 0, long = 0;
+  bool isLoading = true;
+  Set<Marker> markers = {};
 
   Future<Position> _getGeoLocationPosition() async {
     bool serviceEnabled;
@@ -50,14 +54,14 @@ class _MapPageState extends State<MapPage> {
         desiredAccuracy: LocationAccuracy.best);
   }
 
-  // getLat() async {
-  //   Position position = await _getGeoLocationPosition();
-  //   lat = position.latitude;
-  //   long = position.longitude;
-
-  //   setState(() {});
-  //   return lat;
-  // }
+  getLatLong() async {
+    Position position = await _getGeoLocationPosition();
+    if (position != null) {
+      lat = position.latitude;
+      long = position.longitude;
+    }
+    return;
+  }
 
   // getLong() async {
   //   Position position = await _getGeoLocationPosition();
@@ -65,6 +69,32 @@ class _MapPageState extends State<MapPage> {
   //   setState(() {});
   //   return long;
   // }
+
+  @override
+  void initState() {
+    () async {
+      await getLatLong();
+      ByteData byteData = await DefaultAssetBundle.of(context)
+          .load("assets/icons/stationMarker.png");
+      Uint8List imageData = byteData.buffer.asUint8List();
+      BitmapDescriptor myIcon = BitmapDescriptor.fromBytes(imageData);
+      markers = {
+        Marker(
+          markerId: MarkerId("firstMarker"),
+          icon: myIcon,
+          position: LatLng(lat, long),
+        ),
+      };
+
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }();
+
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -80,55 +110,56 @@ class _MapPageState extends State<MapPage> {
 
     return Scaffold(
       backgroundColor: primaryColor,
-      body: Column(
-        children: [
-          CustomAppBar(size: size, textFactor: textFactor),
-          SizedBox(
-            // height: size.height * 0.5,
-            width: size.width,
-            child: Stack(
-              fit: StackFit.loose,
+      body: isLoading
+          ? Center(
+              child: CircularProgressIndicator(
+                color: greenColor,
+              ),
+            )
+          : Column(
               children: [
+                CustomAppBar(size: size, textFactor: textFactor),
                 SizedBox(
-                  height: size.height * 0.77,
-                  child: GoogleMap(
-                    initialCameraPosition: const CameraPosition(
-                        target: LatLng(24.946218, 67.005615)),
-                    onMapCreated: (gcontroller) {
-                      controller = gcontroller;
-                      // getLat();
-                      // getLong();
-                    },
-                    myLocationEnabled: false,
-                    zoomControlsEnabled: false,
-                    // markers: {
-                    //   Marker(
-                    //       markerId: MarkerId("firstMarker"),
-                    //       icon: BitmapDescriptor.defaultMarker,
-                    //       position: LatLng(getLat(), getLong())),
-                    // },
-                    // markers: {},
+                  // height: size.height * 0.5,
+                  width: size.width,
+                  child: Stack(
+                    fit: StackFit.loose,
+                    children: [
+                      SizedBox(
+                        height: size.height * 0.75,
+                        child: GoogleMap(
+                          initialCameraPosition: const CameraPosition(
+                              target: LatLng(24.946218, 67.005615)),
+                          onMapCreated: (gcontroller) {
+                            controller = gcontroller;
+                            // getLat();
+                            // getLong();
+                          },
+                          myLocationEnabled: false,
+                          markers: markers,
+                          // markers: {},
+                        ),
+                      ),
+                      Positioned(
+                          top: size.height * 0.7,
+                          left: size.width / 2.1,
+                          child: Container(
+                            child: TextButton(
+                                child: Text("Get Current Loc"),
+                                onPressed: () {
+                                  controller.animateCamera(
+                                      CameraUpdate.newCameraPosition(
+                                          CameraPosition(
+                                              target: LatLng(lat, long),
+                                              zoom: 14)));
+                                  setState(() {});
+                                }),
+                          )),
+                    ],
                   ),
-                ),
-                Positioned(
-                    top: size.height * 0.7,
-                    left: size.width / 2.1,
-                    child: Container(
-                      child: TextButton(
-                          child: Text("Get Current Loc"),
-                          onPressed: () {
-                            controller.animateCamera(
-                                CameraUpdate.newCameraPosition(CameraPosition(
-                                    target: LatLng(24.860966, 67.005615),
-                                    zoom: 14)));
-                            setState(() {});
-                          }),
-                    )),
+                )
               ],
             ),
-          )
-        ],
-      ),
     );
   }
 }
