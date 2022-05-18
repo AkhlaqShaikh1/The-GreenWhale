@@ -21,57 +21,57 @@ class TimeBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Wrap(
-        
-        children: [
-          Container(
-            width: size.width * 0.28,
-            height: size.height * 0.12,
-            padding: EdgeInsets.all(size.height * 0.01),
-            color: boxColor,
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: size.height * 0.008,
-                    top: size.height * 0.012,
-                    bottom: size.height * 0.01,
-                  ),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        "assets/icons/$imgSrc.png",
-                        color: Colors.white,
-                        height: size.height * 0.03,
-                      ),
-                      SizedBox(
-                        width: size.height * 0.015,
-                      ),
-                      Text(
-                        title,
-                        style: titleTextStyle.copyWith(
-                          fontSize:
-                              Theme.of(context).textTheme.titleLarge!.fontSize,
-                        ),
-                      ),
-                    ],
-                  ),
+    return Wrap(
+      children: [
+        Container(
+          padding: EdgeInsets.only(
+            top: size.height * 0.01,
+            left: size.height * 0.01,
+            bottom: size.height * 0.02,
+            right: size.height * 0.02,
+          ),
+          color: boxColor,
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  left: size.height * 0.008,
+                  top: size.height * 0.012,
+                  bottom: size.height * 0.01,
                 ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: size.height * 0.003,
-                  ),
-                  child: Text(
-                    status,
-                    style: subtitleTextStyle,
-                  ),
+                child: Row(
+                  children: [
+                    Image.asset(
+                      "assets/icons/$imgSrc.png",
+                      color: Colors.white,
+                      height: size.height * 0.028,
+                    ),
+                    SizedBox(
+                      width: size.height * 0.015,
+                    ),
+                    Text(
+                      title,
+                      style: titleTextStyle.copyWith(
+                        fontSize:
+                            Theme.of(context).textTheme.titleLarge!.fontSize,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          )
-        ],
-      ),
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                  left: size.height * 0.005,
+                ),
+                child: Text(
+                  status,
+                  style: subtitleTextStyle,
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 }

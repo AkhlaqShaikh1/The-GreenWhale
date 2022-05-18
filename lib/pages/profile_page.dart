@@ -31,7 +31,7 @@ class ProfilePage extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: size.height * 0.02,
-                      vertical: size.height * 0.06,
+                      vertical: size.height * 0.07 ,
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,

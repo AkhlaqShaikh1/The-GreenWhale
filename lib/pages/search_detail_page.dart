@@ -242,24 +242,20 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
                               ),
                             ),
                             SizedBox(height: size.height * 0.02),
-                            StatefulBuilder(
-                              builder: (context, setState) => GestureDetector(
-                                onTap: () {
-                                  if (imgPath ==
-                                      "assets/icons/arrow-down-small.png") {
-                                    imgPath = "assets/icons/arrow-up-small.png";
-                                  } else {
-                                    imgPath =
-                                        "assets/icons/arrow-down-small.png";
-                                  }
-                                  setState(() {});
-                                },
-                                child: TypeBox(
-                                  size: size,
-                                  textFactor: textFactor,
-                                  imgPath: imgPath,
-                                ),
-                              ),
+                            TypeBox(
+                              size: size,
+                              textFactor: textFactor,
+                              isAvailable: true,
+                            ),
+                            TypeBox(
+                              size: size,
+                              textFactor: textFactor,
+                              isAvailable: true,
+                            ),
+                            TypeBox(
+                              size: size,
+                              textFactor: textFactor,
+                              isAvailable: false,
                             ),
                           ],
                         ),
