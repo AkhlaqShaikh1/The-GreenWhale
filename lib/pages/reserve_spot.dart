@@ -6,10 +6,10 @@ import 'package:the_green_whale/model/data_box_model.dart';
 import 'package:the_green_whale/utils/colors.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
 import 'package:the_green_whale/widgets/home_page_widgets/my_app_bar_icon.dart';
-import 'package:the_green_whale/widgets/search_page_widgets/my_search_box.dart';
+
 
 class ReserveSpotPage extends StatelessWidget {
-  ReserveSpotPage({
+  const ReserveSpotPage({
     Key? key,
     required this.data,
   }) : super(key: key);
@@ -127,7 +127,7 @@ class ReserveSpotPage extends StatelessWidget {
 }
 
 class SetTimeBox extends StatefulWidget {
-  SetTimeBox({
+  const SetTimeBox({
     Key? key,
     required this.size,
   }) : super(key: key);
@@ -149,7 +149,7 @@ class _SetTimeBoxState extends State<SetTimeBox> {
         showCupertinoModalPopup(
             context: context,
             builder: (_) {
-              return Container(
+              return SizedBox(
                 height: 350,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,

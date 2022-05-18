@@ -1,6 +1,11 @@
+import 'dart:typed_data';
+
+import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:the_green_whale/model/data_box_model.dart';
+import 'package:the_green_whale/pages/map_page.dart';
 import 'package:the_green_whale/pages/reserve_spot.dart';
 import 'package:the_green_whale/utils/colors.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
@@ -9,17 +14,47 @@ import 'package:the_green_whale/widgets/search_detail_page_widgets/time_box.dart
 import '../widgets/home_page_widgets/my_app_bar_icon.dart';
 import '../widgets/search_detail_page_widgets/type_box.dart';
 
-class SearchDetailPage extends StatelessWidget {
+class SearchDetailPage extends StatefulWidget {
   const SearchDetailPage({
     Key? key,
     required this.data,
   }) : super(key: key);
   final DataBoxModel data;
 
-  static String imgPath = "assets/icons/arrow-down-small.png";
+  @override
+  State<SearchDetailPage> createState() => _SearchDetailPageState();
+}
+
+class _SearchDetailPageState extends State<SearchDetailPage> {
+  bool isLoading = true;
+  late BitmapDescriptor myIcon;
+  CustomInfoWindowController customInfoWindowController =
+      CustomInfoWindowController();
+
+  @override
+  void initState() {
+    () async {
+      ByteData byteData = await DefaultAssetBundle.of(context)
+          .load("assets/icons/stationMarker.png");
+      Uint8List imageData = byteData.buffer.asUint8List();
+      myIcon = BitmapDescriptor.fromBytes(imageData);
+
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }();
+
+    super.initState();
+  }
+
+  String imgPath = "assets/icons/arrow-down-small.png";
+  Set<Marker> marker = {};
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     double textFactor = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
       backgroundColor: primaryColor,
@@ -28,7 +63,9 @@ class SearchDetailPage extends StatelessWidget {
         leadingWidth: 60,
         leading: Container(
           margin: EdgeInsets.only(
-              top: size.height * 0.015, bottom: size.height * 0.003),
+            top: size.height * 0.015,
+            bottom: size.height * 0.003,
+          ),
           child: MyAppBarIcon(
             size: size,
             imgSrc: "back",
@@ -47,7 +84,7 @@ class SearchDetailPage extends StatelessWidget {
               ontap: () {
                 bool notInFav = true;
                 for (int i = 0; i < fav.length; i++) {
-                  if (fav[i].stationName == data.stationName) {
+                  if (fav[i].stationName == widget.data.stationName) {
                     notInFav = false;
                     break;
                   }
@@ -64,146 +101,186 @@ class SearchDetailPage extends StatelessWidget {
                     duration: const Duration(milliseconds: 800),
                   ),
                 );
-                notInFav ? fav.add(data) : null;
+                notInFav ? fav.add(widget.data) : null;
               },
             ),
           ),
         ],
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: size.height * 0.02),
-              // Map
-              Stack(
-                children: [
-                  SizedBox(
-                    width: size.width,
-                    child: Image.asset("assets/images/map-image2.png"),
-                  )
-                ],
+      body: isLoading
+          ? Center(
+              child: CircularProgressIndicator(
+                color: greenColor,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: size.height * 0.017,
-                  vertical: size.height * 0.02,
-                ),
-                child: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        data.stationName,
-                        style: titleTextStyle.copyWith(
-                          fontSize: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge!
-                                  .fontSize! +
-                              10,
-                        ),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.01,
-                      ),
-                      Text(
-                        data.stationLocation,
-                        style: subtitleTextStyle.copyWith(
-                          fontSize:
-                              Theme.of(context).textTheme.subtitle2!.fontSize! +
-                                  5,
-                        ),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.04,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            )
+          : SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: size.height * 0.02),
+                    // Map
+                    SizedBox(
+                      height: 180,
+                      width: size.width,
+                      child: Stack(
                         children: [
-                          TimeBox(
-                            size: size,
-                            textFactor: textFactor,
-                            imgSrc: "clock",
-                            status: "Open",
-                            title: "24 h",
-                          ),
-                          TimeBox(
-                            size: size,
-                            textFactor: textFactor,
-                            imgSrc: "location",
-                            status: "Far",
-                            title: "24 km",
-                          ),
-                          TimeBox(
-                            size: size,
-                            textFactor: textFactor,
-                            imgSrc: "public",
-                            status: "Far",
-                            title: "Public",
+                          GoogleMap(
+                            zoomControlsEnabled: false,
+                            zoomGesturesEnabled: false,
+                            initialCameraPosition: CameraPosition(
+                              target: LatLng(MapPage.lat, MapPage.long),
+                              zoom: 15,
+                            ),
+                            onTap: (position) {
+                              customInfoWindowController.hideInfoWindow!();
+                            },
+                            onCameraMove: (position) {
+                              customInfoWindowController.onCameraMove!();
+                            },
+                            onMapCreated: (controller) async {
+                              customInfoWindowController.googleMapController =
+                                  controller;
+                              setState(() {
+                                marker.add(Marker(
+                                  markerId: const MarkerId("Station Loc"),
+                                  icon: myIcon,
+                                  position: LatLng(MapPage.lat, MapPage.long),
+                                ));
+
+                                setState(() {});
+                              });
+                            },
+                            markers: marker,
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: size.height * 0.04,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: size.height * 0.017,
+                        vertical: size.height * 0.02,
                       ),
-                      Text(
-                        "Charging Plugs",
-                        style: titleTextStyle.copyWith(
-                          fontSize: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge!
-                                  .fontSize! +
-                              10,
+                      child: Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.data.stationName,
+                              style: titleTextStyle.copyWith(
+                                fontSize: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .fontSize! +
+                                    10,
+                              ),
+                            ),
+                            SizedBox(
+                              height: size.height * 0.01,
+                            ),
+                            Text(
+                              widget.data.stationLocation,
+                              style: subtitleTextStyle.copyWith(
+                                fontSize: Theme.of(context)
+                                        .textTheme
+                                        .subtitle2!
+                                        .fontSize! +
+                                    5,
+                              ),
+                            ),
+                            SizedBox(
+                              height: size.height * 0.04,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TimeBox(
+                                  size: size,
+                                  textFactor: textFactor,
+                                  imgSrc: "clock",
+                                  status: "Open",
+                                  title: "24 h",
+                                ),
+                                TimeBox(
+                                  size: size,
+                                  textFactor: textFactor,
+                                  imgSrc: "location",
+                                  status: "Far",
+                                  title: "24 km",
+                                ),
+                                TimeBox(
+                                  size: size,
+                                  textFactor: textFactor,
+                                  imgSrc: "public",
+                                  status: "Far",
+                                  title: "Public",
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: size.height * 0.04,
+                            ),
+                            Text(
+                              "Charging Plugs",
+                              style: titleTextStyle.copyWith(
+                                fontSize: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .fontSize! +
+                                    10,
+                              ),
+                            ),
+                            SizedBox(height: size.height * 0.01),
+                            Text(
+                              "Pick One To Start Charging",
+                              style: subtitleTextStyle.copyWith(
+                                fontSize: Theme.of(context)
+                                        .textTheme
+                                        .subtitle2!
+                                        .fontSize! +
+                                    5,
+                              ),
+                            ),
+                            SizedBox(height: size.height * 0.02),
+                            StatefulBuilder(
+                              builder: (context, setState) => GestureDetector(
+                                onTap: () {
+                                  if (imgPath ==
+                                      "assets/icons/arrow-down-small.png") {
+                                    imgPath = "assets/icons/arrow-up-small.png";
+                                  } else {
+                                    imgPath =
+                                        "assets/icons/arrow-down-small.png";
+                                  }
+                                  setState(() {});
+                                },
+                                child: TypeBox(
+                                  size: size,
+                                  textFactor: textFactor,
+                                  imgPath: imgPath,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(height: size.height * 0.01),
-                      Text(
-                        "Pick One To Start Charging",
-                        style: subtitleTextStyle.copyWith(
-                          fontSize:
-                              Theme.of(context).textTheme.subtitle2!.fontSize! +
-                                  5,
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ReserveSpotPage(data: widget.data),
                         ),
                       ),
-                      SizedBox(height: size.height * 0.02),
-                      StatefulBuilder(
-                        builder: (context, setState) => GestureDetector(
-                          onTap: () {
-                            if (imgPath ==
-                                "assets/icons/arrow-down-small.png") {
-                              imgPath = "assets/icons/arrow-up-small.png";
-                            } else {
-                              imgPath = "assets/icons/arrow-down-small.png";
-                            }
-                            setState(() {});
-                          },
-                          child: TypeBox(
-                            size: size,
-                            textFactor: textFactor,
-                            imgPath: imgPath,
-                          ),
-                        ),
+                      child: Text(
+                        "Reserve Spot",
+                        style: titleTextStyle,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-              GestureDetector(
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => ReserveSpotPage(data: data),
-                  ),
-                ),
-                child: Text(
-                  "Reserve Spot",
-                  style: titleTextStyle,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

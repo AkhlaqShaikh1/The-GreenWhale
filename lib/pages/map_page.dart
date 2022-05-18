@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
+
 import 'package:the_green_whale/widgets/home_page_widgets/my_app_bar.dart';
 
 import '../utils/colors.dart';
@@ -13,6 +15,7 @@ import '../utils/colors.dart';
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
   static String id = "/map";
+  static double lat = 0, long = 0;
 
   @override
   State<MapPage> createState() => _MapPageState();
@@ -20,7 +23,8 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   late GoogleMapController controller;
-  double lat = 0, long = 0;
+  CustomInfoWindowController customInfoWindowController =
+      CustomInfoWindowController();
   bool isLoading = true;
   Set<Marker> markers = {};
 
@@ -56,10 +60,8 @@ class _MapPageState extends State<MapPage> {
 
   getLatLong() async {
     Position position = await _getGeoLocationPosition();
-    if (position != null) {
-      lat = position.latitude;
-      long = position.longitude;
-    }
+    MapPage.lat = position.latitude;
+    MapPage.long = position.longitude;
     return;
   }
 
@@ -80,9 +82,39 @@ class _MapPageState extends State<MapPage> {
       BitmapDescriptor myIcon = BitmapDescriptor.fromBytes(imageData);
       markers = {
         Marker(
-          markerId: MarkerId("firstMarker"),
+          markerId: const MarkerId("firstMarker"),
           icon: myIcon,
-          position: LatLng(lat, long),
+          position: LatLng(MapPage.lat, MapPage.long),
+          onTap: () {
+            customInfoWindowController.addInfoWindow!(
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Karachi",
+                              style: titleTextStyle,
+                            ),
+                            Text(
+                              "Type 3c",
+                              style: subtitleTextStyle,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                LatLng(MapPage.lat, MapPage.long));
+          },
         ),
       };
 
@@ -99,6 +131,7 @@ class _MapPageState extends State<MapPage> {
   @override
   void dispose() {
     controller.dispose();
+    customInfoWindowController.dispose();
     super.dispose();
   }
 
@@ -116,49 +149,66 @@ class _MapPageState extends State<MapPage> {
                 color: greenColor,
               ),
             )
-          : Column(
-              children: [
-                CustomAppBar(size: size, textFactor: textFactor),
-                SizedBox(
-                  // height: size.height * 0.5,
-                  width: size.width,
-                  child: Stack(
-                    fit: StackFit.loose,
-                    children: [
-                      SizedBox(
-                        height: size.height * 0.75,
-                        child: GoogleMap(
-                          initialCameraPosition: const CameraPosition(
-                              target: LatLng(24.946218, 67.005615)),
-                          onMapCreated: (gcontroller) {
-                            controller = gcontroller;
-                            // getLat();
-                            // getLong();
-                          },
-                          myLocationEnabled: false,
-                          markers: markers,
-                          // markers: {},
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  CustomAppBar(size: size, textFactor: textFactor),
+                  SizedBox(
+                    // height: size.height * 0.5,
+                    width: size.width,
+                    child: Stack(
+                      fit: StackFit.loose,
+                      children: [
+                        SizedBox(
+                          height: size.height * 0.75,
+                          child: GoogleMap(
+                            initialCameraPosition: const CameraPosition(
+                                target: LatLng(24.946218, 67.005615), zoom: 13),
+                            onTap: (position) {
+                              customInfoWindowController.hideInfoWindow!();
+                            },
+                            onCameraMove: (position) {
+                              customInfoWindowController.onCameraMove!();
+                            },
+                            onMapCreated: (gcontroller) async {
+                              customInfoWindowController.googleMapController =
+                                  gcontroller;
+                              controller = gcontroller;
+                              // getLat();
+                              // getLong();
+                            },
+                            myLocationEnabled: false,
+
+                            markers: markers,
+                            // markers: {},
+                          ),
                         ),
-                      ),
-                      Positioned(
-                          top: size.height * 0.7,
-                          left: size.width / 2.1,
-                          child: Container(
+                        CustomInfoWindow(
+                          controller: customInfoWindowController,
+                          height: size.height * 0.1,
+                          offset: 10,
+                        ),
+                        Positioned(
+                            top: size.height * 0.7,
+                            left: size.width / 2.1,
                             child: TextButton(
-                                child: Text("Get Current Loc"),
+                                child: const Text("Get Current Loc"),
                                 onPressed: () {
                                   controller.animateCamera(
-                                      CameraUpdate.newCameraPosition(
-                                          CameraPosition(
-                                              target: LatLng(lat, long),
-                                              zoom: 14)));
+                                    CameraUpdate.newCameraPosition(
+                                      CameraPosition(
+                                          target:
+                                              LatLng(MapPage.lat, MapPage.long),
+                                          zoom: 14),
+                                    ),
+                                  );
                                   setState(() {});
-                                }),
-                          )),
-                    ],
-                  ),
-                )
-              ],
+                                })),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
     );
   }

@@ -9,10 +9,11 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    double textFactor = MediaQuery.of(context).textScaleFactor;
+    // double textFactor = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
       backgroundColor: primaryColor,
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: size.height * 0.02),
@@ -20,7 +21,7 @@ class ProfilePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: size.height * 0.2,
+                  height: size.height * 0.258,
                   width: size.width,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
@@ -30,17 +31,19 @@ class ProfilePage extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: size.height * 0.02,
-                      vertical: size.height * 0.04,
+                      vertical: size.height * 0.06,
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      // mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Start".toUpperCase(),
                           style: titleTextStyle.copyWith(
-                            fontSize: textFactor * 25,
+                            fontSize: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .fontSize,
                             fontWeight: FontWeight.w500,
                             color: Colors.white,
                           ),
@@ -48,7 +51,10 @@ class ProfilePage extends StatelessWidget {
                         Text(
                           "Charging".toUpperCase(),
                           style: titleTextStyle.copyWith(
-                            fontSize: textFactor * 25,
+                            fontSize: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .fontSize,
                             fontWeight: FontWeight.w500,
                             color: Colors.white,
                           ),

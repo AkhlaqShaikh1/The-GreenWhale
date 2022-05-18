@@ -22,11 +22,12 @@ class TimeBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Row(
+      child: Wrap(
+        
         children: [
           Container(
             width: size.width * 0.28,
-            height: size.height * 0.1,
+            height: size.height * 0.12,
             padding: EdgeInsets.all(size.height * 0.01),
             color: boxColor,
             child: Column(
@@ -42,7 +43,7 @@ class TimeBox extends StatelessWidget {
                       Image.asset(
                         "assets/icons/$imgSrc.png",
                         color: Colors.white,
-                        height: 15,
+                        height: size.height * 0.03,
                       ),
                       SizedBox(
                         width: size.height * 0.015,

@@ -20,7 +20,7 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        height: size.height * 0.09,
+        height: size.height * 0.1,
         width: size.width,
         color: primaryColor,
         child: Row(
