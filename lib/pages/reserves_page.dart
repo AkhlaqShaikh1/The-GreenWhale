@@ -19,7 +19,7 @@ class ReservePage extends StatelessWidget {
       body: ListView.builder(
         itemCount: reserve.length,
         itemBuilder: (context, index) {
-          return Text(reserve[index].stationDistance);
+          return Text(reserve.elementAt(index).stationDistance);
         },
       ),
     );

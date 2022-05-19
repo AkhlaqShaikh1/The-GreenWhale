@@ -28,7 +28,7 @@ class FavouritePage extends StatelessWidget {
           child: ListView.builder(
             itemCount: fav.length,
             itemBuilder: (context, index) {
-              final item = fav[index];
+              final item = fav.elementAt(index);
               return StatefulBuilder(
                 builder: (context, setState) => GestureDetector(
                   onTap: () {

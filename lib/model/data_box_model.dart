@@ -119,5 +119,5 @@ List<DataBoxModel> data = [
   ),
 ];
 
-List<DataBoxModel> fav = [];
+Set<DataBoxModel> fav = {};
 List<DataBoxModel> reserve = [];

@@ -82,17 +82,10 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
               imgSrc: "heart",
               size: size,
               ontap: () {
-                bool notInFav = true;
-                for (int i = 0; i < fav.length; i++) {
-                  if (fav[i].stationName == widget.data.stationName) {
-                    notInFav = false;
-                    break;
-                  }
-                }
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      !notInFav
+                      fav.contains(widget.data)
                           ? "Already In Favorites"
                           : "Added to Favourites",
                       style: titleTextStyle.copyWith(color: subtitleColor),
@@ -101,7 +94,7 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
                     duration: const Duration(milliseconds: 800),
                   ),
                 );
-                notInFav ? fav.add(widget.data) : null;
+                fav.contains(widget.data) ? null : fav.add(widget.data);
               },
             ),
           ),

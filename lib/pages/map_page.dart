@@ -65,13 +65,6 @@ class _MapPageState extends State<MapPage> {
     return;
   }
 
-  // getLong() async {
-  //   Position position = await _getGeoLocationPosition();
-  //   long = position.longitude;
-  //   setState(() {});
-  //   return long;
-  // }
-
   @override
   void initState() {
     () async {

@@ -113,56 +113,6 @@ class TypeBox extends StatelessWidget {
           ),
         ],
       ),
-      // child: Row(
-      //   children: [
-      //     Image.asset(
-      //       "assets/icons/type-1.png",
-      //       height: size.height * 0.05,
-      //     ),
-      //     SizedBox(width: size.height * 0.03),
-      //     Column(
-      //       crossAxisAlignment: CrossAxisAlignment.start,
-      //       mainAxisSize: MainAxisSize.min,
-      //       children: [
-      //         Text(
-      //           "Type 1",
-      //           style: titleTextStyle.copyWith(
-      //             fontSize: Theme.of(context).textTheme.titleLarge!.fontSize,
-      //           ),
-      //         ),
-      //         SizedBox(
-      //           height: size.height * 0.01,
-      //         ),
-      //         Row(
-      //           children: [
-      //             Text(
-      //               "22 kw",
-      //               style: subtitleTextStyle,
-      //             ),
-      //             SizedBox(
-      //               width: size.height * 0.02,
-      //             ),
-      //             Container(
-      //               color: notAvailableColor,
-      //               height: size.height * 0.01,
-      //               width: size.height * 0.01,
-      //             ),
-      //             SizedBox(width: size.height * 0.007),
-      //             Text(
-      //               "Not Available",
-      //               style: titleTextStyle.copyWith(
-      //                 color: notAvailableColor,
-      //                 fontWeight: FontWeight.w400,
-      //               ),
-      //             ),
-      //           ],
-      //         ),
-      //       ],
-      //     ),
-      //     const Spacer(),
-
-      //   ],
-      // ),
     );
   }
 }
