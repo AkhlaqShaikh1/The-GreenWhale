@@ -107,7 +107,7 @@ class _SearchPageState extends State<SearchPage> {
                       children: [
                         DataBox(
                           size: size,
-                          textFactor: textFactor,
+                          // textFactor: textFactor,
                           stationName: data[index].stationName,
                           stationDistance: data[index].stationDistance,
                           stationTime: data[index].stationTime,

@@ -94,7 +94,7 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
                     duration: const Duration(milliseconds: 800),
                   ),
                 );
-                fav.contains(widget.data) ? null : fav.add(widget.data);
+                fav.add(widget.data);
               },
             ),
           ),

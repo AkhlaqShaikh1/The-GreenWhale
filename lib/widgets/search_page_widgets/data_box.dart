@@ -7,7 +7,7 @@ class DataBox extends StatelessWidget {
   const DataBox({
     Key? key,
     required this.size,
-    required this.textFactor,
+    // required this.textFactor,
     required this.stationName,
     required this.stationDistance,
     required this.stationTime,
@@ -17,7 +17,7 @@ class DataBox extends StatelessWidget {
   }) : super(key: key);
 
   final Size size;
-  final double textFactor;
+  // final double textFactor;
   final String stationName;
   final String stationDistance;
   final String stationTime;
@@ -29,7 +29,7 @@ class DataBox extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: size.height * 0.20,
+          height: size.height * 0.21,
           width: size.width,
           color: boxColor,
           child: Column(
@@ -41,7 +41,7 @@ class DataBox extends StatelessWidget {
                   Column(
                     children: [
                       Container(
-                        height: size.height * 0.2,
+                        height: size.height * 0.21,
                         width: size.width * 0.01,
                         color: isAvailable ? greenColor : notAvailableColor,
                       ),
@@ -57,7 +57,8 @@ class DataBox extends StatelessWidget {
                     child: Text(
                       stationName,
                       style: titleTextStyle.copyWith(
-                        fontSize: textFactor * 18,
+                        fontSize:
+                            Theme.of(context).textTheme.headlineSmall!.fontSize,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -66,7 +67,7 @@ class DataBox extends StatelessWidget {
                   // Station Distance
                   Padding(
                     padding: EdgeInsets.only(
-                      top: size.height * 0.025,
+                      top: size.height * 0.027,
                       right: size.height * 0.025,
                     ),
                     child: Row(
@@ -74,7 +75,7 @@ class DataBox extends StatelessWidget {
                       children: [
                         Image.asset(
                           "assets/icons/location2.png",
-                          height: size.height * 0.025,
+                          height: size.height * 0.02,
                           color: greenColor,
                         ),
                         SizedBox(width: size.width * 0.02),
@@ -83,7 +84,10 @@ class DataBox extends StatelessWidget {
                           stationDistance,
                           style: subtitleTextStyle.copyWith(
                             color: greenColor,
-                            fontSize: textFactor * 17.5,
+                            fontSize: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .fontSize,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -98,19 +102,19 @@ class DataBox extends StatelessWidget {
 
         //Station Locattion
         Positioned(
-          top: size.height * 0.06,
+          top: size.height * 0.068,
           left: size.height * 0.029,
           child: Text(
             stationLocation,
             style: subtitleTextStyle.copyWith(
-              fontSize: textFactor * 14,
+              fontSize: Theme.of(context).textTheme.subtitle2!.fontSize,
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
         Padding(
           padding: EdgeInsets.only(
-            top: size.height * 0.1,
+            top: size.height * 0.11,
             right: size.height * 0.029,
             left: size.height * 0.029,
           ),
@@ -124,7 +128,7 @@ class DataBox extends StatelessWidget {
               Text(
                 stationTime,
                 style: subtitleTextStyle.copyWith(
-                  fontSize: textFactor * 16,
+                  fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
                   fontWeight: FontWeight.w600,
                   color: Colors.white,
                 ),
@@ -132,15 +136,18 @@ class DataBox extends StatelessWidget {
               const Spacer(),
               Text(
                 stationPower,
-                style: subtitleTextStyle.copyWith(color: Colors.white),
+                style: subtitleTextStyle.copyWith(
+                  color: Colors.white,
+                  fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
+                ),
               ),
             ],
           ),
         ),
         // Divider
         Positioned(
-          top: size.height * 0.14,
-          left: size.height * 0.004,
+          top: size.height * 0.145,
+          left: size.height * 0.0055,
           child: Container(
             height: 1,
             width: size.width,
@@ -168,7 +175,7 @@ class DataBox extends StatelessWidget {
                 Text(
                   "CHAdeMO",
                   style: subtitleTextStyle.copyWith(
-                    fontSize: textFactor * 14,
+                    fontSize: 14,
                     color: Colors.white,
                   ),
                 ),

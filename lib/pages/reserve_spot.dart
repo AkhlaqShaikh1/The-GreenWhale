@@ -40,6 +40,18 @@ class ReserveSpotPage extends StatelessWidget {
       ),
       bottomNavigationBar: InkWell(
         onTap: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: primaryColor,
+              content: Text(
+                reserve.contains(data)
+                    ? "Already In Your Reserves"
+                    : "Added to Reserves",
+                textAlign: TextAlign.center,
+                style: titleTextStyle.copyWith(color: subtitleColor),
+              ),
+            ),
+          );
           reserve.add(data);
         },
         child: Container(

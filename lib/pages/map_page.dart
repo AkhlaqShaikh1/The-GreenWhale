@@ -70,7 +70,7 @@ class _MapPageState extends State<MapPage> {
     () async {
       await getLatLong();
       ByteData byteData = await DefaultAssetBundle.of(context)
-          .load("assets/icons/stationMarker.png");
+          .load("assets/images/stationMarker.png");
       Uint8List imageData = byteData.buffer.asUint8List();
       BitmapDescriptor myIcon = BitmapDescriptor.fromBytes(imageData);
       markers = {
@@ -171,6 +171,7 @@ class _MapPageState extends State<MapPage> {
                               // getLong();
                             },
                             myLocationEnabled: false,
+                            zoomControlsEnabled: false,
 
                             markers: markers,
                             // markers: {},
@@ -182,21 +183,22 @@ class _MapPageState extends State<MapPage> {
                           offset: 10,
                         ),
                         Positioned(
-                            top: size.height * 0.7,
-                            left: size.width / 2.1,
-                            child: TextButton(
-                                child: const Text("Get Current Loc"),
-                                onPressed: () {
-                                  controller.animateCamera(
-                                    CameraUpdate.newCameraPosition(
-                                      CameraPosition(
-                                          target:
-                                              LatLng(MapPage.lat, MapPage.long),
-                                          zoom: 14),
-                                    ),
-                                  );
-                                  setState(() {});
-                                })),
+                          top: size.height * 0.7,
+                          left: size.width / 2.1,
+                          child: TextButton(
+                            child: const Text("Get Current Loc"),
+                            onPressed: () {
+                              controller.animateCamera(
+                                CameraUpdate.newCameraPosition(
+                                  CameraPosition(
+                                      target: LatLng(MapPage.lat, MapPage.long),
+                                      zoom: 14),
+                                ),
+                              );
+                              setState(() {});
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   )

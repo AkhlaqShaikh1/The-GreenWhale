@@ -43,17 +43,17 @@ class FavouritePage extends StatelessWidget {
                     children: [
                       DataBox(
                         size: size,
-                        textFactor: textFactor,
-                        stationName: data[index].stationName,
-                        stationDistance: data[index].stationDistance,
-                        stationTime: data[index].stationTime,
-                        stationLocation: data[index].stationLocation,
-                        stationPower: data[index].stationPower,
-                        isAvailable: data[index].isAvailable,
+                        // textFactor: textFactor,
+                        stationName: fav.elementAt(index).stationName,
+                        stationDistance: fav.elementAt(index).stationDistance,
+                        stationTime: fav.elementAt(index).stationTime,
+                        stationLocation: fav.elementAt(index).stationLocation,
+                        stationPower: fav.elementAt(index).stationPower,
+                        isAvailable: fav.elementAt(index).isAvailable,
                       ),
                       SizedBox(
                         height: size.height * 0.02,
-                      )
+                      ),
                     ],
                   ),
                 ),

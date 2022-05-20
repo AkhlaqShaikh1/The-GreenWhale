@@ -120,4 +120,4 @@ List<DataBoxModel> data = [
 ];
 
 Set<DataBoxModel> fav = {};
-List<DataBoxModel> reserve = [];
+Set<DataBoxModel> reserve = {};
