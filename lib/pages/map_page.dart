@@ -136,17 +136,26 @@ class _MapPageState extends State<MapPage> {
 
     return Scaffold(
       backgroundColor: primaryColor,
-      body: isLoading
-          ? Center(
-              child: CircularProgressIndicator(
-                color: greenColor,
-              ),
-            )
-          : SingleChildScrollView(
-              child: Column(
-                children: [
-                  CustomAppBar(size: size, textFactor: textFactor),
-                  SizedBox(
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CustomAppBar(size: size, textFactor: textFactor),
+            isLoading
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        height: size.height * 0.3,
+                      ),
+                      CircularProgressIndicator(
+                        color: greenColor,
+                        // strokeWidth: 2,
+                        backgroundColor: backgroundColor,
+                      ),
+                    ],
+                  )
+                : SizedBox(
                     // height: size.height * 0.5,
                     width: size.width,
                     child: Stack(
@@ -154,28 +163,35 @@ class _MapPageState extends State<MapPage> {
                       children: [
                         SizedBox(
                           height: size.height * 0.75,
-                          child: GoogleMap(
-                            initialCameraPosition: const CameraPosition(
-                                target: LatLng(24.946218, 67.005615), zoom: 13),
-                            onTap: (position) {
-                              customInfoWindowController.hideInfoWindow!();
-                            },
-                            onCameraMove: (position) {
-                              customInfoWindowController.onCameraMove!();
-                            },
-                            onMapCreated: (gcontroller) async {
-                              customInfoWindowController.googleMapController =
-                                  gcontroller;
-                              controller = gcontroller;
-                              // getLat();
-                              // getLong();
-                            },
-                            myLocationEnabled: false,
-                            zoomControlsEnabled: false,
+                          width: size.width,
+                          child: isLoading
+                              ? CircularProgressIndicator(
+                                  color: greenColor,
+                                )
+                              : GoogleMap(
+                                  initialCameraPosition: const CameraPosition(
+                                      target: LatLng(24.946218, 67.005615),
+                                      zoom: 13),
+                                  onTap: (position) {
+                                    customInfoWindowController
+                                        .hideInfoWindow!();
+                                  },
+                                  onCameraMove: (position) {
+                                    customInfoWindowController.onCameraMove!();
+                                  },
+                                  onMapCreated: (gcontroller) async {
+                                    customInfoWindowController
+                                        .googleMapController = gcontroller;
+                                    controller = gcontroller;
+                                    // getLat();
+                                    // getLong();
+                                  },
+                                  myLocationEnabled: false,
+                                  zoomControlsEnabled: false,
 
-                            markers: markers,
-                            // markers: {},
-                          ),
+                                  markers: markers,
+                                  // markers: {},
+                                ),
                         ),
                         CustomInfoWindow(
                           controller: customInfoWindowController,
@@ -202,9 +218,9 @@ class _MapPageState extends State<MapPage> {
                       ],
                     ),
                   )
-                ],
-              ),
-            ),
+          ],
+        ),
+      ),
     );
   }
 }

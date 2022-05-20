@@ -11,7 +11,7 @@ class FavouritePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    double textFactor = MediaQuery.of(context).textScaleFactor;
+    // double textFactor = MediaQuery.of(context).textScaleFactor;
 
     return Scaffold(
       backgroundColor: primaryColor,

@@ -32,7 +32,7 @@ class MyAppBarIcon extends StatelessWidget {
             right: size.height * 0.018,
           ),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(80),
+            shape: BoxShape.circle,
             border: Border.all(
               color: subtitleColor,
               style: BorderStyle.solid,

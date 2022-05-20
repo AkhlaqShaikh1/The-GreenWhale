@@ -21,38 +21,44 @@ class ReservePage extends StatelessWidget {
       ),
       body: Padding(
         padding: EdgeInsets.only(
-            left: size.height * 0.025, right: size.height * 0.025),
+          left: size.height * 0.025,
+          right: size.height * 0.025,
+        ),
         child: ListView.builder(
-          shrinkWrap: true,
-          physics: const BouncingScrollPhysics(),
           itemCount: reserve.length,
           itemBuilder: (context, index) {
             final item = reserve.elementAt(index);
-            return StatefulBuilder(builder: (context, setState) {
-              return GestureDetector(
-                onTap: () => MaterialPageRoute(
-                  builder: (ctx) => SearchDetailPage(data: item),
-                ),
+            return StatefulBuilder(
+              builder: (context, setState) => GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => SearchDetailPage(data: item),
+                    ),
+                  );
+                  setState(() {});
+                },
                 child: Column(
                   children: [
                     DataBox(
                       size: size,
                       // textFactor: textFactor,
-                      stationName: fav.elementAt(index).stationName,
-                      stationDistance: fav.elementAt(index).stationDistance,
-                      stationTime: fav.elementAt(index).stationTime,
-                      stationLocation: fav.elementAt(index).stationLocation,
-                      stationPower: fav.elementAt(index).stationPower,
-                      isAvailable: fav.elementAt(index).isAvailable,
+                      stationName: reserve.elementAt(index).stationName,
+                      stationDistance: reserve.elementAt(index).stationDistance,
+                      stationTime: reserve.elementAt(index).stationTime,
+                      stationLocation: reserve.elementAt(index).stationLocation,
+                      stationPower: reserve.elementAt(index).stationPower,
+                      isAvailable: reserve.elementAt(index).isAvailable,
                     ),
                     SizedBox(
                       height: size.height * 0.02,
-                    )
+                    ),
                   ],
                 ),
-              );
-            });
+              ),
+            );
           },
+          shrinkWrap: true,
         ),
       ),
     );

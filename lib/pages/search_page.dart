@@ -34,7 +34,6 @@ class _SearchPageState extends State<SearchPage> {
       backgroundColor: primaryColor,
       appBar: AppBar(
         backgroundColor: primaryColor,
-        leadingWidth: 60,
         leading: Container(
           margin: EdgeInsets.only(
             top: size.height * 0.015,

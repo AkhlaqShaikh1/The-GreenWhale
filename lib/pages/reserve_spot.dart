@@ -39,15 +39,17 @@ class ReserveSpotPage extends StatelessWidget {
         centerTitle: true,
       ),
       bottomNavigationBar: InkWell(
+        // onTap: () {},
         onTap: () {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
+              duration: const Duration(milliseconds: 400),
               backgroundColor: primaryColor,
               content: Text(
                 reserve.contains(data)
                     ? "Already In Your Reserves"
                     : "Added to Reserves",
-                textAlign: TextAlign.center,
+                // textAlign: TextAlign.center,
                 style: titleTextStyle.copyWith(color: subtitleColor),
               ),
             ),
@@ -68,69 +70,91 @@ class ReserveSpotPage extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: size.height * 0.02, vertical: size.height * 0.02),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "When Do You Want To Connect Your EV?",
-              style: subtitleTextStyle.copyWith(
-                fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
-              ),
-            ),
-            SizedBox(
-              height: size.height * 0.02,
-            ),
-            // Set Time Box
-            SetTimeBox(size: size),
-            SizedBox(
-              height: size.height * 0.02,
-            ),
-            Text(
-              "When Do You Need Your EV?",
-              style: subtitleTextStyle.copyWith(
-                fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
-              ),
-            ),
-            SizedBox(
-              height: size.height * 0.02,
-            ),
-            SetTimeBox(size: size),
-            SizedBox(
-              height: size.height * 0.02,
-            ),
-            Text(
-              "What will be the percentage of your EV in the end?",
-              style: subtitleTextStyle.copyWith(
-                fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
-              ),
-            ),
-            SizedBox(
-              height: size.height * 0.02,
-            ),
-            Container(
-              width: size.width,
-              padding: EdgeInsets.symmetric(
-                  horizontal: size.height * 0.02, vertical: 12),
-              color: boxColor,
-              child: Text(
-                "90%",
-                style: titleTextStyle.copyWith(
-                  fontSize: Theme.of(context).textTheme.headline5!.fontSize,
-                  fontWeight: FontWeight.w500,
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: size.height * 0.02, vertical: size.height * 0.02),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "When Do You Want To Connect Your EV?",
+                style: subtitleTextStyle.copyWith(
+                  fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
                 ),
               ),
-            ),
-            SizedBox(
-              height: size.height * 0.02,
-            ),
-            Container(
-              color: Colors.amber,
-              height: size.height * 0.35,
-            ),
-          ],
+              SizedBox(
+                height: size.height * 0.02,
+              ),
+              // Set Time Box
+              SetTimeBox(size: size),
+              SizedBox(
+                height: size.height * 0.02,
+              ),
+              Text(
+                "When Do You Need Your EV?",
+                style: subtitleTextStyle.copyWith(
+                  fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.02,
+              ),
+              SetTimeBox(size: size),
+              SizedBox(
+                height: size.height * 0.02,
+              ),
+              Text(
+                "What will be the percentage of your EV in the end?",
+                style: subtitleTextStyle.copyWith(
+                  fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.02,
+              ),
+              Container(
+                width: size.width,
+                padding: EdgeInsets.symmetric(
+                    horizontal: size.height * 0.02, vertical: 12),
+                color: boxColor,
+                child: Text(
+                  "90%",
+                  style: titleTextStyle.copyWith(
+                    fontSize: Theme.of(context).textTheme.headline5!.fontSize,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.02,
+              ),
+              Container(
+                height: size.height * 0.33,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.amber,
+                ),
+              ),
+              const SizedBox(
+                height: 7,
+              ),
+              Row(
+                children: [
+                  Image.asset(
+                    "assets/icons/arrow up white.png",
+                    height: size.height * 0.03,
+                  ),
+                  Spacer(),
+                  Image.asset(
+                    "assets/icons/question.png",
+                    height: size.height * 0.03,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -261,7 +285,8 @@ class _SetTimeBoxState extends State<SetTimeBox> {
                       child: Text(
                         "Confirm",
                         style: titleTextStyle.copyWith(
-                          fontSize: 22,
+                          fontSize:
+                              Theme.of(context).textTheme.headline5!.fontSize,
                           fontWeight: FontWeight.w300,
                         ),
                       ),

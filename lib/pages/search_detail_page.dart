@@ -60,10 +60,10 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
       backgroundColor: primaryColor,
       appBar: AppBar(
         backgroundColor: primaryColor,
-        leadingWidth: 60,
+        // leadingWidth: 60,
         leading: Container(
           margin: EdgeInsets.only(
-            top: size.height * 0.015,
+            top: size.height * 0.01,
             bottom: size.height * 0.003,
           ),
           child: MyAppBarIcon(
@@ -91,7 +91,7 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
                       style: titleTextStyle.copyWith(color: subtitleColor),
                     ),
                     backgroundColor: primaryColor,
-                    duration: const Duration(milliseconds: 800),
+                    duration: const Duration(milliseconds: 500),
                   ),
                 );
                 fav.add(widget.data);
