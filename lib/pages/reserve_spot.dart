@@ -1,11 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import 'package:the_green_whale/model/data_box_model.dart';
+import 'package:the_green_whale/pages/peak_time.dart';
 import 'package:the_green_whale/utils/colors.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
 import 'package:the_green_whale/widgets/home_page_widgets/my_app_bar_icon.dart';
+
+import '../widgets/reserve_page_widgets/set_time_box.dart';
 
 class ReserveSpotPage extends StatelessWidget {
   const ReserveSpotPage({
@@ -137,19 +138,32 @@ class ReserveSpotPage extends StatelessWidget {
                   color: Colors.amber,
                 ),
               ),
-              const SizedBox(
-                height: 7,
+              SizedBox(
+                height: size.height * 0.05,
               ),
               Row(
                 children: [
-                  Image.asset(
-                    "assets/icons/arrow up white.png",
-                    height: size.height * 0.03,
+                  InkWell(
+                    splashColor: subtitleColor.withOpacity(0.5),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (ctx) => PeakTimePage(data: data),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      decoration: const BoxDecoration(shape: BoxShape.circle),
+                      child: Image.asset(
+                        "assets/icons/arrow up white.png",
+                        height: size.height * 0.02,
+                      ),
+                    ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Image.asset(
                     "assets/icons/question.png",
-                    height: size.height * 0.03,
+                    height: size.height * 0.02,
                   ),
                 ],
               ),
@@ -158,144 +172,5 @@ class ReserveSpotPage extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class SetTimeBox extends StatefulWidget {
-  const SetTimeBox({
-    Key? key,
-    required this.size,
-    this.data,
-  }) : super(key: key);
-
-  final Size size;
-  final DataBoxModel? data;
-
-  @override
-  State<SetTimeBox> createState() => _SetTimeBoxState();
-}
-
-class _SetTimeBoxState extends State<SetTimeBox> {
-  DateTime _chosen = DateTime.now();
-  String format = '';
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        _buildModalSheet(context);
-      },
-      child: Container(
-        width: widget.size.width,
-        padding: EdgeInsets.symmetric(
-          horizontal: widget.size.height * 0.02,
-          vertical: widget.size.height * 0.015,
-        ),
-        color: boxColor,
-        child: Row(
-          children: [
-            Text(
-              format,
-              style: titleTextStyle.copyWith(
-                fontSize: Theme.of(context).textTheme.headline5!.fontSize,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            const Spacer(),
-            Image.asset(
-              "assets/icons/clock.png",
-              height: widget.size.height * 0.02,
-              color: greenColor,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<dynamic> _buildModalSheet(BuildContext context) {
-    return showModalBottomSheet(
-        isDismissible: false,
-        context: context,
-        builder: (_) {
-          return Container(
-            color: Colors.white,
-            width: widget.size.width,
-            height: widget.size.height * 0.5,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: widget.size.height * 0.02,
-                        vertical: widget.size.height * 0.02,
-                      ),
-                      child: Text(
-                        "Peak Time",
-                        style: titleTextStyle.copyWith(
-                            color: primaryColor,
-                            fontSize: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .fontSize),
-                      ),
-                    ),
-                    const Spacer(),
-                    IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: Icon(
-                        Icons.close,
-                        color: primaryColor,
-                      ),
-                    )
-                  ],
-                ),
-                Divider(
-                  thickness: 1,
-                  color: const Color(0xff797b7f).withOpacity(0.2),
-                ),
-                SizedBox(
-                  height: widget.size.height * 0.3,
-                  child: CupertinoDatePicker(
-                      backgroundColor: Colors.white,
-                      mode: CupertinoDatePickerMode.time,
-                      initialDateTime: DateTime.now(),
-                      use24hFormat: true,
-                      onDateTimeChanged: (value) {
-                        _chosen = value;
-                        setState(() {
-                          format = DateFormat.Hm().format(_chosen);
-                        });
-                      }),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                    height: widget.size.height * 0.1,
-                    color: greenColor,
-                    width: widget.size.width,
-                    child: Center(
-                      child: Text(
-                        "Confirm",
-                        style: titleTextStyle.copyWith(
-                          fontSize:
-                              Theme.of(context).textTheme.headline5!.fontSize,
-                          fontWeight: FontWeight.w300,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
   }
 }

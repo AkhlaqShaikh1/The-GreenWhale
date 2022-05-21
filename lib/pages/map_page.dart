@@ -81,12 +81,12 @@ class _MapPageState extends State<MapPage> {
           onTap: () {
             customInfoWindowController.addInfoWindow!(
                 Column(
-                  mainAxisSize: MainAxisSize.min,
+                  // mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
                       decoration: BoxDecoration(
                         color: primaryColor,
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(5),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -143,14 +143,10 @@ class _MapPageState extends State<MapPage> {
             CustomAppBar(size: size, textFactor: textFactor),
             isLoading
                 ? Column(
-                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      SizedBox(
-                        height: size.height * 0.3,
-                      ),
+                      SizedBox(height: size.height * 0.3),
                       CircularProgressIndicator(
                         color: greenColor,
-                        // strokeWidth: 2,
                         backgroundColor: backgroundColor,
                       ),
                     ],
@@ -159,6 +155,7 @@ class _MapPageState extends State<MapPage> {
                     // height: size.height * 0.5,
                     width: size.width,
                     child: Stack(
+                      alignment: Alignment.center,
                       fit: StackFit.loose,
                       children: [
                         SizedBox(
@@ -195,24 +192,65 @@ class _MapPageState extends State<MapPage> {
                         ),
                         CustomInfoWindow(
                           controller: customInfoWindowController,
-                          height: size.height * 0.1,
-                          offset: 10,
+                          offset: size.height * 0.03,
                         ),
                         Positioned(
-                          top: size.height * 0.7,
-                          left: size.width / 2.1,
-                          child: TextButton(
-                            child: const Text("Get Current Loc"),
-                            onPressed: () {
-                              controller.animateCamera(
-                                CameraUpdate.newCameraPosition(
-                                  CameraPosition(
-                                      target: LatLng(MapPage.lat, MapPage.long),
-                                      zoom: 14),
-                                ),
-                              );
-                              setState(() {});
-                            },
+                          top: size.height * 0.62,
+                          child: Center(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: size.height * 0.01,
+                                vertical: size.height * 0.013,
+                              ),
+                              width: size.height * 0.26,
+                              decoration: BoxDecoration(
+                                color: primaryColor,
+                                borderRadius: BorderRadius.circular(45),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  GestureDetector(
+                                    child: Image.asset(
+                                      "assets/icons/layer.png",
+                                      height: size.height * 0.029,
+                                    ),
+                                  ),
+                                  Container(
+                                    color: subtitleColor,
+                                    height: size.height * 0.04,
+                                    width: size.width * 0.003,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      controller.animateCamera(
+                                        CameraUpdate.newCameraPosition(
+                                          CameraPosition(
+                                            target: LatLng(
+                                                MapPage.lat, MapPage.long),
+                                            zoom: 20,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Image.asset(
+                                      "assets/icons/gps.png",
+                                      height: size.height * 0.029,
+                                    ),
+                                  ),
+                                  Container(
+                                    color: subtitleColor,
+                                    height: size.height * 0.04,
+                                    width: size.width * 0.003,
+                                  ),
+                                  Image.asset(
+                                    "assets/icons/send.png",
+                                    height: size.height * 0.029,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ],
