@@ -58,7 +58,7 @@ class ReserveSpotPage extends StatelessWidget {
           reserve.add(data);
         },
         child: Container(
-          height: size.height * 0.1,
+          height: size.height * 0.08,
           width: size.width,
           color: greenColor,
           child: Center(
@@ -132,12 +132,12 @@ class ReserveSpotPage extends StatelessWidget {
                 height: size.height * 0.02,
               ),
               Container(
-                height: size.height * 0.33,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.amber,
-                ),
-              ),
+                  width: size.width,
+                  height: size.height * 0.33,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child: Image.asset("assets/images/temp-clock1.png")),
               SizedBox(
                 height: size.height * 0.05,
               ),

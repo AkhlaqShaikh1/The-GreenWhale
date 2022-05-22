@@ -70,7 +70,7 @@ class _MapPageState extends State<MapPage> {
     () async {
       await getLatLong();
       ByteData byteData = await DefaultAssetBundle.of(context)
-          .load("assets/images/stationMarker.png");
+          .load("assets/icons/stationMarker.png");
       Uint8List imageData = byteData.buffer.asUint8List();
       BitmapDescriptor myIcon = BitmapDescriptor.fromBytes(imageData);
       markers = {
@@ -192,7 +192,7 @@ class _MapPageState extends State<MapPage> {
                         ),
                         CustomInfoWindow(
                           controller: customInfoWindowController,
-                          offset: size.height * 0.03,
+                          offset: size.height * 0.08,
                         ),
                         Positioned(
                           top: size.height * 0.62,

@@ -21,24 +21,30 @@ class PeakTimePage extends StatelessWidget {
         shadowColor: subtitleColor.withOpacity(0.3),
         backgroundColor: primaryColor,
         elevation: 1.1,
-        leading: MyAppBarIcon(
-          size: size,
-          imgSrc: "back",
-          ontap: () {
-            Navigator.of(context).pop();
-          },
+        leading: Container(
+          margin: EdgeInsets.only(
+            top: size.height * 0.015,
+          ),
+          child: MyAppBarIcon(
+            size: size,
+            imgSrc: "back",
+            ontap: () {
+              Navigator.of(context).pop();
+            },
+          ),
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(size.height * 0.009),
+        padding: EdgeInsets.only(left: size.height * 0.005),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              height: 300,
+              width: size.width,
+              height: size.height * 0.4,
               margin: EdgeInsets.only(top: size.height * 0.01),
-              decoration:
-                  BoxDecoration(shape: BoxShape.circle, color: greenColor),
+              decoration: const BoxDecoration(shape: BoxShape.circle),
+              child: Image.asset("assets/images/temp-clock-2.png"),
             ),
             SizedBox(height: size.height * 0.03),
             Padding(
@@ -48,23 +54,22 @@ class PeakTimePage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: size.height * 0.008),
+                    margin: EdgeInsets.only(top: size.height * 0.006),
                     height: size.height * 0.01,
                     width: size.height * 0.01,
                     color: notAvailableColor,
                   ),
-                  SizedBox(width: size.height * 0.01),
+                  SizedBox(width: size.height * 0.005),
                   Text(
                     "Electricity Peak Time",
                     style: titleTextStyle.copyWith(
                       color: notAvailableColor,
-                      fontSize:
-                          Theme.of(context).textTheme.titleLarge!.fontSize,
+                      fontSize: 20,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   SizedBox(
-                    width: size.height * 0.05,
+                    width: size.height * 0.02,
                   ),
                   Container(
                     margin: EdgeInsets.only(top: size.height * 0.008),
@@ -72,14 +77,16 @@ class PeakTimePage extends StatelessWidget {
                     width: size.height * 0.01,
                     color: greenColor,
                   ),
-                  SizedBox(width: size.height * 0.01),
+                  SizedBox(width: size.height * 0.005),
                   Text(
                     "Charging Hours",
                     style: titleTextStyle.copyWith(
                       color: greenColor,
                       fontSize:
-                          Theme.of(context).textTheme.titleLarge!.fontSize,
+                          Theme.of(context).textTheme.titleMedium!.fontSize! +
+                              5,
                       fontWeight: FontWeight.w500,
+                      letterSpacing: 0,
                     ),
                   ),
                 ],
