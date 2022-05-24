@@ -132,7 +132,6 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double textFactor = MediaQuery.of(context).textScaleFactor;
-    // CameraPosition cam2 = CameraPosition(target: LatLng(getLat(), getLong()));
 
     return Scaffold(
       backgroundColor: primaryColor,

@@ -3,6 +3,7 @@ import 'package:the_green_whale/pages/favourite_page.dart';
 import 'package:the_green_whale/pages/map_page.dart';
 import 'package:the_green_whale/pages/profile_page.dart';
 import 'package:the_green_whale/pages/reserves_page.dart';
+import 'package:the_green_whale/utils/text_styles.dart';
 
 import '../utils/colors.dart';
 
@@ -39,37 +40,50 @@ class _MainPageState extends State<MainPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  pageIndex = 0;
-                });
-              },
-              child: _buildIcon("map", "Map", 0, size),
+            SizedBox(
+              width: size.width * 0.2,
+              child: InkWell(
+                onTap: () {
+                  setState(() {
+                    pageIndex = 0;
+                  });
+                },
+                child: _buildIcon("map", "Map", 0, size),
+              ),
             ),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  pageIndex = 1;
-                });
-              },
-              child: _buildIcon("heart", "Favourite", 1, size),
+            SizedBox(
+              width: size.width * 0.2,
+              child: InkWell(
+                onTap: () {
+                  setState(() {
+                    pageIndex = 1;
+                  });
+                },
+                child: _buildIcon("heart", "Favourite", 1, size),
+              ),
             ),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  pageIndex = 2;
-                });
-              },
-              child: _buildIcon("clock", "Reserves", 2, size),
+            SizedBox(
+              width: size.width * 0.2,
+              child: InkWell(
+                splashColor: greenColor,
+                onTap: () {
+                  setState(() {
+                    pageIndex = 2;
+                  });
+                },
+                child: _buildIcon("clock", "Reserves", 2, size),
+              ),
             ),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  pageIndex = 3;
-                });
-              },
-              child: _buildIcon("profile-circle", "Profile", 3, size),
+            SizedBox(
+              width: size.width * 0.2,
+              child: InkWell(
+                onTap: () {
+                  setState(() {
+                    pageIndex = 3;
+                  });
+                },
+                child: _buildIcon("profile-circle", "Profile", 3, size),
+              ),
             ),
           ],
         ),
@@ -77,7 +91,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Column _buildIcon(String imgSrc, String title, index, size) {
+  Widget _buildIcon(String imgSrc, String title, index, size) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -89,7 +103,8 @@ class _MainPageState extends State<MainPage> {
         ),
         Container(
           padding: const EdgeInsets.all(8.0),
-          child: Text(title),
+          child:
+              Text(title, style: titleTextStyle.copyWith(color: Colors.white)),
         ),
       ],
     );
