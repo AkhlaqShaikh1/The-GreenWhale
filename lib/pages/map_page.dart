@@ -37,6 +37,7 @@ class _MapPageState extends State<MapPage> {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
+      
       await Geolocator.openLocationSettings();
       return Future.error('Location services are disabled.');
     }
@@ -152,13 +153,13 @@ class _MapPageState extends State<MapPage> {
                   )
                 : SizedBox(
                     // height: size.height * 0.5,
-                    width: size.width,
+                    // width: size.width,
                     child: Stack(
                       alignment: Alignment.center,
-                      fit: StackFit.loose,
+                      // fit: StackFit.loose,
                       children: [
                         SizedBox(
-                          height: size.height * 0.75,
+                          height: size.height * 0.76,
                           width: size.width,
                           child: isLoading
                               ? CircularProgressIndicator(
@@ -191,7 +192,8 @@ class _MapPageState extends State<MapPage> {
                         ),
                         CustomInfoWindow(
                           controller: customInfoWindowController,
-                          offset: size.height * 0.08,
+                          height: size.height * 0.08,
+                          offset: size.height * 0.05,
                         ),
                         Positioned(
                           top: size.height * 0.62,

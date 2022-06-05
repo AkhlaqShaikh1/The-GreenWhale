@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:time_picker_sheet/widget/sheet.dart';
+import 'package:time_picker_sheet/widget/time_picker.dart';
 
 import '../../model/data_box_model.dart';
 import '../../utils/colors.dart';
@@ -23,12 +25,52 @@ class SetTimeBox extends StatefulWidget {
 class _SetTimeBoxState extends State<SetTimeBox> {
   DateTime _chosen = DateTime.now();
   String format = '';
+  void _openTimePickerSheet(BuildContext context) async {
+    final result = await TimePicker.show<DateTime?>(
+      context: context,
+      roundedCorner: 0,
+      dismissible: false,
+      sheet: TimePickerSheet(
+        sheetCloseIconColor: Colors.white,
+        initialDateTime: DateTime.now(),
+        sheetTitle: 'Peak Time',
+        sheetTitleStyle: titleTextStyle.copyWith(fontSize: 20),
+        minuteTitle: 'Minute',
+        hourTitle: 'Hour',
+        hourTitleStyle:
+            titleTextStyle.copyWith(fontSize: 20, color: Colors.white),
+        minuteTitleStyle:
+            titleTextStyle.copyWith(fontSize: 20, color: Colors.white),
+        saveButtonText: 'Save',
+        minuteInterval: 1,
+        saveButtonColor: greenColor,
+        wheelNumberSelectedStyle: titleTextStyle.copyWith(fontSize: 22),
+      ),
+    );
+
+    if (result != null) {
+      setState(() {
+        format = DateFormat.Hm().format(_chosen);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        _buildModalSheet(context);
+        // TimePicker.show(
+        //   roundedCorner: 0,
+        //   context: context,
+        //   sheet: TimePickerSheet(
+        //     sheetTitleStyle: titleTextStyle.copyWith(fontSize: 20),
+        //     sheetTitle: "Peak Time",
+        //     minuteTitle: "Minutes",
+        //     hourTitle: "Hours",
+        //     saveButtonText: "Confirm",
+        //   ),
+        // );
+        _openTimePickerSheet(context);
       },
       child: Container(
         width: widget.size.width,
