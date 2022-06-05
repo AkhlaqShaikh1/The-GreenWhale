@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:the_green_whale/authentication/login_page.dart';
+import 'package:the_green_whale/authentication/signup_page.dart';
 
 import 'package:the_green_whale/pages/main_page.dart';
 import 'package:the_green_whale/pages/map_page.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
           SearchPage.id: (context) => const SearchPage(),
           MapPage.id: (context) => const MapPage(),
           LoginPage.id: (context) => const LoginPage(),
+          SignUpPage.id: (context) => const SignUpPage(),
         },
       ),
     );

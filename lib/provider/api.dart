@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:the_green_whale/pages/map_page.dart';
 
 class Api {
   static HttpLink httplink =
