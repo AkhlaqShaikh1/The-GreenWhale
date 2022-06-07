@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:the_green_whale/authentication/signup_page.dart';
 import 'package:the_green_whale/utils/colors.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
@@ -26,140 +27,127 @@ class _LoginPageState extends State<LoginPage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: primaryColor,
-      // resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: size.height * 0.02,
-            vertical: size.height * 0.03,
+            horizontal: 55.sp,
+            vertical: 65.sp,
           ),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      "Sign in to",
-                      style: titleTextStyle.copyWith(
-                          fontSize:
-                              Theme.of(context).textTheme.headline4!.fontSize),
-                    ),
-                    const Spacer(),
-                    InkWell(
-                      onTap: () {
-                        Navigator.of(context)
-                            .pushReplacementNamed(SignUpPage.id);
-                      },
-                      child: Text(
-                        "Sign Up",
-                        style: titleTextStyle.copyWith(
-                            fontSize: Theme.of(context)
-                                .textTheme
-                                .headline6!
-                                .fontSize),
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  "your account",
-                  style: titleTextStyle.copyWith(
-                    fontSize: Theme.of(context).textTheme.headline4!.fontSize,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    "Sign in to",
+                    style: titleTextStyle.copyWith(fontSize: 80.sp),
                   ),
+                  const Spacer(),
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).pushReplacementNamed(SignUpPage.id);
+                    },
+                    child: Text(
+                      "Sign Up",
+                      style: titleTextStyle.copyWith(fontSize: 55.sp),
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                "your account",
+                style: titleTextStyle.copyWith(
+                  fontSize: 80.sp,
                 ),
-                SizedBox(
-                  height: size.height * 0.07,
-                ),
-                Text(
-                  "Email Address",
-                  style: subtitleTextStyle.copyWith(
-                      fontSize:
-                          Theme.of(context).textTheme.headline6!.fontSize),
-                ),
-                SizedBox(
-                  height: size.height * 0.015,
-                ),
-                Form(
-                  child: TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    controller: _email,
-                    cursorColor: greenColor,
-                    cursorHeight: 25,
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: subtitleColor),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: greenColor),
-                      ),
+              ),
+              SizedBox(
+                height: 100.sp,
+              ),
+              Text(
+                "Email Address",
+                style: subtitleTextStyle.copyWith(fontSize: 60.sp),
+              ),
+              SizedBox(
+                height: 25.sp,
+              ),
+              Form(
+                child: TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  controller: _email,
+                  cursorColor: greenColor,
+                  cursorHeight: 25,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: subtitleColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: greenColor),
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: size.height * 0.03,
-                ),
-                Text(
-                  "Password",
-                  style: subtitleTextStyle.copyWith(
-                      fontSize:
-                          Theme.of(context).textTheme.headline6!.fontSize),
-                ),
-                SizedBox(
-                  height: size.height * 0.015,
-                ),
-                Form(
-                  child: TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    controller: _password,
-                    cursorColor: greenColor,
-                    cursorHeight: 25,
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: subtitleColor),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: greenColor),
-                      ),
+              ),
+              SizedBox(
+                height: 60.sp,
+              ),
+              Text(
+                "Password",
+                style: subtitleTextStyle.copyWith(fontSize: 60.sp),
+              ),
+              SizedBox(
+                height: 25.sp,
+              ),
+              Form(
+                child: TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  controller: _password,
+                  cursorColor: greenColor,
+                  cursorHeight: 25,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: subtitleColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: greenColor),
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: size.height * 0.015,
-                ),
-                Row(
-                  children: [
-                    const Spacer(),
-                    Text(
-                      "Forgot Password?",
-                      style: titleTextStyle.copyWith(
-                        fontSize:
-                            Theme.of(context).textTheme.headline6!.fontSize,
-                      ),
+              ),
+              SizedBox(
+                height: 35.sp,
+              ),
+              Row(
+                children: [
+                  const Spacer(),
+                  Text(
+                    "Forgot Password?",
+                    style: titleTextStyle.copyWith(
+                      fontSize: 60.sp,
                     ),
-                  ],
-                ),
-                SizedBox(height: size.height * 0.32),
-                Center(
-                  child: Container(
+                  ),
+                ],
+              ),
+              const Spacer(),
+              Column(
+                // crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
                     alignment: Alignment.center,
-                    height: size.height * 0.075,
+                    height: 160.h,
                     width: size.width,
                     child: Text(
                       "Login",
-                      style: titleTextStyle.copyWith(
-                          fontSize:
-                              Theme.of(context).textTheme.titleLarge!.fontSize),
+                      style: titleTextStyle.copyWith(fontSize: 60.sp),
                     ),
                     decoration: BoxDecoration(
                       color: greenColor,
                       borderRadius: BorderRadius.circular(35),
                     ),
                   ),
-                )
-              ],
-            ),
+                ],
+              )
+            ],
           ),
         ),
       ),

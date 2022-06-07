@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:the_green_whale/pages/favourite_page.dart';
 import 'package:the_green_whale/pages/map_page.dart';
 import 'package:the_green_whale/pages/profile_page.dart';
@@ -34,14 +35,14 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       body: pages[pageIndex],
       bottomNavigationBar: Container(
-        height: size.height * 0.1,
+        height: 260.h,
         width: size.width,
         decoration: BoxDecoration(color: primaryColor),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             SizedBox(
-              width: size.width * 0.2,
+              width: 200.w,
               child: InkWell(
                 onTap: () {
                   setState(() {
@@ -52,7 +53,7 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
             SizedBox(
-              width: size.width * 0.2,
+              width: 235.w,
               child: InkWell(
                 onTap: () {
                   setState(() {
@@ -63,7 +64,7 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
             SizedBox(
-              width: size.width * 0.2,
+              width: 230.w,
               child: InkWell(
                 splashColor: greenColor,
                 onTap: () {
@@ -75,7 +76,7 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
             SizedBox(
-              width: size.width * 0.2,
+              width: 220.w,
               child: InkWell(
                 onTap: () {
                   setState(() {
@@ -103,8 +104,11 @@ class _MainPageState extends State<MainPage> {
         ),
         Container(
           padding: const EdgeInsets.all(8.0),
-          child:
-              Text(title, style: titleTextStyle.copyWith(color: Colors.white)),
+          child: Text(
+            title,
+            style:
+                titleTextStyle.copyWith(color: Colors.white, fontSize: 45.sp),
+          ),
         ),
       ],
     );

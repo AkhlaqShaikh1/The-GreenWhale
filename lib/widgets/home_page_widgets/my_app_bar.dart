@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
 
 import '../../pages/search_page.dart';
@@ -20,7 +21,7 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        height: size.height * 0.1,
+        height: 300.h,
         width: size.width,
         color: primaryColor,
         child: Row(
@@ -31,7 +32,7 @@ class CustomAppBar extends StatelessWidget {
               ontap: () {},
             ),
             Padding(
-              padding: EdgeInsets.only(top: size.height * 0.008),
+              padding: EdgeInsets.only(top: 60.sp),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

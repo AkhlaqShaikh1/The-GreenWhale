@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -37,7 +38,7 @@ class _MapPageState extends State<MapPage> {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
-      
+
       await Geolocator.openLocationSettings();
       return Future.error('Location services are disabled.');
     }
@@ -85,12 +86,14 @@ class _MapPageState extends State<MapPage> {
                   // mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
+                      height: 180.h,
+                      width: 350.w,
                       decoration: BoxDecoration(
                         color: primaryColor,
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(8.0.sp),
                         child: Column(
                           children: [
                             Text(
@@ -136,129 +139,121 @@ class _MapPageState extends State<MapPage> {
 
     return Scaffold(
       backgroundColor: primaryColor,
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomAppBar(size: size, textFactor: textFactor),
-            isLoading
-                ? Column(
-                    children: [
-                      SizedBox(height: size.height * 0.3),
-                      CircularProgressIndicator(
-                        color: greenColor,
-                        backgroundColor: backgroundColor,
-                      ),
-                    ],
-                  )
-                : SizedBox(
-                    // height: size.height * 0.5,
-                    // width: size.width,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      // fit: StackFit.loose,
-                      children: [
-                        SizedBox(
-                          height: size.height * 0.76,
-                          width: size.width,
-                          child: isLoading
-                              ? CircularProgressIndicator(
-                                  color: greenColor,
-                                )
-                              : GoogleMap(
-                                  initialCameraPosition: const CameraPosition(
-                                      target: LatLng(24.946218, 67.005615),
-                                      zoom: 13),
-                                  onTap: (position) {
-                                    customInfoWindowController
-                                        .hideInfoWindow!();
-                                  },
-                                  onCameraMove: (position) {
-                                    customInfoWindowController.onCameraMove!();
-                                  },
-                                  onMapCreated: (gcontroller) async {
-                                    customInfoWindowController
-                                        .googleMapController = gcontroller;
-                                    controller = gcontroller;
-                                    // getLat();
-                                    // getLong();
-                                  },
-                                  myLocationEnabled: false,
-                                  zoomControlsEnabled: false,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CustomAppBar(size: size, textFactor: textFactor),
+          isLoading
+              ? Column(
+                  children: [
+                    SizedBox(height: size.height * 0.3),
+                    CircularProgressIndicator(
+                      color: greenColor,
+                      backgroundColor: backgroundColor,
+                    ),
+                  ],
+                )
+              : Stack(
+                  alignment: Alignment.center,
+                  // fit: StackFit.loose,
+                  children: [
+                    Container(
+                      // padding:r EdgeInsets.only(bottom: 15.sp),
+                      height: 1750.h,
+                      width: size.width,
+                      child: isLoading
+                          ? CircularProgressIndicator(
+                              color: greenColor,
+                            )
+                          : GoogleMap(
+                              initialCameraPosition: const CameraPosition(
+                                  target: LatLng(24.946218, 67.005615),
+                                  zoom: 13),
+                              onTap: (position) {
+                                customInfoWindowController.hideInfoWindow!();
+                              },
+                              onCameraMove: (position) {
+                                customInfoWindowController.onCameraMove!();
+                              },
+                              onMapCreated: (gcontroller) async {
+                                customInfoWindowController.googleMapController =
+                                    gcontroller;
+                                controller = gcontroller;
+                                // getLat();
+                                // getLong();
+                              },
+                              myLocationEnabled: false,
+                              zoomControlsEnabled: false,
 
-                                  markers: markers,
-                                  // markers: {},
-                                ),
-                        ),
-                        CustomInfoWindow(
-                          controller: customInfoWindowController,
-                          height: size.height * 0.08,
-                          offset: size.height * 0.05,
-                        ),
-                        Positioned(
-                          top: size.height * 0.62,
-                          child: Center(
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: size.height * 0.01,
-                                vertical: size.height * 0.013,
-                              ),
-                              width: size.height * 0.26,
-                              decoration: BoxDecoration(
-                                color: primaryColor,
-                                borderRadius: BorderRadius.circular(45),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  GestureDetector(
-                                    child: Image.asset(
-                                      "assets/icons/layer.png",
-                                      height: size.height * 0.029,
-                                    ),
-                                  ),
-                                  Container(
-                                    color: subtitleColor,
-                                    height: size.height * 0.04,
-                                    width: size.width * 0.003,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      controller.animateCamera(
-                                        CameraUpdate.newCameraPosition(
-                                          CameraPosition(
-                                            target: LatLng(
-                                                MapPage.lat, MapPage.long),
-                                            zoom: 20,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: Image.asset(
-                                      "assets/icons/gps.png",
-                                      height: size.height * 0.029,
-                                    ),
-                                  ),
-                                  Container(
-                                    color: subtitleColor,
-                                    height: size.height * 0.04,
-                                    width: size.width * 0.003,
-                                  ),
-                                  Image.asset(
-                                    "assets/icons/send.png",
-                                    height: size.height * 0.029,
-                                  ),
-                                ],
-                              ),
+                              markers: markers,
+                              // markers: {},
                             ),
+                    ),
+                    CustomInfoWindow(
+                      controller: customInfoWindowController,
+                      offset: size.height * 0.05,
+                    ),
+                    Positioned(
+                      top: size.height * 0.62,
+                      child: Center(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: size.height * 0.01,
+                            vertical: size.height * 0.013,
+                          ),
+                          width: size.height * 0.26,
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                            borderRadius: BorderRadius.circular(45),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              GestureDetector(
+                                child: Image.asset(
+                                  "assets/icons/layer.png",
+                                  height: size.height * 0.029,
+                                ),
+                              ),
+                              Container(
+                                color: subtitleColor,
+                                height: size.height * 0.04,
+                                width: size.width * 0.003,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  controller.animateCamera(
+                                    CameraUpdate.newCameraPosition(
+                                      CameraPosition(
+                                        target:
+                                            LatLng(MapPage.lat, MapPage.long),
+                                        zoom: 20,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Image.asset(
+                                  "assets/icons/gps.png",
+                                  height: size.height * 0.029,
+                                ),
+                              ),
+                              Container(
+                                color: subtitleColor,
+                                height: size.height * 0.04,
+                                width: size.width * 0.003,
+                              ),
+                              Image.asset(
+                                "assets/icons/send.png",
+                                height: size.height * 0.029,
+                              ),
+                            ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  )
-          ],
-        ),
+                  ],
+                )
+        ],
       ),
     );
   }
