@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1016992025523",
+    "project_id": "greenwhale",
+    "storage_bucket": "greenwhale.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1016992025523:android:f70346ec759da385f499c6",
+        "android_client_info": {
+          "package_name": "com.example.the_green_whale"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1016992025523-bv74moi7d8bltbjob1ri30s45lsekppu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjUk8knN0xYc_22GgrN8er4qHR6NGhi-4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1016992025523-bv74moi7d8bltbjob1ri30s45lsekppu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
