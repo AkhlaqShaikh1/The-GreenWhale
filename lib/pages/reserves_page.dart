@@ -24,19 +24,24 @@ class ReservePage extends StatelessWidget {
       body: Center(
         child: Query(
           options: QueryOptions(
-            document: gql(
-              Api.getStationAroundPoint,
-            ), // this is the query string you just created
-          ),
+              document: gql(
+                Api.getStationAroundPoint,
+              ),
+              variables: {
+                "Lat": MapPage.long,
+                "Long": MapPage.lat,
+              }
+              // this is the query string you just created
+              ),
           builder: (QueryResult result,
               {VoidCallback? refetch, FetchMore? fetchMore}) {
             if (result.hasException) {
               return Text(result.exception.toString() +
-                  "${MapPage.lat} ${MapPage.long}");
+                  "\n${MapPage.lat} ${MapPage.long}");
             }
 
             if (result.isLoading) {
-              return const Text('Loading');
+              return CircularProgressIndicator(color: greenColor);
             }
 
             List? stations = result.data?['stationAround'];

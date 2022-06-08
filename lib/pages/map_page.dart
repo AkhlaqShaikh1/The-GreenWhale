@@ -7,10 +7,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
 
 import 'package:the_green_whale/widgets/home_page_widgets/my_app_bar.dart';
 
+import '../provider/api.dart';
 import '../utils/colors.dart';
 
 class MapPage extends StatefulWidget {
@@ -27,6 +29,7 @@ class _MapPageState extends State<MapPage> {
   CustomInfoWindowController customInfoWindowController =
       CustomInfoWindowController();
   bool isLoading = true;
+  late BitmapDescriptor myIcon;
   Set<Marker> markers = {};
 
   Future<Position> _getGeoLocationPosition() async {
@@ -74,46 +77,86 @@ class _MapPageState extends State<MapPage> {
       ByteData byteData = await DefaultAssetBundle.of(context)
           .load("assets/icons/stationMarker.png");
       Uint8List imageData = byteData.buffer.asUint8List();
-      BitmapDescriptor myIcon = BitmapDescriptor.fromBytes(imageData);
-      markers = {
-        Marker(
-          markerId: const MarkerId("firstMarker"),
-          icon: myIcon,
-          position: LatLng(MapPage.lat, MapPage.long),
-          onTap: () {
-            customInfoWindowController.addInfoWindow!(
-                Column(
-                  // mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      height: 180.h,
-                      width: 350.w,
-                      decoration: BoxDecoration(
-                        color: primaryColor,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0.sp),
-                        child: Column(
-                          children: [
-                            Text(
-                              "Karachi",
-                              style: titleTextStyle,
-                            ),
-                            Text(
-                              "Type 3c",
-                              style: subtitleTextStyle,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                LatLng(MapPage.lat, MapPage.long));
-          },
-        ),
-      };
+      myIcon = BitmapDescriptor.fromBytes(imageData);
+
+      // Query(
+      //     options: QueryOptions(
+      //         document: gql(Api.getStationAroundPoint),
+      //         variables: {
+      //           "Long": 9.993682,
+      //           "Lat": 53.551086,
+      //         }),
+      //     builder: (QueryResult result,
+      //         {VoidCallback? refetch, FetchMore? fetchMore}) {
+      //       List? station = result.data?['stationAround'];
+
+      //       for (int i = 0; i < station!.length; i++) {
+      //         markers.add(
+      //           Marker(
+      //             markerId: MarkerId(station[i]['id']),
+      //             icon: myIcon,
+      //             position: LatLng(station[i]['coordinates'][1],
+      //                 station[i]['coordinates'][0]),
+      //           ),
+      //         );
+      //         print(
+      //             "${station[i]['coordinates'][0]},${station[i]['coordinates'][1]}  ");
+      //       }
+      //       if (station.isEmpty) {
+      //         return const Text("No Stations Around");
+      //       }
+
+      //       return Text("sta");
+      //     });
+
+      // markers = {
+      //   Marker(
+      //     markerId: const MarkerId("firstMarker"),
+      //     icon: myIcon,
+      //     position: LatLng(
+      //       53.551086, // [1],
+      //       9.993682, // [0]
+      //     ),
+      //     onTap: () {
+      //       customInfoWindowController.addInfoWindow!(
+      //           Column(
+      //             // mainAxisSize: MainAxisSize.min,
+      //             children: [
+      //               Container(
+      //                 height: 150.h,
+      //                 width: 350.w,
+      //                 alignment: Alignment.center,
+      //                 decoration: BoxDecoration(
+      //                   color: primaryColor,
+      //                   borderRadius: BorderRadius.circular(5),
+      //                 ),
+      //                 child: Padding(
+      //                   padding: EdgeInsets.all(8.0.sp),
+      //                   child: Center(
+      //                     child: Column(
+      //                       children: [
+      //                         Text(
+      //                           "Karachi",
+      //                           style: titleTextStyle,
+      //                         ),
+      //                         Text(
+      //                           "Type 3c",
+      //                           style: subtitleTextStyle,
+      //                         ),
+      //                       ],
+      //                     ),
+      //                   ),
+      //                 ),
+      //               ),
+      //             ],
+      //           ),
+      //           LatLng(
+      //             53.551086,
+      //             9.993682,
+      //           ));
+      //     },
+      //   ),
+      // };
 
       if (mounted) {
         setState(() {
@@ -127,7 +170,7 @@ class _MapPageState extends State<MapPage> {
 
   @override
   void dispose() {
-    controller.dispose();
+    // controller.dispose();
     customInfoWindowController.dispose();
     super.dispose();
   }
@@ -140,7 +183,6 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       backgroundColor: primaryColor,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CustomAppBar(size: size, textFactor: textFactor),
           isLoading
@@ -158,40 +200,83 @@ class _MapPageState extends State<MapPage> {
                   // fit: StackFit.loose,
                   children: [
                     Container(
-                      // padding:r EdgeInsets.only(bottom: 15.sp),
+                      padding: EdgeInsets.only(bottom: 15.sp),
                       height: 1750.h,
                       width: size.width,
                       child: isLoading
                           ? CircularProgressIndicator(
                               color: greenColor,
                             )
-                          : GoogleMap(
-                              initialCameraPosition: const CameraPosition(
-                                  target: LatLng(24.946218, 67.005615),
-                                  zoom: 13),
-                              onTap: (position) {
-                                customInfoWindowController.hideInfoWindow!();
-                              },
-                              onCameraMove: (position) {
-                                customInfoWindowController.onCameraMove!();
-                              },
-                              onMapCreated: (gcontroller) async {
-                                customInfoWindowController.googleMapController =
-                                    gcontroller;
-                                controller = gcontroller;
-                                // getLat();
-                                // getLong();
-                              },
-                              myLocationEnabled: false,
-                              zoomControlsEnabled: false,
+                          : Query(
+                              options: QueryOptions(
+                                  document: gql(Api.getStationAroundPoint),
+                                  variables: {
+                                    "Lat": MapPage.long,
+                                    "Long": MapPage.lat,
+                                  }),
+                              builder: (QueryResult result,
+                                  {VoidCallback? refetch,
+                                  FetchMore? fetchMore}) {
+                                return GoogleMap(
+                                  initialCameraPosition: CameraPosition(
+                                    target: LatLng(
+                                      MapPage.lat,
+                                      MapPage.long,
+                                    ),
+                                    zoom: 10,
+                                  ),
+                                  onTap: (position) {
+                                    customInfoWindowController
+                                        .hideInfoWindow!();
+                                  },
+                                  onCameraMove: (position) {
+                                    customInfoWindowController.onCameraMove!();
+                                  },
+                                  onMapCreated: (gcontroller) async {
+                                    customInfoWindowController
+                                        .googleMapController = gcontroller;
+                                    controller = gcontroller;
+                                    const Duration(seconds: 1);
+                                    // List? station = result.data?['station']
 
-                              markers: markers,
-                              // markers: {},
+                                    // getLat();
+                                    // getLong();
+                                  },
+                                  myLocationEnabled: false,
+                                  zoomControlsEnabled: false,
+                                  markers: getmarkers(result),
+                                );
+                              },
                             ),
+
+                      // : GoogleMap(
+                      //     initialCameraPosition: CameraPosition(
+                      //         target: LatLng(MapPage.lat, MapPage.long),
+                      //         zoom: 13),
+                      //     onTap: (position) {
+                      //       customInfoWindowController.hideInfoWindow!();
+                      //     },
+                      //     onCameraMove: (position) {
+                      //       customInfoWindowController.onCameraMove!();
+                      //     },
+                      //     onMapCreated: (gcontroller) async {
+                      //       customInfoWindowController.googleMapController =
+                      //           gcontroller;
+                      //       controller = gcontroller;
+
+                      //       // getLat();
+                      //       // getLong();
+                      //     },
+                      //     myLocationEnabled: false,
+                      //     zoomControlsEnabled: false,
+
+                      //     markers: markers,
+                      //      markers: {},
+                      //   ),
                     ),
                     CustomInfoWindow(
                       controller: customInfoWindowController,
-                      offset: size.height * 0.05,
+                      height: 200.h,
                     ),
                     Positioned(
                       top: size.height * 0.62,
@@ -225,9 +310,11 @@ class _MapPageState extends State<MapPage> {
                                   controller.animateCamera(
                                     CameraUpdate.newCameraPosition(
                                       CameraPosition(
-                                        target:
-                                            LatLng(MapPage.lat, MapPage.long),
-                                        zoom: 20,
+                                        target: LatLng(
+                                          MapPage.lat,
+                                          MapPage.long,
+                                        ),
+                                        zoom: 15,
                                       ),
                                     ),
                                   );
@@ -252,9 +339,26 @@ class _MapPageState extends State<MapPage> {
                       ),
                     ),
                   ],
-                )
+                ),
         ],
       ),
     );
+  }
+
+  Set<Marker> getmarkers(QueryResult result) {
+    List? stations = result.data?['stationAround'];
+    for (int i = 0; i < stations!.length; i++) {
+      markers.add(
+        Marker(
+          markerId: MarkerId(stations[i]['id']),
+          icon: myIcon,
+          position: LatLng(
+            stations[i]['location']['coordinates'][1],
+            stations[i]['location']['coordinates'][0],
+          ),
+        ),
+      );
+    }
+    return markers;
   }
 }

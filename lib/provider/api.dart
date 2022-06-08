@@ -48,10 +48,11 @@ class Api {
   }
 }""";
 
-  static String getStationAroundPoint = """ query stationAround {
+  static String getStationAroundPoint =
+      """ query stationAround (\$Lat : Float! , \$Long: Float!) {
   stationAround(
     query: {
-     location: { type: Point, coordinates: [4.875402153081495,52.340961671030556] }
+     location: { type: Point, coordinates: [\$Lat,\$Long] }
       distance:1000
 
       
@@ -68,6 +69,10 @@ class Api {
           }
       }
     } """;
+
+  // static String getStationAroundGeo(String lat , long){
+
+  // }
 
   void getStationDetails() {}
 
