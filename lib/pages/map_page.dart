@@ -170,7 +170,7 @@ class _MapPageState extends State<MapPage> {
 
   @override
   void dispose() {
-    // controller.dispose();
+    controller.dispose();
     customInfoWindowController.dispose();
     super.dispose();
   }
@@ -217,6 +217,16 @@ class _MapPageState extends State<MapPage> {
                               builder: (QueryResult result,
                                   {VoidCallback? refetch,
                                   FetchMore? fetchMore}) {
+                                if (result.isLoading) {
+                                  return Container(
+                                    alignment: Alignment.center,
+                                    height: 60.h,
+                                    child: CircularProgressIndicator(
+                                      color: greenColor,
+                                    ),
+                                  );
+                                }
+
                                 return GoogleMap(
                                   initialCameraPosition: CameraPosition(
                                     target: LatLng(
@@ -236,7 +246,7 @@ class _MapPageState extends State<MapPage> {
                                     customInfoWindowController
                                         .googleMapController = gcontroller;
                                     controller = gcontroller;
-                                    const Duration(seconds: 1);
+                                    // const Duration(seconds: 1);
                                     // List? station = result.data?['station']
 
                                     // getLat();

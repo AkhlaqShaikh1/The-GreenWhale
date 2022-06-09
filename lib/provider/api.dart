@@ -4,7 +4,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 class Api {
   static HttpLink httplink =
       HttpLink('https://api.chargetrip.io/graphql', defaultHeaders: {
-    "x-client-id": "6299d775cd5a29ea14695b73",
+    "x-client-id": "629b3841cd5a29ea14695f69",
   });
 
   static Link link = httplink;
