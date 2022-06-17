@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:the_green_whale/authentication/auth.dart';
 import 'package:the_green_whale/authentication/signup_page.dart';
 import 'package:the_green_whale/utils/colors.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
@@ -132,17 +134,32 @@ class _LoginPageState extends State<LoginPage> {
                 // crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(
-                    alignment: Alignment.center,
-                    height: 160.h,
-                    width: size.width,
-                    child: Text(
-                      "Login",
-                      style: titleTextStyle.copyWith(fontSize: 60.sp),
-                    ),
-                    decoration: BoxDecoration(
-                      color: greenColor,
-                      borderRadius: BorderRadius.circular(35),
+                  GestureDetector(
+                    onTap: () async {
+                      try {
+                        await Auth()
+                            .signIn(_email.text.trim(), _password.text.trim());
+                        Navigator.of(context).pushNamed('/home');
+                      } on FirebaseAuthException catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(e.message.toString()),
+                          ),
+                        );
+                      }
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 160.h,
+                      width: size.width,
+                      child: Text(
+                        "Login",
+                        style: titleTextStyle.copyWith(fontSize: 60.sp),
+                      ),
+                      decoration: BoxDecoration(
+                        color: greenColor,
+                        borderRadius: BorderRadius.circular(35),
+                      ),
                     ),
                   ),
                 ],

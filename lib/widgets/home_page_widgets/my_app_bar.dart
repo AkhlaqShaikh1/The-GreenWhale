@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
 
+import '../../authentication/auth.dart';
 import '../../pages/search_page.dart';
 import 'my_app_bar_icon.dart';
 
-class CustomAppBar extends StatelessWidget {
+class CustomAppBar extends StatefulWidget {
   const CustomAppBar({
     Key? key,
     required this.size,
@@ -15,19 +16,27 @@ class CustomAppBar extends StatelessWidget {
   final Size size;
   final double textFactor;
 
+  @override
+  State<CustomAppBar> createState() => _CustomAppBarState();
+}
+
+class _CustomAppBarState extends State<CustomAppBar> {
+  String userName = Auth().getUserName() ?? "Guest";
+
   get primaryColor => null;
 
   @override
   Widget build(BuildContext context) {
+    print(userName);
     return SafeArea(
       child: Container(
         height: 300.h,
-        width: size.width,
+        width: widget.size.width,
         color: primaryColor,
         child: Row(
           children: [
             MyAppBarIcon(
-              size: size,
+              size: widget.size,
               imgSrc: "location",
               ontap: () {},
             ),
@@ -36,19 +45,19 @@ class CustomAppBar extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: size.height * 0.015),
+                  SizedBox(height: widget.size.height * 0.015),
                   Text(
-                    "Good Morning",
+                    "Welcome",
                     style: subtitleTextStyle.copyWith(
                       fontSize: Theme.of(context).textTheme.bodySmall!.fontSize,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(
-                    height: size.height * 0.005,
+                    height: widget.size.height * 0.005,
                   ),
                   Text(
-                    "Janas Fischer",
+                    userName,
                     style: titleTextStyle.copyWith(
                       fontSize:
                           Theme.of(context).textTheme.titleMedium!.fontSize,
@@ -61,14 +70,14 @@ class CustomAppBar extends StatelessWidget {
             Row(
               children: [
                 MyAppBarIcon(
-                  size: size,
+                  size: widget.size,
                   imgSrc: "search",
                   ontap: () {
                     Navigator.of(context).pushNamed(SearchPage.id);
                   },
                 ),
                 MyAppBarIcon(
-                  size: size,
+                  size: widget.size,
                   imgSrc: "list",
                   ontap: () {},
                 ),
