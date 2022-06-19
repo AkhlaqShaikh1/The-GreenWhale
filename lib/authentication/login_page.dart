@@ -1,32 +1,22 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:the_green_whale/authentication/auth.dart';
 import 'package:the_green_whale/authentication/signup_page.dart';
 import 'package:the_green_whale/utils/colors.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class LoginPage extends StatelessWidget {
+  LoginPage({Key? key}) : super(key: key);
   static String id = "/login";
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  @override
-  void dispose() {
-    _email.dispose();
-    _password.dispose();
-    super.dispose();
-  }
 
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: primaryColor,
       resizeToAvoidBottomInset: false,
@@ -78,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                   keyboardType: TextInputType.emailAddress,
                   controller: _email,
                   cursorColor: greenColor,
-                  cursorHeight: 25,
+                  cursorHeight: 60.sp,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: subtitleColor),
@@ -135,10 +125,14 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   GestureDetector(
-                    onTap: () async {
+                    onTap: () {
                       try {
-                        await Auth()
+                        // await Auth()
+                        //     .signIn(_email.text.trim(), _password.text.trim());
+                        context
+                            .read<Auth>()
                             .signIn(_email.text.trim(), _password.text.trim());
+
                         Navigator.of(context).pushNamed('/home');
                       } on FirebaseAuthException catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(

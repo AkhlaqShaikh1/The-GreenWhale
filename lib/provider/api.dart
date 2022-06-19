@@ -9,7 +9,172 @@ class Api {
 
   static Link link = httplink;
 
-  static String getStations = """query stationList {
+  static String getStations = """
+query station(\$stationId: ID!) {
+  station(id: \$stationId) {
+    id
+    country_code
+    name
+    address
+    city
+    postal_code
+    country
+    coordinates {
+      latitude
+      longitude
+    }
+    
+    parking_type
+    evses {
+      uid
+      evse_id
+      status
+      status_schedule {
+        period_begin
+        period_end
+        status
+      }
+      capabilities
+      connectors {
+        id
+        standard
+        format
+        power_type
+        max_voltage
+        max_amperage
+        max_electric_power
+        power
+        tariff_ids
+        terms_and_conditions
+        last_updated
+        properties
+      }
+      floor_level
+      coordinates {
+        latitude
+        longitude
+      }
+      physical_reference
+      parking_restrictions
+      images {
+        url
+        thumbnail
+        category
+        type
+        width
+        height
+      }
+      last_updated
+      parking_cost
+      properties
+    }
+    directions {
+      language
+      text
+    }
+    operator {
+      id
+      external_id
+      name
+      website
+      logo {
+        url
+        thumbnail
+        category
+        type
+        width
+        height
+      }
+      country
+      contact {
+        phone
+        email
+        website
+        facebook
+        twitter
+        properties
+      }
+    }
+    suboperator {
+      id
+      name
+    }
+    owner {
+      id
+      name
+    }
+    facilities
+    time_zone
+    opening_times {
+      twentyfourseven
+      regular_hours {
+        weekday
+        period_begin
+        period_end
+      }
+      exceptional_openings {
+        period_begin
+        period_end
+      }
+      exceptional_closings {
+        period_begin
+        period_end
+      }
+    }
+    charging_when_closed
+    images {
+      url
+      thumbnail
+      category
+      type
+      width
+      height
+    }
+    last_updated
+    location {
+      type
+      coordinates
+    }
+    elevation
+    chargers {
+      standard
+      power
+      price
+      speed
+      status {
+        free
+        busy
+        unknown
+        error
+      }
+      total
+    }
+    physical_address {
+      continent
+      country
+      county
+      city
+      street
+      number
+      postalCode
+      what3Words
+      formattedAddress
+    }
+    amenities
+    properties
+    realtime
+    power
+    speed
+    status
+    review {
+      rating
+      count
+    }
+  }
+}
+""";
+
+  static String getStationList = """query stationList {
   stationList {
     id
     external_id
@@ -33,32 +198,15 @@ class Api {
   }
 } """;
 
-  static String test1 = """query carListAll {
-  carList {
-  id
- 	naming {
-      make
-      model
-      edition
-      chargetrip_version
-    }
-  body {
-      seats
-    }
-  }
-}""";
-
   static String getStationAroundPoint =
       """ query stationAround (\$Lat : Float! , \$Long: Float!) {
   stationAround(
     query: {
      location: { type: Point, coordinates: [\$Lat,\$Long] }
-      distance:1000
+      distance: 2000
 
       
     }
-    size: 10
-    page: 0
   ) {
     id
     external_id

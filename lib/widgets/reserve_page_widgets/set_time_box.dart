@@ -100,6 +100,7 @@ class _SetTimeBoxState extends State<SetTimeBox> {
     );
   }
 
+  // ignore: unused_element
   Future<dynamic> _buildModalSheet(BuildContext context) {
     return showModalBottomSheet(
         isDismissible: false,

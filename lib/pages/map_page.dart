@@ -8,7 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:the_green_whale/utils/text_styles.dart';
+// import 'package:the_green_whale/utils/text_styles.dart';
 
 import 'package:the_green_whale/widgets/home_page_widgets/my_app_bar.dart';
 
@@ -184,7 +184,12 @@ class _MapPageState extends State<MapPage> {
       backgroundColor: primaryColor,
       body: Column(
         children: [
-          CustomAppBar(size: size, textFactor: textFactor),
+          CustomAppBar(
+            size: size,
+            textFactor: textFactor,
+            lat: MapPage.lat,
+            long: MapPage.long,
+          ),
           isLoading
               ? Column(
                   children: [

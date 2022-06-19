@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+
 import 'package:the_green_whale/utils/text_styles.dart';
 
 import '../../authentication/auth.dart';
@@ -11,23 +13,27 @@ class CustomAppBar extends StatefulWidget {
     Key? key,
     required this.size,
     required this.textFactor,
+    required this.lat,
+    required this.long,
   }) : super(key: key);
 
   final Size size;
   final double textFactor;
+  final double lat;
+  final double long;
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
-  String userName = Auth().getUserName() ?? "Guest";
+  // String userName = Auth().getUserName() ?? "Guest";
 
   get primaryColor => null;
 
   @override
   Widget build(BuildContext context) {
-    print(userName);
+    final String? user = context.read<Auth>().firebaseAuth.currentUser!.email;
     return SafeArea(
       child: Container(
         height: 300.h,
@@ -57,7 +63,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     height: widget.size.height * 0.005,
                   ),
                   Text(
-                    userName,
+                    user ?? "Guest",
                     style: titleTextStyle.copyWith(
                       fontSize:
                           Theme.of(context).textTheme.titleMedium!.fontSize,
@@ -73,6 +79,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   size: widget.size,
                   imgSrc: "search",
                   ontap: () {
+                    
                     Navigator.of(context).pushNamed(SearchPage.id);
                   },
                 ),

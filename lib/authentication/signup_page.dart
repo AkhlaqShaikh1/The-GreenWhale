@@ -1,14 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:the_green_whale/authentication/auth.dart';
+import 'package:provider/provider.dart';
+// import 'package:the_green_whale/authentication/auth.dart';
 
 import 'package:the_green_whale/authentication/login_page.dart';
 import 'package:the_green_whale/services/database_service.dart';
 import 'package:the_green_whale/utils/colors.dart';
 
 import '../utils/text_styles.dart';
+import 'auth.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -245,15 +248,17 @@ class _SignUpPageState extends State<SignUpPage> {
                 GestureDetector(
                   onTap: () async {
                     try {
-                      await Auth().createUser(
-                          _email.text.trim(), _password.text.trim());
-                      dynamic uid = Auth().getUid();
-                      // print(countryCode);
+                      dynamic uid =
+                          context.read<Auth>().firebaseAuth.currentUser!.uid;
+                      // await context.read<Auth>().createUser(
+                      //     _email.text.trim(), _password.text.trim());
                       await DatabaseService(uid: uid).addUser(
-                          _name.text.trim(),
-                          _email.text,
-                          _password.text,
-                          countryCode + _mobileNumber.text);
+                        _name.text.trim(),
+                        _email.text,
+                        _password.text,
+                        countryCode + _mobileNumber.text,
+                      );
+                      Navigator.of(context).pushNamed('/login');
                     } on FirebaseAuthException catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -262,6 +267,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                       );
+                    } catch (e) {
+                      print(e.toString());
                     }
                   },
                   child: Center(

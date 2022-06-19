@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:the_green_whale/authentication/auth.dart';
 import 'package:the_green_whale/authentication/login_page.dart';
 import 'package:the_green_whale/authentication/signup_page.dart';
 
@@ -33,18 +36,29 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         designSize: const Size(1125, 2436),
         builder: (context, _) {
-          return MaterialApp(
-            title: 'The Greenwhale',
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(brightness: Brightness.dark),
-            home: const MainPage(),
-            routes: {
-              MainPage.id: (context) => const MainPage(),
-              SearchPage.id: (context) => const SearchPage(),
-              MapPage.id: (context) => const MapPage(),
-              LoginPage.id: (context) => const LoginPage(),
-              SignUpPage.id: (context) => const SignUpPage(),
-            },
+          return MultiProvider(
+            providers: [
+              Provider<Auth>(
+                create: (_) => Auth(firebaseAuth: FirebaseAuth.instance),
+              ),
+              StreamProvider(
+                create: (context) => context.read<Auth>().authState,
+                initialData: null,
+              ),
+            ],
+            child: MaterialApp(
+              title: 'The Greenwhale',
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(brightness: Brightness.dark),
+              home: const MainPage(),
+              routes: {
+                MainPage.id: (context) => const MainPage(),
+                SearchPage.id: (context) => const SearchPage(),
+                MapPage.id: (context) => const MapPage(),
+                LoginPage.id: (context) =>  LoginPage(),
+                SignUpPage.id: (context) => const SignUpPage(),
+              },
+            ),
           );
         },
       ),

@@ -1,41 +1,26 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:the_green_whale/services/database_service.dart';
 
-class Auth extends ChangeNotifier {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+class Auth {
+  final FirebaseAuth firebaseAuth;
+  Auth({
+    required this.firebaseAuth,
+  });
 
-  getUid() {
-    if (_firebaseAuth.currentUser != null) {
-      return _firebaseAuth.currentUser!.uid;
-    }
-    return null;
-  }
+  Stream<User?> get authState => firebaseAuth.idTokenChanges();
 
-  //Todo : Get User Name and implement it.
-
-  getUserName() {
-    if (_firebaseAuth.currentUser != null) {
-    }
-    return null;
-  }
+  get uid => firebaseAuth.currentUser!.uid;
 
   createUser(String email, String password) async {
-    await _firebaseAuth.createUserWithEmailAndPassword(
+    await firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
-
-    notifyListeners();
   }
 
   signIn(String email, String password) async {
-    await _firebaseAuth.signInWithEmailAndPassword(
+    await firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
-
-    notifyListeners();
   }
 
   singOut() {
-    _firebaseAuth.signOut();
-    notifyListeners();
+    firebaseAuth.signOut();
   }
 }
