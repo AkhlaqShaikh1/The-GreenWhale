@@ -100,14 +100,15 @@ class _MainPageState extends State<MainPage> {
         Image.asset(
           "assets/icons/$imgSrc.png",
           color: index == pageIndex ? selectedColor : unSelectedColor,
-          height: size.height * 0.02,
+          height: 50.h,
+          width: 50.w,
         ),
         Container(
           padding: const EdgeInsets.all(8.0),
           child: Text(
             title,
             style:
-                titleTextStyle.copyWith(color: Colors.white, fontSize: 45.sp),
+                titleTextStyle.copyWith(color: Colors.white, fontSize: 40.sp),
           ),
         ),
       ],

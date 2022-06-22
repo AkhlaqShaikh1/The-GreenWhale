@@ -268,7 +268,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       );
                     } catch (e) {
-                      print(e.toString());
+                      // print(e.toString());
                     }
                   },
                   child: Center(

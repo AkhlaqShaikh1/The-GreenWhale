@@ -13,7 +13,7 @@ class ReserveSpotPage extends StatelessWidget {
     Key? key,
     required this.data,
   }) : super(key: key);
-  final DataBoxModel data;
+  final dynamic data;
 
   @override
   Widget build(BuildContext context) {

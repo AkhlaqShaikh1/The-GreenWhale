@@ -19,7 +19,7 @@ class SearchDetailPage extends StatefulWidget {
     Key? key,
     required this.data,
   }) : super(key: key);
-  final DataBoxModel data;
+  final dynamic data;
 
   @override
   State<SearchDetailPage> createState() => _SearchDetailPageState();
@@ -122,7 +122,9 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
                             zoomControlsEnabled: false,
                             zoomGesturesEnabled: false,
                             initialCameraPosition: CameraPosition(
-                              target: LatLng(MapPage.lat, MapPage.long),
+                              target: LatLng(
+                                  widget.data['location']['coordinates'][1],
+                                  widget.data['location']['coordinates'][0]),
                               zoom: 15,
                             ),
                             onTap: (position) {
@@ -136,9 +138,12 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
                                   controller;
                               setState(() {
                                 marker.add(Marker(
-                                  markerId: const MarkerId("Station Loc"),
+                                  markerId: MarkerId(widget.data['id']),
                                   icon: myIcon,
-                                  position: LatLng(MapPage.lat, MapPage.long),
+                                  position: LatLng(
+                                    widget.data['location']['coordinates'][1],
+                                    widget.data['location']['coordinates'][0],
+                                  ),
                                 ));
 
                                 setState(() {});
@@ -159,7 +164,7 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.data.stationName,
+                              widget.data['name'],
                               style: titleTextStyle.copyWith(
                                 fontSize: Theme.of(context)
                                         .textTheme
@@ -172,7 +177,9 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
                               height: size.height * 0.01,
                             ),
                             Text(
-                              widget.data.stationLocation,
+                              widget.data['address'] +
+                                  ', ' +
+                                  widget.data['country_code'],
                               style: subtitleTextStyle.copyWith(
                                 fontSize: Theme.of(context)
                                         .textTheme

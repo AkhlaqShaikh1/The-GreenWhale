@@ -79,7 +79,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   size: widget.size,
                   imgSrc: "search",
                   ontap: () {
-                    
                     Navigator.of(context).pushNamed(SearchPage.id);
                   },
                 ),

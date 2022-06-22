@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:the_green_whale/utils/colors.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
@@ -9,11 +10,11 @@ class DataBox extends StatelessWidget {
     required this.size,
     // required this.textFactor,
     required this.stationName,
-    required this.stationDistance,
-    required this.stationTime,
+    this.stationDistance = "1.4 km",
+    this.stationTime = "10",
     required this.stationLocation,
-    required this.stationPower,
-    required this.isAvailable,
+    this.stationPower = "2",
+    this.isAvailable = true,
   }) : super(key: key);
 
   final Size size;
@@ -29,8 +30,8 @@ class DataBox extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: size.height * 0.21,
-          width: size.width,
+          height: 405.h,
+          width: 995.w,
           color: boxColor,
           child: Column(
             children: [
@@ -41,8 +42,8 @@ class DataBox extends StatelessWidget {
                   Column(
                     children: [
                       Container(
-                        height: size.height * 0.21,
-                        width: size.width * 0.01,
+                        height: 405.h,
+                        width: 10.w,
                         color: isAvailable ? greenColor : notAvailableColor,
                       ),
                     ],
@@ -51,15 +52,19 @@ class DataBox extends StatelessWidget {
                   // Station Name
                   Padding(
                     padding: EdgeInsets.only(
-                      top: size.height * 0.025,
-                      left: size.height * 0.025,
+                      top: 50.h,
+                      left: 50.h,
                     ),
-                    child: Text(
-                      stationName,
-                      style: titleTextStyle.copyWith(
-                        fontSize:
-                            Theme.of(context).textTheme.headlineSmall!.fontSize,
-                        fontWeight: FontWeight.w600,
+                    child: SizedBox(
+                      width: 450.w,
+                      child: Text(
+                        stationName,
+                        // softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        style: titleTextStyle.copyWith(
+                          fontSize: 50.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
@@ -67,27 +72,26 @@ class DataBox extends StatelessWidget {
                   // Station Distance
                   Padding(
                     padding: EdgeInsets.only(
-                      top: size.height * 0.027,
-                      right: size.height * 0.025,
+                      top: 59.h,
+                      right: 59.h,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Image.asset(
                           "assets/icons/location2.png",
-                          height: size.height * 0.02,
+                          height: 50.h,
+                          width: 50.w,
                           color: greenColor,
                         ),
-                        SizedBox(width: size.width * 0.02),
+
                         // Distance
                         Text(
                           stationDistance,
+                          softWrap: true,
                           style: subtitleTextStyle.copyWith(
                             color: greenColor,
-                            fontSize: Theme.of(context)
-                                .textTheme
-                                .titleMedium!
-                                .fontSize,
+                            fontSize: 40.sp,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -102,43 +106,36 @@ class DataBox extends StatelessWidget {
 
         //Station Locattion
         Positioned(
-          top: size.height * 0.068,
-          left: size.height * 0.029,
+          top: 121.h,
+          left: 60.w,
           child: Text(
             stationLocation,
             style: subtitleTextStyle.copyWith(
-              fontSize: Theme.of(context).textTheme.subtitle2!.fontSize,
+              fontSize: 35.sp,
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
         Padding(
           padding: EdgeInsets.only(
-            top: size.height * 0.11,
+            top: 183.h,
             right: size.height * 0.029,
-            left: size.height * 0.029,
+            left: 60.w,
           ),
           child: Row(
             children: [
               Image.asset(
                 "assets/icons/clock.png",
-                height: size.height * 0.025,
+                height: 50.h,
+                width: 50.w,
               ),
               SizedBox(width: size.height * 0.0125),
               Text(
                 stationTime,
                 style: subtitleTextStyle.copyWith(
-                  fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
+                  fontSize: 35.sp,
                   fontWeight: FontWeight.w600,
                   color: Colors.white,
-                ),
-              ),
-              const Spacer(),
-              Text(
-                stationPower,
-                style: subtitleTextStyle.copyWith(
-                  color: Colors.white,
-                  fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
                 ),
               ),
             ],
@@ -146,8 +143,8 @@ class DataBox extends StatelessWidget {
         ),
         // Divider
         Positioned(
-          top: size.height * 0.145,
-          left: size.height * 0.0055,
+          top: 270.h,
+          left: 10.w,
           child: Container(
             height: 1,
             width: size.width,
@@ -156,26 +153,27 @@ class DataBox extends StatelessWidget {
         ),
         // const SizedBox(height: 25),
         Positioned(
-          top: size.height * 0.16,
-          left: size.height * 0.029,
-          width: size.width,
+          top: 314.h,
+          left: 57.w,
+          width: 995.w,
           child: Row(
             children: [
               // Will change this according to the API logic
               for (int i = 0; i < 3; i++) ...[
                 Image.asset(
                   "assets/icons/type-1.png",
-                  height: size.height * 0.025,
+                  height: 50.h,
+                  width: 40.13.w,
                 ),
                 i != 3
                     ? SizedBox(
-                        width: size.height * 0.01,
+                        width: 29.87.w,
                       )
                     : const SizedBox(width: 0),
                 Text(
                   "CHAdeMO",
                   style: subtitleTextStyle.copyWith(
-                    fontSize: 14,
+                    fontSize: 35.sp,
                     color: Colors.white,
                   ),
                 ),
@@ -188,6 +186,18 @@ class DataBox extends StatelessWidget {
             ],
           ),
         ),
+        Positioned(
+          right: 50.w,
+          top: 317.h,
+          left: 845.w,
+          child: Text(
+            stationPower,
+            style: subtitleTextStyle.copyWith(
+              color: Colors.white,
+              fontSize: 35.sp,
+            ),
+          ),
+        )
       ],
     );
   }

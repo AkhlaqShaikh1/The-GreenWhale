@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:the_green_whale/model/data_box_model.dart';
+import 'package:the_green_whale/pages/map_page.dart';
 import 'package:the_green_whale/pages/search_detail_page.dart';
+import 'package:the_green_whale/provider/api.dart';
 
 import 'package:the_green_whale/utils/colors.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
@@ -86,44 +89,87 @@ class _SearchPageState extends State<SearchPage> {
               height: size.height * 0.02,
             ),
 
-            Padding(
-              padding: EdgeInsets.only(
-                  left: size.height * 0.025, right: size.height * 0.025),
-              child: ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  final item = data[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => SearchDetailPage(data: item),
+            Query(
+                options: QueryOptions(
+                    document: gql(Api.getStationAroundPoint),
+                    variables: {'Lat': MapPage.long, 'Long': MapPage.lat}),
+                builder: (QueryResult result,
+                    {VoidCallback? refetch, FetchMore? fetchMore}) {
+                  if (result.isLoading) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: greenColor,
+                      ),
+                    );
+                  }
+
+                  List? stations = result.data?['stationAround'];
+
+                  if (stations == null || stations.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        "No Stations Around",
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  }
+                  // print(stations.length);
+                  // print(stations[0]['name']);
+
+                  // return ListView.builder(
+                  //     itemCount: stations.length,
+                  //     shrinkWrap: true,
+                  //     itemBuilder: (context, index) {
+                  //       final item = stations[index];
+                  //       return Text(item['country_code']);
+                  //     });
+
+                  return ListView.builder(
+                    itemCount: stations.length,
+                    padding: EdgeInsets.only(
+                        left: size.height * 0.025, right: size.height * 0.025),
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final item = stations[index];
+                      // return Text(index.toString());
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  SearchDetailPage(data: item),
+                            ),
+                          );
+                          setState(() {});
+                        },
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              DataBox(
+                                size: size,
+                                // textFactor: textFactor,
+                                stationName: item['name'],
+                                stationLocation: item['address'] +
+                                    ', ' +
+                                    item['country_code'],
+                                // stationDistance: data[index].stationDistance,
+                                // stationTime: data[index].stationTime,
+                                // stationLocation:
+                                //     item['address'] + item['country_code'],
+                                // stationPower: data[index].stationPower,
+                                // isAvailable: data[index].isAvailable,
+                              ),
+                              SizedBox(
+                                height: size.height * 0.01,
+                              )
+                            ],
+                          ),
                         ),
                       );
-                      setState(() {});
                     },
-                    child: Column(
-                      children: [
-                        DataBox(
-                          size: size,
-                          // textFactor: textFactor,
-                          stationName: data[index].stationName,
-                          stationDistance: data[index].stationDistance,
-                          stationTime: data[index].stationTime,
-                          stationLocation: data[index].stationLocation,
-                          stationPower: data[index].stationPower,
-                          isAvailable: data[index].isAvailable,
-                        ),
-                        SizedBox(
-                          height: size.height * 0.01,
-                        )
-                      ],
-                    ),
+                    shrinkWrap: true,
                   );
-                },
-                shrinkWrap: true,
-              ),
-            ),
+                }),
           ],
         ),
       ),
