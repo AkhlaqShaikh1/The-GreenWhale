@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:the_green_whale/utils/text_styles.dart';
 // import 'package:the_green_whale/utils/text_styles.dart';
 
 import 'package:the_green_whale/widgets/home_page_widgets/my_app_bar.dart';
@@ -291,7 +292,7 @@ class _MapPageState extends State<MapPage> {
                     ),
                     CustomInfoWindow(
                       controller: customInfoWindowController,
-                      height: 200.h,
+                      height: 150.h,
                     ),
                     Positioned(
                       top: size.height * 0.62,
@@ -371,6 +372,49 @@ class _MapPageState extends State<MapPage> {
             stations[i]['location']['coordinates'][1],
             stations[i]['location']['coordinates'][0],
           ),
+          onTap: () {
+            customInfoWindowController.addInfoWindow!(
+                Column(
+                  // mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      height: 150.h,
+                      width: 350.w,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0.sp),
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Container(
+                                width: 200.w,
+                                child: Text(
+                                  stations[i]['name'],
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                  style: titleTextStyle,
+                                ),
+                              ),
+                              // Text(
+                              //   "Type 3c",
+                              //   style: subtitleTextStyle,
+                              // ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                LatLng(
+                  stations[i]['location']['coordinates'][1],
+                  stations[i]['location']['coordinates'][0],
+                ));
+          },
         ),
       );
     }
