@@ -125,15 +125,15 @@ class LoginPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
                       try {
                         // await Auth()
                         //     .signIn(_email.text.trim(), _password.text.trim());
-                        context
+                        await context
                             .read<Auth>()
                             .signIn(_email.text.trim(), _password.text.trim());
 
-                        Navigator.of(context).pushNamed('/home');
+                        Navigator.of(context).pushNamed('/home'); 
                       } on FirebaseAuthException catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(

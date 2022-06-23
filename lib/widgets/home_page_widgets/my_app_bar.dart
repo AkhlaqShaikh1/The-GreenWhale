@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -28,12 +29,14 @@ class CustomAppBar extends StatefulWidget {
 
 class _CustomAppBarState extends State<CustomAppBar> {
   // String userName = Auth().getUserName() ?? "Guest";
+  late String? userName;
 
   get primaryColor => null;
 
   @override
   Widget build(BuildContext context) {
-    final String? user = context.read<Auth>().firebaseAuth.currentUser!.email;
+    final user = context.watch<Auth>().firebaseAuth.currentUser?.email;
+    print(user);
     return SafeArea(
       child: Container(
         height: 300.h,
