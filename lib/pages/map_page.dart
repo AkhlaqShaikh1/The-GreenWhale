@@ -180,6 +180,7 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double textFactor = MediaQuery.of(context).textScaleFactor;
+    
 
     return Scaffold(
       backgroundColor: primaryColor,
@@ -390,7 +391,7 @@ class _MapPageState extends State<MapPage> {
                         child: Center(
                           child: Column(
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 200.w,
                                 child: Text(
                                   stations[i]['name'],

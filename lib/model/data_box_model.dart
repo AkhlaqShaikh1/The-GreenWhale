@@ -92,32 +92,32 @@ class DataBoxModel {
   }
 }
 
-List<DataBoxModel> data = [
-  DataBoxModel(
-    stationName: "BMW-AUTOMAG",
-    stationDistance: "1.4 km",
-    stationTime: "9am - 10am",
-    stationLocation: "Luebeckertordamm 60, Munich",
-    stationPower: "22 kw",
-    isAvailable: true,
-  ),
-  DataBoxModel(
-    stationName: "XY",
-    stationDistance: "1.4 km",
-    stationTime: "9am - 10am",
-    stationLocation: "Luebeckertordamm 60, Munich",
-    stationPower: "22 kw",
-    isAvailable: false,
-  ),
-  DataBoxModel(
-    stationName: "HELLO",
-    stationDistance: "1.4 km",
-    stationTime: "9am - 10am",
-    stationLocation: "Luebeckertordamm 60, Munich",
-    stationPower: "22 kw",
-    isAvailable: true,
-  ),
-];
+// List<DataBoxModel> data = [
+//   DataBoxModel(
+//     stationName: "BMW-AUTOMAG",
+//     stationDistance: "1.4 km",
+//     stationTime: "9am - 10am",
+//     stationLocation: "Luebeckertordamm 60, Munich",
+//     stationPower: "22 kw",
+//     isAvailable: true,
+//   ),
+//   DataBoxModel(
+//     stationName: "XY",
+//     stationDistance: "1.4 km",
+//     stationTime: "9am - 10am",
+//     stationLocation: "Luebeckertordamm 60, Munich",
+//     stationPower: "22 kw",
+//     isAvailable: false,
+//   ),
+//   DataBoxModel(
+//     stationName: "HELLO",
+//     stationDistance: "1.4 km",
+//     stationTime: "9am - 10am",
+//     stationLocation: "Luebeckertordamm 60, Munich",
+//     stationPower: "22 kw",
+//     isAvailable: true,
+//   ),
+// ];
 
-Set<DataBoxModel> fav = {};
-Set<DataBoxModel> reserve = {};
+Set fav = {};
+Set reserve = {};

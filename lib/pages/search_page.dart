@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:the_green_whale/model/data_box_model.dart';
 import 'package:the_green_whale/pages/map_page.dart';
 import 'package:the_green_whale/pages/search_detail_page.dart';
 import 'package:the_green_whale/provider/api.dart';

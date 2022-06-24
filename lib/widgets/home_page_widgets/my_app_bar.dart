@@ -1,7 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:the_green_whale/services/database_service.dart';
 
 import 'package:the_green_whale/utils/text_styles.dart';
 
@@ -35,8 +35,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.watch<Auth>().firebaseAuth.currentUser?.email;
-    print(user);
+    final user = context.watch<DatabaseService>().name;
+    print(context.read<DatabaseService>().name);
     return SafeArea(
       child: Container(
         height: 300.h,

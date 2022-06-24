@@ -132,8 +132,9 @@ class LoginPage extends StatelessWidget {
                         await context
                             .read<Auth>()
                             .signIn(_email.text.trim(), _password.text.trim());
+                            
 
-                        Navigator.of(context).pushNamed('/home'); 
+                        Navigator.of(context).pushReplacementNamed('/home');
                       } on FirebaseAuthException catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(

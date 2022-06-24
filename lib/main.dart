@@ -13,6 +13,7 @@ import 'package:the_green_whale/pages/main_page.dart';
 import 'package:the_green_whale/pages/map_page.dart';
 import 'package:the_green_whale/pages/search_page.dart';
 import 'package:the_green_whale/provider/api.dart';
+import 'package:the_green_whale/services/database_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +46,10 @@ class MyApp extends StatelessWidget {
                 create: (context) => context.read<Auth>().authState,
                 initialData: null,
               ),
+              Provider(
+                create: (context) => DatabaseService(
+                    uid: context.read<Auth>().firebaseAuth.currentUser!.uid),
+              ),
             ],
             child: MaterialApp(
               title: 'The Greenwhale',
@@ -55,7 +60,7 @@ class MyApp extends StatelessWidget {
                 MainPage.id: (context) => const MainPage(),
                 SearchPage.id: (context) => const SearchPage(),
                 MapPage.id: (context) => const MapPage(),
-                LoginPage.id: (context) =>  LoginPage(),
+                LoginPage.id: (context) => LoginPage(),
                 SignUpPage.id: (context) => const SignUpPage(),
               },
             ),

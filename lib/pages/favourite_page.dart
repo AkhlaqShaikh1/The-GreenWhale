@@ -54,14 +54,13 @@ class FavouritePage extends StatelessWidget {
                             DataBox(
                               size: size,
                               // textFactor: textFactor,
-                              stationName: fav.elementAt(index).stationName,
-                              stationDistance:
-                                  fav.elementAt(index).stationDistance,
-                              stationTime: fav.elementAt(index).stationTime,
-                              stationLocation:
-                                  fav.elementAt(index).stationLocation,
-                              stationPower: fav.elementAt(index).stationPower,
-                              isAvailable: fav.elementAt(index).isAvailable,
+                              stationName: fav.elementAt(index)['name'],
+                              // stationDistance:
+                              //     fav.elementAt(index).stationDistance,
+                              // stationTime: fav.elementAt(index).stationTime,
+                              stationLocation: fav.elementAt(index)['address'],
+                              // stationPower: fav.elementAt(index).stationPower,
+                              // isAvailable: fav.elementAt(index).isAvailable,
                             ),
                             SizedBox(
                               height: size.height * 0.02,
