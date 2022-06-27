@@ -130,7 +130,12 @@ class _SearchPageState extends State<SearchPage> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       final item = stations[index];
+                      // print(item['evses'][11]);
+                      // print(stations[11]);
+
+                      // print(stations[2]['id']);
                       // return Text(index.toString());
+
                       return GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(
@@ -151,7 +156,11 @@ class _SearchPageState extends State<SearchPage> {
                                 stationLocation: item['address'] +
                                     ', ' +
                                     item['country_code'],
-                                // stationDistance: data[index].stationDistance,
+                                connectors: item['evses'],
+                                stationPower: item['evses'][0]['connectors'][0]
+                                    ['power'],
+                                // connectors: item['evses']['connectors'],
+                                // stationDistance: [index].stationDistance,
                                 // stationTime: data[index].stationTime,
                                 // stationLocation:
                                 //     item['address'] + item['country_code'],

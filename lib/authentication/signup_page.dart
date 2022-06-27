@@ -244,8 +244,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   try {
                     dynamic uid =
                         context.read<Auth>().firebaseAuth.currentUser?.uid;
-                    print("UID");
-                    print(uid);
+                    // print("UID");
+                    // print(uid);
 
                     await context
                         .read<Auth>()
@@ -255,12 +255,12 @@ class _SignUpPageState extends State<SignUpPage> {
                       _email.text,
                       countryCode + _mobileNumber.text,
                     );
-                    print(
-                      DatabaseService.firebaseFirestore
-                          .collection("users")
-                          .doc(uid)
-                          .get(),
-                    );
+                    // print(
+                    //   DatabaseService.firebaseFirestore
+                    //       .collection("users")
+                    //       .doc(uid)
+                    //       .get(),
+                    // );
 
                     Navigator.of(context).pushNamed(LoginPage.id);
                   } on FirebaseAuthException catch (e) {

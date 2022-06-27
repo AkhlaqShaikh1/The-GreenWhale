@@ -199,14 +199,14 @@ query station(\$stationId: ID!) {
 } """;
 
   static String getStationAroundPoint =
-      """ query stationAround (\$Lat : Float! , \$Long: Float!) {
+      """ query stationAround (\$Lat: Float! , \$Long: Float!) {
   stationAround(
     query: {
-     location: { type: Point, coordinates: [\$Lat,\$Long] }
-      distance: 4000
-
+      location: { type: Point, coordinates: [\$Lat, \$Long] }
+      distance: 5000
       
     }
+    size: 15
   ) {
     id
     external_id
@@ -217,9 +217,26 @@ query station(\$stationId: ID!) {
     location {
       type
       coordinates
-          }
+    }
+    evses{
+      uid
+      status
+      connectors{
+        standard
+        power
+        
       }
-    } """;
+      
+    }
+    chargers{
+      price
+    }
+  }
+
+
+ 
+}
+   """;
 
   // static String getStationAroundGeo(String lat , long){
 

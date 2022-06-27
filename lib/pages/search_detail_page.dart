@@ -53,7 +53,7 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    
     double textFactor = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
       backgroundColor: primaryColor,
@@ -241,21 +241,26 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
                               ),
                             ),
                             SizedBox(height: size.height * 0.02),
-                            TypeBox(
-                              size: size,
-                              textFactor: textFactor,
-                              isAvailable: true,
-                            ),
-                            TypeBox(
-                              size: size,
-                              textFactor: textFactor,
-                              isAvailable: true,
-                            ),
-                            TypeBox(
-                              size: size,
-                              textFactor: textFactor,
-                              isAvailable: false,
-                            ),
+                            ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: widget.data['evses'].length,
+                                itemBuilder: (context, index) {
+                                  return TypeBox(
+                                    size: size,
+                                    textFactor: textFactor,
+                                    isAvailable: true,
+                                    connectorType: widget.data['evses'][index]
+                                        ['connectors'][0]['standard'],
+                                    power: widget.data['evses'][index]
+                                            ['connectors'][0]['power']
+                                        .toString(),
+                                    price: widget.data['chargers'][0]['price']
+                                            .isEmpty
+                                        ? "Price Unavailable"
+                                        : "",
+                                  );
+                                })
                           ],
                         ),
                       ),
