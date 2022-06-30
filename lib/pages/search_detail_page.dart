@@ -1,3 +1,4 @@
+import 'dart:math' show cos, sqrt, asin;
 import 'dart:typed_data';
 
 import 'package:custom_info_window/custom_info_window.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:the_green_whale/model/data_box_model.dart';
+import 'package:the_green_whale/pages/map_page.dart';
 import 'package:the_green_whale/pages/reserve_spot.dart';
 import 'package:the_green_whale/utils/colors.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
@@ -50,16 +52,16 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
 
   String imgPath = "assets/icons/arrow-down-small.png";
   Set<Marker> marker = {};
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    
+
     double textFactor = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
       backgroundColor: primaryColor,
       appBar: AppBar(
         backgroundColor: primaryColor,
-        // leadingWidth: 60,
         leading: Container(
           margin: EdgeInsets.only(
             top: size.height * 0.01,
@@ -197,22 +199,42 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
                                   size: size,
                                   textFactor: textFactor,
                                   imgSrc: "clock",
-                                  status: "Open",
+                                  status: widget.data['opening_times']
+                                              ['twentyfourseven'] ==
+                                          true
+                                      ? "Open"
+                                      : "No",
                                   title: "24 h",
                                 ),
                                 TimeBox(
                                   size: size,
                                   textFactor: textFactor,
                                   imgSrc: "location",
-                                  status: "Far",
-                                  title: "24 km",
+                                  status: distanceFar(
+                                    setDistance(
+                                      MapPage.lat.toDouble(),
+                                      MapPage.long.toDouble(),
+                                      widget.data['location']['coordinates'][1],
+                                      widget.data['location']['coordinates'][0],
+                                    ),
+                                  ),
+                                  title: setDistance(
+                                        MapPage.lat.toDouble(),
+                                        MapPage.long.toDouble(),
+                                        widget.data['location']['coordinates']
+                                            [1],
+                                        widget.data['location']['coordinates']
+                                            [0],
+                                      ).toString().substring(0, 3) +
+                                      " km",
                                 ),
                                 TimeBox(
                                   size: size,
                                   textFactor: textFactor,
                                   imgSrc: "public",
-                                  status: "Far",
-                                  title: "Public",
+                                  status: "Access",
+                                  title: access(widget.data['custom_properties']
+                                      ['access_type']),
                                 ),
                               ],
                             ),
@@ -249,7 +271,8 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
                                   return TypeBox(
                                     size: size,
                                     textFactor: textFactor,
-                                    isAvailable: true,
+                                    isAvailable: widget.data['evses'][index]
+                                        ['status'],
                                     connectorType: widget.data['evses'][index]
                                         ['connectors'][0]['standard'],
                                     power: widget.data['evses'][index]
@@ -282,5 +305,35 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
               ),
             ),
     );
+  }
+
+  double setDistance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;
+    var c = cos;
+    var a = 0.5 -
+        c((lat2 - lat1) * p) / 2 +
+        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+    return 12742 * asin(sqrt(a));
+  }
+
+  distanceFar(distance) {
+    if (distance > 1) {
+      return "Far";
+    }
+    return "Nearby";
+  }
+
+  access(data) {
+    if (data == null || data == "Public") {
+      return "Public";
+    }
+    if (data == "Private") {
+      return "Private";
+    }
+    if (data == "Restricted") {
+      return "Restricted";
+    }
+
+    return "N/A";
   }
 }

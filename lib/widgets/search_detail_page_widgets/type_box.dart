@@ -18,26 +18,29 @@ class TypeBox extends StatelessWidget {
 
   final Size size;
   final double textFactor;
+  final String isAvailable;
 
-  final bool isAvailable;
   final List? connectors;
   final String connectorType;
   final String power;
-  final String price ;
+  final String price;
   late String connectorName;
 
+  late bool isAvai;
   late String imgSrc;
   String type1 = "assets/icons/type-1.png";
   String type2 = "assets/icons/type-2.png";
   String chademo = "assets/icons/chademo.png";
   String css = "assets/icons/css.png";
 
+  String available = "AVAILABLE",
+      notAvailble = "Not Available",
+      unknown = "UNKNOWN",
+      busy = "BUSY";
   @override
   Widget build(BuildContext context) {
-    String available = "Available", notAvailble = "Not Available";
     return Container(
       width: size.width,
-      // // color: boxColor,
       padding: EdgeInsets.symmetric(
           horizontal: size.height * 0.001, vertical: size.height * 0.01),
       child: ExpansionPanelList.radio(
@@ -47,86 +50,87 @@ class TypeBox extends StatelessWidget {
         elevation: 0,
         children: [
           ExpansionPanelRadio(
-            backgroundColor: boxColor,
-            value: "",
-            headerBuilder: (context, isOpen) {
-              return ListTile(
-                leading: Image.asset(
-                  setImageSrc(connectorType),
-                  height: size.height * 0.05,
-                ),
-                title: Text(
-                  setConnectorText(connectorType),
-                  style: titleTextStyle.copyWith(
-                    fontSize: Theme.of(context).textTheme.titleLarge!.fontSize,
+              backgroundColor: boxColor,
+              value: "",
+              headerBuilder: (context, isOpen) {
+                return ListTile(
+                  leading: Image.asset(
+                    setImageSrc(connectorType),
+                    height: size.height * 0.05,
                   ),
-                ),
-                subtitle: Row(
-                  children: [
-                    Text(
-                      power + " kw",
-                      style: subtitleTextStyle,
+                  title: Text(
+                    setConnectorText(connectorType),
+                    style: titleTextStyle.copyWith(
+                      fontSize:
+                          Theme.of(context).textTheme.titleLarge!.fontSize,
                     ),
-                    SizedBox(
-                      width: size.height * 0.02,
-                    ),
-                    Container(
-                      color: isAvailable ? greenColor : notAvailableColor,
-                      height: size.height * 0.01,
-                      width: size.height * 0.01,
-                    ),
-                    SizedBox(width: size.height * 0.007),
-                    Text(
-                      isAvailable ? available : notAvailble,
-                      style: titleTextStyle.copyWith(
-                        color: isAvailable ? greenColor : notAvailableColor,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            body: isAvailable
-                ? Column(
+                  ),
+                  subtitle: Row(
                     children: [
-                      Divider(
-                        color: primaryColor,
-                        thickness: 2,
+                      Text(
+                        power + " kw",
+                        style: subtitleTextStyle,
+                      ),
+                      SizedBox(
+                        width: size.height * 0.02,
                       ),
                       Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: size.height * 0.025,
-                          vertical: size.height * 0.02,
+                        color: checkAvailability(isAvailable)[0]
+                            ? greenColor
+                            : notAvailableColor,
+                        height: size.height * 0.01,
+                        width: size.height * 0.01,
+                      ),
+                      SizedBox(width: size.height * 0.007),
+                      Text(
+                        checkAvailability(isAvailable)[1],
+                        style: titleTextStyle.copyWith(
+                          color: checkAvailability(isAvailable)[0]
+                              ? greenColor
+                              : notAvailableColor,
+                          fontWeight: FontWeight.w400,
                         ),
-                        width: size.width,
-                        child: Row(children: [
-                          Text(
-                            "Price",
-                            style: subtitleTextStyle.copyWith(
-                                fontSize: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .fontSize),
-                          ),
-                          const Spacer(),
-                          Text(
-                            price,
-                            style: titleTextStyle.copyWith(
-                                color: isAvailable
-                                    ? greenColor
-                                    : notAvailableColor,
-                                fontSize: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .fontSize),
-                          )
-                        ]),
                       ),
                     ],
-                  )
-                : Container(),
-          ),
+                  ),
+                );
+              },
+              body: Column(
+                children: [
+                  Divider(
+                    color: primaryColor,
+                    thickness: 2,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: size.height * 0.025,
+                      vertical: size.height * 0.02,
+                    ),
+                    width: size.width,
+                    child: Row(children: [
+                      Text(
+                        "Price",
+                        style: subtitleTextStyle.copyWith(
+                            fontSize: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .fontSize),
+                      ),
+                      const Spacer(),
+                      Text(
+                        price,
+                        style: titleTextStyle.copyWith(
+                          color: checkAvailability(isAvailable)[0]
+                              ? greenColor
+                              : notAvailableColor,
+                          fontSize:
+                              Theme.of(context).textTheme.titleLarge!.fontSize,
+                        ),
+                      )
+                    ]),
+                  ),
+                ],
+              )),
         ],
       ),
     );
@@ -166,5 +170,14 @@ class TypeBox extends StatelessWidget {
 
     imgSrc = css;
     return imgSrc;
+  }
+
+  List checkAvailability(String data) {
+    if (data == available) {
+      isAvai = true;
+      return [isAvai, "Available"];
+    }
+    isAvai = false;
+    return [isAvai, data];
   }
 }

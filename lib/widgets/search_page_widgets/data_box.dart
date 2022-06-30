@@ -12,24 +12,22 @@ class DataBox extends StatelessWidget {
     Key? key,
     required this.size,
     required this.stationName,
-    this.stationDistance,
-    this.stationTime = "10",
+    required this.stationDistance,
+    required this.stationTime,
     required this.stationLocation,
     required this.stationPower,
-    this.isAvailable = true,
+    required this.isAvailable,
     required this.connectors,
   }) : super(key: key);
 
   final Size size;
-  // final double textFactor;
   final String stationName;
-  final List? stationDistance;
-  final String? stationTime;
+  final List stationDistance;
+  final List stationTime;
   final String stationLocation;
   final dynamic stationPower;
-  final bool isAvailable;
+  final String isAvailable;
   final List connectors;
-  // final List? coordinates;
 
   String type1 = "assets/icons/type-1.png";
   String type2 = "assets/icons/type-2.png";
@@ -38,10 +36,10 @@ class DataBox extends StatelessWidget {
   late String imgSrc;
   late String connectorName;
 
+  late String time;
+
   @override
   Widget build(BuildContext context) {
-    // print(setDistance(MapPage.lat.toDouble(), MapPage.long.toDouble(),
-    //     stationDistance[1], stationDistance[0]));
     return Stack(
       children: [
         Container(
@@ -59,7 +57,9 @@ class DataBox extends StatelessWidget {
                       Container(
                         height: 405.h,
                         width: 10.w,
-                        color: isAvailable ? greenColor : notAvailableColor,
+                        color: isAvailable == "AVAILABLE"
+                            ? greenColor
+                            : notAvailableColor,
                       ),
                     ],
                   ),
@@ -108,9 +108,9 @@ class DataBox extends StatelessWidget {
                           setDistance(
                                 MapPage.lat.toDouble(),
                                 MapPage.long.toDouble(),
-                                stationDistance![1],
-                                stationDistance![0],
-                              ).toString().substring(0, 5) +
+                                stationDistance[1],
+                                stationDistance[0],
+                              ).toString().substring(0, 3) +
                               " km",
                           softWrap: true,
                           style: subtitleTextStyle.copyWith(
@@ -155,7 +155,7 @@ class DataBox extends StatelessWidget {
               ),
               SizedBox(width: size.height * 0.0125),
               Text(
-                stationTime!,
+                setTime(stationTime),
                 style: subtitleTextStyle.copyWith(
                   fontSize: 35.sp,
                   fontWeight: FontWeight.w600,
@@ -215,13 +215,6 @@ class DataBox extends StatelessWidget {
                       )
                     : SizedBox(width: 0.sp),
               ]
-              // i != connectors!.length ? SizedBox(width: 15.sp,) : SizedBox(width: 0.sp),
-
-              // i != 3
-              //     ? SizedBox(
-              //         width: size.height * 0.01,
-              //       )
-              //     : const SizedBox(width: 0),
             ]),
           ),
         ),
@@ -284,5 +277,15 @@ class DataBox extends StatelessWidget {
         c((lat2 - lat1) * p) / 2 +
         c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
     return 12742 * asin(sqrt(a));
+  }
+
+  setTime(data) {
+    if (data[0]['period_begin'] == null || data.isEmpty) {
+      time = "No time data Available";
+      return time;
+    }
+
+    time = data[0]['period_begin'] + " - " + data[0]['period_end'];
+    return time;
   }
 }

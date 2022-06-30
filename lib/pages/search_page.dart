@@ -136,7 +136,7 @@ class _SearchPageState extends State<SearchPage> {
                             children: [
                               DataBox(
                                 size: size,
-                                // textFactor: textFactor
+                                
                                 stationName: item['name'],
                                 stationLocation: item['address'] +
                                     ', ' +
@@ -146,6 +146,9 @@ class _SearchPageState extends State<SearchPage> {
                                     ['power'],
                                 stationDistance: item['location']
                                     ['coordinates'],
+                                isAvailable: "AVAILABLE",
+                                stationTime: item['opening_times']
+                                    ['regular_hours'],
                               ),
                               SizedBox(
                                 height: size.height * 0.01,

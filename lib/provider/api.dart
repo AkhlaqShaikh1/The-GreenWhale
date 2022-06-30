@@ -231,6 +231,18 @@ query station(\$stationId: ID!) {
     chargers{
       price
     }
+    time_zone
+    opening_times{
+      twentyfourseven
+      regular_hours{
+        period_begin
+        period_end
+      }
+    }
+
+    custom_properties{
+      access_type
+    }
   }
 
 

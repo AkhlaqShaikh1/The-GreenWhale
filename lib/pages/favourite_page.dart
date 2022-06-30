@@ -13,8 +13,6 @@ class FavouritePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // double textFactor = MediaQuery.of(context).textScaleFactor;
-    // print(fav.elementAt(0)['name']);
 
     return Scaffold(
       backgroundColor: primaryColor,
@@ -47,12 +45,11 @@ class FavouritePage extends StatelessWidget {
                           builder: (context) => SearchDetailPage(data: item),
                         ),
                       );
-                      // setState(() {});
                     },
                     child: Column(
                       children: [
-                        // Text(item['name']),
                         DataBox(
+                          isAvailable: item['evses'][index]['status'],
                           size: size,
                           stationName: item['name'],
                           stationLocation:
@@ -61,24 +58,8 @@ class FavouritePage extends StatelessWidget {
                           stationPower: item['evses'][0]['connectors'][0]
                               ['power'],
                           stationDistance: item['location']['coordinates'],
+                          stationTime: item['opening_times']['regular_hours'],
                         ),
-                        // DataBox(
-                        //   size: size,
-                        //   // textFactor: textFactor,
-                        //   stationName: fav.elementAt(index)['name'],
-                        //   // stationDistance: fav.elementAt(index)['location']
-                        //   //     ['coordinates'],
-                        //   // stationTime: fav.elementAt(index).stationTime,
-                        //   stationLocation: fav.elementAt(index)['address'] +
-                        //       ', ' +
-                        //       item['country_code'],
-                        //   // stationPower: fav
-                        //   //     .elementAt(index)['evses'][0]['connectors'][0]
-                        //   //         ['power']
-                        //   //     .toString(),
-                        //   // isAvailable: fav.elementAt(index).isAvailable,
-                        // ),
-                        // Text(fav.elementAt(0)['address'])1,
                         SizedBox(
                           height: size.height * 0.02,
                         ),
