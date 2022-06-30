@@ -16,6 +16,7 @@ class ReservePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // print(reserve.elementAt(0)['name']);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: primaryColor,
@@ -84,37 +85,30 @@ class ReservePage extends StatelessWidget {
                   itemCount: reserve.length,
                   itemBuilder: (context, index) {
                     final item = reserve.elementAt(index);
-                    return StatefulBuilder(
-                      builder: (context, setState) => GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  SearchDetailPage(data: item),
-                            ),
-                          );
-                          setState(() {});
-                        },
-                        child: Column(
-                          children: [
-                            DataBox(
-                              size: size,
-                              // textFactor: textFactor,
-                              stationName: reserve.elementAt(index).stationName,
-                              stationDistance:
-                                  reserve.elementAt(index).stationDistance,
-                              stationTime: reserve.elementAt(index).stationTime,
-                              stationLocation:
-                                  reserve.elementAt(index).stationLocation,
-                              stationPower:
-                                  reserve.elementAt(index).stationPower,
-                              isAvailable: reserve.elementAt(index).isAvailable,
-                            ),
-                            SizedBox(
-                              height: size.height * 0.02,
-                            ),
-                          ],
-                        ),
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => SearchDetailPage(data: item),
+                          ),
+                        );
+                      },
+                      child: Column(
+                        children: [
+                          DataBox(
+                            size: size,
+                            stationName: item['name'],
+                            stationLocation:
+                                item['address'] + " ," + item['country_code'],
+                            connectors: item['evses'],
+                            stationPower: item['evses'][0]['connectors'][0]
+                                ['power'],
+                            stationDistance: item['location']['coordinates'],
+                          ),
+                          SizedBox(
+                            height: size.height * 0.02,
+                          ),
+                        ],
                       ),
                     );
                   },

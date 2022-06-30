@@ -14,6 +14,7 @@ class FavouritePage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     // double textFactor = MediaQuery.of(context).textScaleFactor;
+    // print(fav.elementAt(0)['name']);
 
     return Scaffold(
       backgroundColor: primaryColor,
@@ -31,47 +32,61 @@ class FavouritePage extends StatelessWidget {
               ),
             )
           : SingleChildScrollView(
-              child: Padding(
+              physics: const BouncingScrollPhysics(),
+              child: ListView.builder(
                 padding: EdgeInsets.only(
                     left: size.height * 0.025, right: size.height * 0.025),
-                child: ListView.builder(
-                  itemCount: fav.length,
-                  itemBuilder: (context, index) {
-                    final item = fav.elementAt(index);
-                    return StatefulBuilder(
-                      builder: (context, setState) => GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  SearchDetailPage(data: item),
-                            ),
-                          );
-                          setState(() {});
-                        },
-                        child: Column(
-                          children: [
-                            DataBox(
-                              size: size,
-                              // textFactor: textFactor,
-                              stationName: fav.elementAt(index)['name'],
-                              // stationDistance:
-                              //     fav.elementAt(index).stationDistance,
-                              // stationTime: fav.elementAt(index).stationTime,
-                              stationLocation: fav.elementAt(index)['address'],
-                              // stationPower: fav.elementAt(index).stationPower,
-                              // isAvailable: fav.elementAt(index).isAvailable,
-                            ),
-                            SizedBox(
-                              height: size.height * 0.02,
-                            ),
-                          ],
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: fav.length,
+                itemBuilder: (context, index) {
+                  final item = fav.elementAt(index);
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => SearchDetailPage(data: item),
                         ),
-                      ),
-                    );
-                  },
-                  shrinkWrap: true,
-                ),
+                      );
+                      // setState(() {});
+                    },
+                    child: Column(
+                      children: [
+                        // Text(item['name']),
+                        DataBox(
+                          size: size,
+                          stationName: item['name'],
+                          stationLocation:
+                              item['address'] + " ," + item['country_code'],
+                          connectors: item['evses'],
+                          stationPower: item['evses'][0]['connectors'][0]
+                              ['power'],
+                          stationDistance: item['location']['coordinates'],
+                        ),
+                        // DataBox(
+                        //   size: size,
+                        //   // textFactor: textFactor,
+                        //   stationName: fav.elementAt(index)['name'],
+                        //   // stationDistance: fav.elementAt(index)['location']
+                        //   //     ['coordinates'],
+                        //   // stationTime: fav.elementAt(index).stationTime,
+                        //   stationLocation: fav.elementAt(index)['address'] +
+                        //       ', ' +
+                        //       item['country_code'],
+                        //   // stationPower: fav
+                        //   //     .elementAt(index)['evses'][0]['connectors'][0]
+                        //   //         ['power']
+                        //   //     .toString(),
+                        //   // isAvailable: fav.elementAt(index).isAvailable,
+                        // ),
+                        // Text(fav.elementAt(0)['address'])1,
+                        SizedBox(
+                          height: size.height * 0.02,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                shrinkWrap: true,
               ),
             ),
     );

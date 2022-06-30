@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:the_green_whale/pages/map_page.dart';
 
 import 'package:the_green_whale/utils/colors.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
+import 'dart:math' show cos, sqrt, asin;
 
 // ignore: must_be_immutable
 class DataBox extends StatelessWidget {
@@ -10,33 +12,36 @@ class DataBox extends StatelessWidget {
     Key? key,
     required this.size,
     required this.stationName,
-    this.stationDistance = "1.4 km",
+    this.stationDistance,
     this.stationTime = "10",
     required this.stationLocation,
-    this.stationPower = 12,
+    required this.stationPower,
     this.isAvailable = true,
-    this.connectors,
+    required this.connectors,
   }) : super(key: key);
 
   final Size size;
   // final double textFactor;
   final String stationName;
-  final String? stationDistance;
+  final List? stationDistance;
   final String? stationTime;
   final String stationLocation;
   final dynamic stationPower;
   final bool isAvailable;
-  final List? connectors;
+  final List connectors;
+  // final List? coordinates;
 
   String type1 = "assets/icons/type-1.png";
   String type2 = "assets/icons/type-2.png";
   String css = "assets/icons/css.png";
   String chademo = "assets/icons/chademo.png";
-  String imgSrc = '';
+  late String imgSrc;
   late String connectorName;
 
   @override
   Widget build(BuildContext context) {
+    // print(setDistance(MapPage.lat.toDouble(), MapPage.long.toDouble(),
+    //     stationDistance[1], stationDistance[0]));
     return Stack(
       children: [
         Container(
@@ -94,10 +99,19 @@ class DataBox extends StatelessWidget {
                           width: 50.w,
                           color: greenColor,
                         ),
+                        SizedBox(
+                          width: 20.sp,
+                        ),
 
                         // Distance
                         Text(
-                          stationDistance!,
+                          setDistance(
+                                MapPage.lat.toDouble(),
+                                MapPage.long.toDouble(),
+                                stationDistance![1],
+                                stationDistance![0],
+                              ).toString().substring(0, 5) +
+                              " km",
                           softWrap: true,
                           style: subtitleTextStyle.copyWith(
                             color: greenColor,
@@ -170,11 +184,11 @@ class DataBox extends StatelessWidget {
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(children: [
-              for (int i = 0; i < connectors!.length; i++) ...[
+              for (int i = 0; i < connectors.length; i++) ...[
                 Row(
                   children: [
                     Image.asset(
-                      setImageSrc(connectors![i]['connectors'][0]['standard']),
+                      setImageSrc(connectors[i]['connectors'][0]['standard']),
                       height: 50.h,
                       width: 40.13.w,
                     ),
@@ -183,7 +197,7 @@ class DataBox extends StatelessWidget {
                     ),
                     Text(
                       setConnectorText(
-                          connectors![0]['connectors'][0]['standard']),
+                          connectors[0]['connectors'][0]['standard']),
                       // "TEST",
                       style: subtitleTextStyle.copyWith(
                         fontSize: 35.sp,
@@ -195,7 +209,13 @@ class DataBox extends StatelessWidget {
                 SizedBox(
                   width: 64.w,
                 ),
+                i == connectors.length
+                    ? SizedBox(
+                        width: 35.sp,
+                      )
+                    : SizedBox(width: 0.sp),
               ]
+              // i != connectors!.length ? SizedBox(width: 15.sp,) : SizedBox(width: 0.sp),
 
               // i != 3
               //     ? SizedBox(
@@ -255,5 +275,14 @@ class DataBox extends StatelessWidget {
 
     imgSrc = css;
     return imgSrc;
+  }
+
+  double setDistance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;
+    var c = cos;
+    var a = 0.5 -
+        c((lat2 - lat1) * p) / 2 +
+        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+    return 12742 * asin(sqrt(a));
   }
 }

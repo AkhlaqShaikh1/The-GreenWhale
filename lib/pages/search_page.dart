@@ -112,16 +112,6 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                     );
                   }
-                  // print(stations.length);
-                  // print(stations[0]['name']);
-
-                  // return ListView.builder(
-                  //     itemCount: stations.length,
-                  //     shrinkWrap: true,
-                  //     itemBuilder: (context, index) {
-                  //       final item = stations[index];
-                  //       return Text(item['country_code']);
-                  //     });
 
                   return ListView.builder(
                     itemCount: stations.length,
@@ -130,11 +120,6 @@ class _SearchPageState extends State<SearchPage> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       final item = stations[index];
-                      // print(item['evses'][11]);
-                      // print(stations[11]);
-
-                      // print(stations[2]['id']);
-                      // return Text(index.toString());
 
                       return GestureDetector(
                         onTap: () {
@@ -151,7 +136,7 @@ class _SearchPageState extends State<SearchPage> {
                             children: [
                               DataBox(
                                 size: size,
-                                // textFactor: textFactor,
+                                // textFactor: textFactor
                                 stationName: item['name'],
                                 stationLocation: item['address'] +
                                     ', ' +
@@ -159,13 +144,8 @@ class _SearchPageState extends State<SearchPage> {
                                 connectors: item['evses'],
                                 stationPower: item['evses'][0]['connectors'][0]
                                     ['power'],
-                                // connectors: item['evses']['connectors'],
-                                // stationDistance: [index].stationDistance,
-                                // stationTime: data[index].stationTime,
-                                // stationLocation:
-                                //     item['address'] + item['country_code'],
-                                // stationPower: data[index].stationPower,
-                                // isAvailable: data[index].isAvailable,
+                                stationDistance: item['location']
+                                    ['coordinates'],
                               ),
                               SizedBox(
                                 height: size.height * 0.01,
