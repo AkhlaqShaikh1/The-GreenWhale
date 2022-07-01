@@ -43,6 +43,9 @@ class _SearchBarState extends State<SearchBar> {
           SizedBox(
             width: widget.size.width * 0.365,
             child: TextField(
+              onSubmitted:(value){
+                
+              } ,
               onChanged: (value) {
                 setState(() {});
               },

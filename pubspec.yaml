@@ -41,6 +41,7 @@ dependencies:
   geolocator: ^8.2.1
   google_maps_flutter: ^2.1.5
   graphql_flutter: ^5.1.0
+  http: ^0.13.4
   intl: ^0.17.0
   provider: ^6.0.2
   time_picker_sheet: ^0.0.2+1

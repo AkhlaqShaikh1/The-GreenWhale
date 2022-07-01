@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:http/http.dart';
+import 'package:the_green_whale/model/city_data.dart';
+import 'package:the_green_whale/model/co_ordinates.dart';
 import 'package:the_green_whale/pages/map_page.dart';
 import 'package:the_green_whale/pages/search_detail_page.dart';
 import 'package:the_green_whale/provider/api.dart';
+import 'package:the_green_whale/provider/search_api.dart';
 
 import 'package:the_green_whale/utils/colors.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
@@ -20,10 +24,28 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   TextEditingController searchController = TextEditingController();
 
+  listOfSearch = [];
+
   @override
   void dispose() {
     searchController.dispose();
     super.dispose();
+  }
+  // upddates to me made here
+  bool isLoading = false;
+  getData() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      var coOrdinates = await SearchApi(cityName: "Munich").getCoOrdinates();
+      print(coOrdinates.lat);
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      return Text(e.toString());
+    }
   }
 
   @override
@@ -69,8 +91,11 @@ class _SearchPageState extends State<SearchPage> {
               searchController: searchController,
               textFactor: textFactor,
               tap: () {
+                getData();
+
                 setState(() {
                   FocusManager.instance.primaryFocus?.unfocus();
+
                   searchController.clear();
                 });
               },
@@ -88,79 +113,86 @@ class _SearchPageState extends State<SearchPage> {
               height: size.height * 0.02,
             ),
 
-            Query(
-                options: QueryOptions(
-                    document: gql(Api.getStationAroundPoint),
-                    variables: {'Lat': MapPage.long, 'Long': MapPage.lat}),
-                builder: (QueryResult result,
-                    {VoidCallback? refetch, FetchMore? fetchMore}) {
-                  if (result.isLoading) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: greenColor,
-                      ),
-                    );
-                  }
+            searchController.text.isEmpty
+                ? Query(
+                    options: QueryOptions(
+                        document: gql(Api.getStationAroundPoint),
+                        variables: {'Lat': MapPage.long, 'Long': MapPage.lat}),
+                    builder: (QueryResult result,
+                        {VoidCallback? refetch, FetchMore? fetchMore}) {
+                      if (result.isLoading) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: greenColor,
+                          ),
+                        );
+                      }
 
-                  List? stations = result.data?['stationAround'];
+                      List? stations = result.data?['stationAround'];
 
-                  if (stations == null || stations.isEmpty) {
-                    return const Center(
-                      child: Text(
-                        "No Stations Around",
-                        textAlign: TextAlign.center,
-                      ),
-                    );
-                  }
+                      if (stations == null || stations.isEmpty) {
+                        return const Center(
+                          child: Text(
+                            "No Stations Around",
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      }
 
-                  return ListView.builder(
-                    itemCount: stations.length,
-                    padding: EdgeInsets.only(
-                        left: size.height * 0.025, right: size.height * 0.025),
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      final item = stations[index];
+                      return ListView.builder(
+                        itemCount: stations.length,
+                        padding: EdgeInsets.only(
+                            left: size.height * 0.025,
+                            right: size.height * 0.025),
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          final item = stations[index];
 
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  SearchDetailPage(data: item),
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      SearchDetailPage(data: item),
+                                ),
+                              );
+                              setState(() {});
+                            },
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  DataBox(
+                                    size: size,
+                                    stationName: item['name'],
+                                    stationLocation: item['address'] +
+                                        ', ' +
+                                        item['country_code'],
+                                    connectors: item['evses'],
+                                    stationPower: item['evses'][0]['connectors']
+                                        [0]['power'],
+                                    stationDistance: item['location']
+                                        ['coordinates'],
+                                    isAvailable: "AVAILABLE",
+                                    stationTime: item['opening_times']
+                                        ['regular_hours'],
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.01,
+                                  )
+                                ],
+                              ),
                             ),
                           );
-                          setState(() {});
                         },
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              DataBox(
-                                size: size,
-                                
-                                stationName: item['name'],
-                                stationLocation: item['address'] +
-                                    ', ' +
-                                    item['country_code'],
-                                connectors: item['evses'],
-                                stationPower: item['evses'][0]['connectors'][0]
-                                    ['power'],
-                                stationDistance: item['location']
-                                    ['coordinates'],
-                                isAvailable: "AVAILABLE",
-                                stationTime: item['opening_times']
-                                    ['regular_hours'],
-                              ),
-                              SizedBox(
-                                height: size.height * 0.01,
-                              )
-                            ],
-                          ),
-                        ),
+                        shrinkWrap: true,
                       );
-                    },
-                    shrinkWrap: true,
-                  );
-                }),
+                    })
+                : Query(
+                    options:
+                        QueryOptions(document: gql(Api.getStationAroundPoint)),
+                    builder: (QueryResult result,
+                            {VoidCallback? refetch, FetchMore? fetchMore}) =>
+                        Text(searchController.text))
           ],
         ),
       ),
