@@ -38,8 +38,8 @@ class _SearchPageState extends State<SearchPage> {
     });
     try {
       var coOrdinates = await SearchApi(cityName: value).getCoOrdinates();
-      cityLat = coOrdinates.lat;
-      cityLong = coOrdinates.long;
+      cityLat = await coOrdinates.lat;
+      cityLong = await coOrdinates.long;
       setState(() {
         isLoading = false;
       });
@@ -47,7 +47,13 @@ class _SearchPageState extends State<SearchPage> {
       setState(() {
         isLoading = false;
       });
-      return Text(e.toString());
+      return ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            e.toString(),
+          ),
+        ),
+      );
     }
   }
 
@@ -193,83 +199,80 @@ class _SearchPageState extends State<SearchPage> {
                         shrinkWrap: true,
                       );
                     })
-                : isLoading
-                    ? CircularProgressIndicator(
-                        color: greenColor,
-                      )
-                    : Query(
-                        options: QueryOptions(
-                            document: gql(Api.getStationAroundPoint),
-                            variables: {'Lat': cityLong, 'Long': cityLat}),
-                        builder: (QueryResult result,
-                            {VoidCallback? refetch, FetchMore? fetchMore}) {
-                          if (result.isLoading) {
-                            return Center(
-                              child: CircularProgressIndicator(
-                                color: greenColor,
-                              ),
-                            );
-                          }
+                : Query(
+                    options: QueryOptions(
+                        document: gql(Api.getStationAroundPoint),
+                        variables: {'Lat': cityLong, 'Long': cityLat}),
+                    builder: (QueryResult result,
+                        {VoidCallback? refetch, FetchMore? fetchMore}) {
+                      if (result.isLoading) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: greenColor,
+                          ),
+                        );
+                      }
 
-                          List? stations = result.data?['stationAround'];
+                      List? stations = result.data?['stationAround'];
 
-                          if (stations == null || stations.isEmpty) {
-                            return const Center(
-                              child: Text(
-                                "No Stations Around",
-                                textAlign: TextAlign.center,
-                              ),
-                            );
-                          }
+                      if (stations == null || stations.isEmpty) {
+                        return Center(
+                          child: Text(
+                            "No Stations Around " +
+                                searchController.text.toUpperCase(),
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      }
 
-                          return ListView.builder(
-                            itemCount: stations.length,
-                            padding: EdgeInsets.only(
-                                left: size.height * 0.025,
-                                right: size.height * 0.025),
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              final item = stations[index];
+                      return ListView.builder(
+                        itemCount: stations.length,
+                        padding: EdgeInsets.only(
+                            left: size.height * 0.025,
+                            right: size.height * 0.025),
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          final item = stations[index];
 
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          SearchDetailPage(data: item),
-                                    ),
-                                  );
-                                  setState(() {});
-                                },
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      DataBox(
-                                        size: size,
-                                        stationName: item['name'],
-                                        stationLocation: item['address'] +
-                                            ', ' +
-                                            item['country_code'],
-                                        connectors: item['evses'],
-                                        stationPower: item['evses'][0]
-                                            ['connectors'][0]['power'],
-                                        stationDistance: item['location']
-                                            ['coordinates'],
-                                        isAvailable: "AVAILABLE",
-                                        stationTime: item['opening_times']
-                                            ['regular_hours'],
-                                      ),
-                                      SizedBox(
-                                        height: size.height * 0.01,
-                                      )
-                                    ],
-                                  ),
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      SearchDetailPage(data: item),
                                 ),
                               );
+                              setState(() {});
                             },
-                            shrinkWrap: true,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  DataBox(
+                                    size: size,
+                                    stationName: item['name'],
+                                    stationLocation: item['address'] +
+                                        ', ' +
+                                        item['country_code'],
+                                    connectors: item['evses'],
+                                    stationPower: item['evses'][0]['connectors']
+                                        [0]['power'],
+                                    stationDistance: item['location']
+                                        ['coordinates'],
+                                    isAvailable: "AVAILABLE",
+                                    stationTime: item['opening_times']
+                                        ['regular_hours'],
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.01,
+                                  )
+                                ],
+                              ),
+                            ),
                           );
-                        }),
+                        },
+                        shrinkWrap: true,
+                      );
+                    }),
           ],
         ),
       ),

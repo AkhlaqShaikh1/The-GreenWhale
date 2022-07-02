@@ -19,7 +19,7 @@ class SearchApi {
       return CoOrdinates(
           lat: body['data'][0]['latitude'], long: body['data'][0]['longitude']);
     } else {
-      throw ("");
+      throw ("City not Found");
     }
   }
 }
