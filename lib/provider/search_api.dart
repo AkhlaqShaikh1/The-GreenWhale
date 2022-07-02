@@ -13,7 +13,7 @@ class SearchApi {
       'http://api.positionstack.com/v1/forward?access_key=c67946424cd56797f1911680d02ad708&';
 
   Future<CoOrdinates> getCoOrdinates() async {
-    var response = await http.get(Uri.parse(url + "query=$cityName"));
+    var response = await http.get(Uri.parse(url + "query=$cityName&region=$cityName"));
     var body = jsonDecode(response.body);
     if (body['data'].isNotEmpty) {
       return CoOrdinates(

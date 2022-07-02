@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:http/http.dart';
-import 'package:the_green_whale/model/city_data.dart';
-import 'package:the_green_whale/model/co_ordinates.dart';
+
 import 'package:the_green_whale/pages/map_page.dart';
 import 'package:the_green_whale/pages/search_detail_page.dart';
 import 'package:the_green_whale/provider/api.dart';
@@ -23,23 +21,28 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   TextEditingController searchController = TextEditingController();
-
-  listOfSearch = [];
+  late double cityLat;
+  late double cityLong;
 
   @override
   void dispose() {
     searchController.dispose();
     super.dispose();
   }
+
   // upddates to me made here
   bool isLoading = false;
-  getData() async {
+  getData(value) async {
     setState(() {
       isLoading = true;
     });
     try {
-      var coOrdinates = await SearchApi(cityName: "Munich").getCoOrdinates();
-      print(coOrdinates.lat);
+      var coOrdinates = await SearchApi(cityName: value).getCoOrdinates();
+      cityLat = coOrdinates.lat;
+      cityLong = coOrdinates.long;
+      setState(() {
+        isLoading = false;
+      });
     } catch (e) {
       setState(() {
         isLoading = false;
@@ -87,12 +90,15 @@ class _SearchPageState extends State<SearchPage> {
             SizedBox(height: size.height * 0.04),
             //Search Bar
             SearchBar(
+              submit: () {
+                setState(() {
+                  getData(searchController.text);
+                });
+              },
               size: size,
               searchController: searchController,
               textFactor: textFactor,
               tap: () {
-                getData();
-
                 setState(() {
                   FocusManager.instance.primaryFocus?.unfocus();
 
@@ -187,12 +193,83 @@ class _SearchPageState extends State<SearchPage> {
                         shrinkWrap: true,
                       );
                     })
-                : Query(
-                    options:
-                        QueryOptions(document: gql(Api.getStationAroundPoint)),
-                    builder: (QueryResult result,
-                            {VoidCallback? refetch, FetchMore? fetchMore}) =>
-                        Text(searchController.text))
+                : isLoading
+                    ? CircularProgressIndicator(
+                        color: greenColor,
+                      )
+                    : Query(
+                        options: QueryOptions(
+                            document: gql(Api.getStationAroundPoint),
+                            variables: {'Lat': cityLong, 'Long': cityLat}),
+                        builder: (QueryResult result,
+                            {VoidCallback? refetch, FetchMore? fetchMore}) {
+                          if (result.isLoading) {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: greenColor,
+                              ),
+                            );
+                          }
+
+                          List? stations = result.data?['stationAround'];
+
+                          if (stations == null || stations.isEmpty) {
+                            return const Center(
+                              child: Text(
+                                "No Stations Around",
+                                textAlign: TextAlign.center,
+                              ),
+                            );
+                          }
+
+                          return ListView.builder(
+                            itemCount: stations.length,
+                            padding: EdgeInsets.only(
+                                left: size.height * 0.025,
+                                right: size.height * 0.025),
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              final item = stations[index];
+
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          SearchDetailPage(data: item),
+                                    ),
+                                  );
+                                  setState(() {});
+                                },
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      DataBox(
+                                        size: size,
+                                        stationName: item['name'],
+                                        stationLocation: item['address'] +
+                                            ', ' +
+                                            item['country_code'],
+                                        connectors: item['evses'],
+                                        stationPower: item['evses'][0]
+                                            ['connectors'][0]['power'],
+                                        stationDistance: item['location']
+                                            ['coordinates'],
+                                        isAvailable: "AVAILABLE",
+                                        stationTime: item['opening_times']
+                                            ['regular_hours'],
+                                      ),
+                                      SizedBox(
+                                        height: size.height * 0.01,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                            shrinkWrap: true,
+                          );
+                        }),
           ],
         ),
       ),

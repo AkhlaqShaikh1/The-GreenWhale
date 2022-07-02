@@ -9,6 +9,4 @@ class CoOrdinates {
   factory CoOrdinates.fromJson(Map<String, dynamic> json) {
     return CoOrdinates(lat: json['latitude'], long: json['latitude']);
   }
-
-  
 }

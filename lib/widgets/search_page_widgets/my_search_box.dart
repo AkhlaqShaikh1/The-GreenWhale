@@ -10,12 +10,15 @@ class SearchBar extends StatefulWidget {
     required this.searchController,
     required this.textFactor,
     required this.tap,
+    required this.submit,
+    
   }) : super(key: key);
 
   final Size size;
   final TextEditingController searchController;
   final double textFactor;
   final VoidCallback tap;
+  final VoidCallback submit;
 
   @override
   State<SearchBar> createState() => _SearchBarState();
@@ -43,9 +46,7 @@ class _SearchBarState extends State<SearchBar> {
           SizedBox(
             width: widget.size.width * 0.365,
             child: TextField(
-              onSubmitted:(value){
-                
-              } ,
+              onSubmitted: (value) => widget.submit(),
               onChanged: (value) {
                 setState(() {});
               },
