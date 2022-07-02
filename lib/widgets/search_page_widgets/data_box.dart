@@ -36,8 +36,6 @@ class DataBox extends StatelessWidget {
   late String imgSrc;
   late String connectorName;
 
-  late String time;
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -197,7 +195,7 @@ class DataBox extends StatelessWidget {
                     ),
                     Text(
                       setConnectorText(
-                          connectors[0]['connectors'][0]['standard']),
+                          connectors[i]['connectors'][0]['standard']),
                       // "TEST",
                       style: subtitleTextStyle.copyWith(
                         fontSize: 35.sp,
@@ -280,12 +278,13 @@ class DataBox extends StatelessWidget {
   }
 
   setTime(data) {
-    if (data[0]['period_begin'] == null || data.isEmpty) {
-      time = "No time data Available";
-      return time;
+    if (data.isEmpty) {
+      return "24 hrs Open";
+    }
+    if (data[0]['period_begin'] == null || data[0]['period_end'] == null) {
+      return "No time data Available";
     }
 
-    time = data[0]['period_begin'] + " - " + data[0]['period_end'];
-    return time;
+    return data[0]['period_begin'] + " - " + data[0]['period_end'];
   }
 }

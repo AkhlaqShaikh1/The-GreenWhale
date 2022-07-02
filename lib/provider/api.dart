@@ -203,10 +203,10 @@ query station(\$stationId: ID!) {
   stationAround(
     query: {
       location: { type: Point, coordinates: [\$Lat, \$Long] }
-      distance: 10000
+      distance: 5000
       
     }
-    size: 30
+    size: 15
   ) {
     id
     external_id

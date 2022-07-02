@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 import 'package:the_green_whale/pages/map_page.dart';
@@ -21,8 +22,8 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   TextEditingController searchController = TextEditingController();
-  late double cityLat;
-  late double cityLong;
+  double cityLat = 0;
+  double cityLong = 0;
 
   @override
   void dispose() {
@@ -30,7 +31,6 @@ class _SearchPageState extends State<SearchPage> {
     super.dispose();
   }
 
-  // upddates to me made here
   bool isLoading = false;
   getData(value) async {
     setState(() {
@@ -96,14 +96,10 @@ class _SearchPageState extends State<SearchPage> {
             SizedBox(height: size.height * 0.04),
             //Search Bar
             SearchBar(
-              submit: () {
-                setState(() {
-                  getData(searchController.text);
-                });
+              submit: () async {
+                getData(searchController.text);
               },
-              size: size,
               searchController: searchController,
-              textFactor: textFactor,
               tap: () {
                 setState(() {
                   FocusManager.instance.primaryFocus?.unfocus();
@@ -112,20 +108,20 @@ class _SearchPageState extends State<SearchPage> {
                 });
               },
             ),
-            SizedBox(height: size.height * 0.03),
+            SizedBox(height: 55.h),
             //Current Location Searched
             Padding(
-              padding: EdgeInsets.only(left: size.height * 0.025),
+              padding: EdgeInsets.only(left: 65.w),
               child: Text(
                 "NEAR ${searchController.text.trim().toUpperCase()}",
                 style: subtitleTextStyle.copyWith(fontSize: textFactor * 14),
               ),
             ),
             SizedBox(
-              height: size.height * 0.02,
+              height: 55.h,
             ),
 
-            searchController.text.isEmpty
+            searchController.text == ""
                 ? Query(
                     options: QueryOptions(
                         document: gql(Api.getStationAroundPoint),
@@ -159,6 +155,8 @@ class _SearchPageState extends State<SearchPage> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           final item = stations[index];
+
+                          // print(item['evses'][0]['connectors'][0]['power']);
 
                           return GestureDetector(
                             onTap: () {
@@ -199,80 +197,85 @@ class _SearchPageState extends State<SearchPage> {
                         shrinkWrap: true,
                       );
                     })
-                : Query(
-                    options: QueryOptions(
-                        document: gql(Api.getStationAroundPoint),
-                        variables: {'Lat': cityLong, 'Long': cityLat}),
-                    builder: (QueryResult result,
-                        {VoidCallback? refetch, FetchMore? fetchMore}) {
-                      if (result.isLoading) {
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: greenColor,
-                          ),
-                        );
-                      }
+                : isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(
+                        color: greenColor,
+                      ))
+                    : Query(
+                        options: QueryOptions(
+                            document: gql(Api.getStationAroundPoint),
+                            variables: {'Lat': cityLong, 'Long': cityLat}),
+                        builder: (QueryResult result,
+                            {VoidCallback? refetch, FetchMore? fetchMore}) {
+                          if (result.isLoading) {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: greenColor,
+                              ),
+                            );
+                          }
 
-                      List? stations = result.data?['stationAround'];
+                          List? stations = result.data?['stationAround'];
 
-                      if (stations == null || stations.isEmpty) {
-                        return Center(
-                          child: Text(
-                            "No Stations Around " +
-                                searchController.text.toUpperCase(),
-                            textAlign: TextAlign.center,
-                          ),
-                        );
-                      }
+                          if (stations == null || stations.isEmpty) {
+                            return Center(
+                              child: Text(
+                                "No Stations Around " +
+                                    searchController.text.toUpperCase(),
+                                textAlign: TextAlign.center,
+                              ),
+                            );
+                          }
 
-                      return ListView.builder(
-                        itemCount: stations.length,
-                        padding: EdgeInsets.only(
-                            left: size.height * 0.025,
-                            right: size.height * 0.025),
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          final item = stations[index];
+                          return ListView.builder(
+                            itemCount: stations.length,
+                            padding: EdgeInsets.only(
+                                left: size.height * 0.025,
+                                right: size.height * 0.025),
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              final item = stations[index];
 
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      SearchDetailPage(data: item),
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          SearchDetailPage(data: item),
+                                    ),
+                                  );
+                                  setState(() {});
+                                },
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      DataBox(
+                                        size: size,
+                                        stationName: item['name'],
+                                        stationLocation: item['address'] +
+                                            ', ' +
+                                            item['country_code'],
+                                        connectors: item['evses'],
+                                        stationPower: item['evses'][0]
+                                            ['connectors'][0]['power'],
+                                        stationDistance: item['location']
+                                            ['coordinates'],
+                                        isAvailable: "AVAILABLE",
+                                        stationTime: item['opening_times']
+                                            ['regular_hours'],
+                                      ),
+                                      SizedBox(
+                                        height: size.height * 0.01,
+                                      )
+                                    ],
+                                  ),
                                 ),
                               );
-                              setState(() {});
                             },
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  DataBox(
-                                    size: size,
-                                    stationName: item['name'],
-                                    stationLocation: item['address'] +
-                                        ', ' +
-                                        item['country_code'],
-                                    connectors: item['evses'],
-                                    stationPower: item['evses'][0]['connectors']
-                                        [0]['power'],
-                                    stationDistance: item['location']
-                                        ['coordinates'],
-                                    isAvailable: "AVAILABLE",
-                                    stationTime: item['opening_times']
-                                        ['regular_hours'],
-                                  ),
-                                  SizedBox(
-                                    height: size.height * 0.01,
-                                  )
-                                ],
-                              ),
-                            ),
+                            shrinkWrap: true,
                           );
-                        },
-                        shrinkWrap: true,
-                      );
-                    }),
+                        }),
           ],
         ),
       ),

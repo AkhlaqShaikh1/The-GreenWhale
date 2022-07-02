@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:the_green_whale/utils/colors.dart';
 
 class MyAppBarIcon extends StatelessWidget {
@@ -19,18 +20,12 @@ class MyAppBarIcon extends StatelessWidget {
       onTap: ontap,
       child: Container(
         margin: EdgeInsets.only(
-          left: size.height * 0.01,
-          right: size.height * 0.008,
+          left: 15.w,
+          right: 15.w,
         ),
-        height: size.height * 0.05,
-        width: size.width * 0.11,
+        height: 130.h,
+        width: 130.w,
         child: Container(
-          padding: EdgeInsets.only(
-            top: size.height * 0.015,
-            bottom: size.height * 0.015,
-            left: size.height * 0.016,
-            right: size.height * 0.018,
-          ),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
@@ -43,7 +38,8 @@ class MyAppBarIcon extends StatelessWidget {
             child: Image.asset(
               "assets/icons/$imgSrc.png",
               color: Colors.white,
-              height: size.height * 0.018,
+              height: 60.h,
+              width: 60.w,
             ),
           ),
         ),
