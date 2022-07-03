@@ -127,7 +127,7 @@ class _MapPageState extends State<MapPage> {
                 )
               : Stack(
                   alignment: Alignment.center,
-                  // fit: StackFit.loose,
+                 
                   children: [
                     Container(
                       padding: EdgeInsets.only(bottom: 15.sp),
@@ -176,11 +176,7 @@ class _MapPageState extends State<MapPage> {
                                     customInfoWindowController
                                         .googleMapController = gcontroller;
                                     controller = gcontroller;
-                                    // const Duration(seconds: 1);
-                                    // List? station = result.data?['station']
-
-                                    // getLat();
-                                    // getLong();
+                                   
                                   },
                                   myLocationEnabled: false,
                                   zoomControlsEnabled: false,
@@ -189,30 +185,7 @@ class _MapPageState extends State<MapPage> {
                               },
                             ),
 
-                      // : GoogleMap(
-                      //     initialCameraPosition: CameraPosition(
-                      //         target: LatLng(MapPage.lat, MapPage.long),
-                      //         zoom: 13),
-                      //     onTap: (position) {
-                      //       customInfoWindowController.hideInfoWindow!();
-                      //     },
-                      //     onCameraMove: (position) {
-                      //       customInfoWindowController.onCameraMove!();
-                      //     },
-                      //     onMapCreated: (gcontroller) async {
-                      //       customInfoWindowController.googleMapController =
-                      //           gcontroller;
-                      //       controller = gcontroller;
-
-                      //       // getLat();
-                      //       // getLong();
-                      //     },
-                      //     myLocationEnabled: false,
-                      //     zoomControlsEnabled: false,
-
-                      //     markers: markers,
-                      //      markers: {},
-                      //   ),
+                     
                     ),
                     CustomInfoWindow(
                       controller: customInfoWindowController,
@@ -299,7 +272,7 @@ class _MapPageState extends State<MapPage> {
           onTap: () {
             customInfoWindowController.addInfoWindow!(
                 Column(
-                  // mainAxisSize: MainAxisSize.min,
+                  
                   children: [
                     Container(
                       height: 150.h,
@@ -323,10 +296,10 @@ class _MapPageState extends State<MapPage> {
                                   style: titleTextStyle,
                                 ),
                               ),
-                              // Text(
-                              //   "Type 3c",
-                              //   style: subtitleTextStyle,
-                              // ),
+                              Text(
+                                stations[i]['evses'][i]['connectors'][0]['standard'],
+                                style: subtitleTextStyle,
+                              ),
                             ],
                           ),
                         ),

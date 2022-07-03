@@ -206,7 +206,7 @@ query station(\$stationId: ID!) {
       distance: 5000
       
     }
-    size: 15
+    size: 20
   ) {
     id
     external_id

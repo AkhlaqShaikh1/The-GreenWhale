@@ -30,7 +30,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // double textFactor = MediaQuery.of(context).textScaleFactor;
+    
 
     return Scaffold(
       body: pages[pageIndex],

@@ -3,6 +3,7 @@ import 'package:the_green_whale/authentication/login_page.dart';
 
 import 'package:the_green_whale/utils/colors.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
+import 'package:the_green_whale/widgets/profile_page_widgets/profile_tile.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -10,7 +11,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // double textFactor = MediaQuery.of(context).textScaleFactor;
+
     return Scaffold(
       backgroundColor: primaryColor,
       body: SingleChildScrollView(
@@ -131,52 +132,6 @@ class ProfilePage extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ProfileTile extends StatelessWidget {
-  const ProfileTile({
-    Key? key,
-    required this.size,
-    required this.leadingImgSrc,
-    required this.title,
-    this.onTap,
-  }) : super(key: key);
-
-  final Size size;
-  final String leadingImgSrc;
-  final VoidCallback? onTap;
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: size.height * 0.06,
-        width: size.width,
-        color: boxColor,
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: size.height * 0.02,
-          ),
-          child: Row(
-            children: [
-              Image.asset("assets/icons/$leadingImgSrc.png",
-                  height: size.height * 0.025),
-              SizedBox(width: size.height * 0.009),
-              Text(title),
-              const Spacer(),
-              Image.asset(
-                "assets/icons/arrow-down.png",
-                height: size.height * 0.02,
-              ),
-            ],
           ),
         ),
       ),

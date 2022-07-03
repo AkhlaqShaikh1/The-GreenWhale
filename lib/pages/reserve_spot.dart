@@ -40,7 +40,7 @@ class ReserveSpotPage extends StatelessWidget {
         centerTitle: true,
       ),
       bottomNavigationBar: InkWell(
-        // onTap: () {},
+       
         onTap: () {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -50,7 +50,7 @@ class ReserveSpotPage extends StatelessWidget {
                 reserve.contains(data)
                     ? "Already In Your Reserves"
                     : "Added to Reserves",
-                // textAlign: TextAlign.center,
+                
                 style: titleTextStyle.copyWith(color: subtitleColor),
               ),
             ),

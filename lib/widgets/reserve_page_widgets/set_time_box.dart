@@ -59,17 +59,7 @@ class _SetTimeBoxState extends State<SetTimeBox> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // TimePicker.show(
-        //   roundedCorner: 0,
-        //   context: context,
-        //   sheet: TimePickerSheet(
-        //     sheetTitleStyle: titleTextStyle.copyWith(fontSize: 20),
-        //     sheetTitle: "Peak Time",
-        //     minuteTitle: "Minutes",
-        //     hourTitle: "Hours",
-        //     saveButtonText: "Confirm",
-        //   ),
-        // );
+      
         _openTimePickerSheet(context);
       },
       child: Container(
