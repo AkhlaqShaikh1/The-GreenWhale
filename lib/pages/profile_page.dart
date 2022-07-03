@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:the_green_whale/authentication/login_page.dart';
 
 import 'package:the_green_whale/utils/colors.dart';
@@ -42,10 +43,7 @@ class ProfilePage extends StatelessWidget {
                         Text(
                           "Start".toUpperCase(),
                           style: titleTextStyle.copyWith(
-                            fontSize: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .fontSize,
+                            fontSize: 45.sp,
                             fontWeight: FontWeight.w500,
                             color: Colors.white,
                           ),
@@ -53,10 +51,7 @@ class ProfilePage extends StatelessWidget {
                         Text(
                           "Charging".toUpperCase(),
                           style: titleTextStyle.copyWith(
-                            fontSize: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .fontSize,
+                            fontSize: 45.sp,
                             fontWeight: FontWeight.w500,
                             color: Colors.white,
                           ),
@@ -64,7 +59,8 @@ class ProfilePage extends StatelessWidget {
                         const Spacer(),
                         Image.asset(
                           "assets/icons/button.png",
-                          height: size.height * 0.04,
+                          height: 80.h,
+                          width: 80.w,
                         ),
                       ],
                     ),
