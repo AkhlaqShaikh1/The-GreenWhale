@@ -108,7 +108,7 @@ class DataBox extends StatelessWidget {
                                 MapPage.long.toDouble(),
                                 stationDistance[1],
                                 stationDistance[0],
-                              ).toString().substring(0, 5) +
+                              ).toString().substring(0, 6) +
                               " km",
                           softWrap: true,
                           style: subtitleTextStyle.copyWith(

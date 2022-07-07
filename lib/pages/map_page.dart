@@ -10,7 +10,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
 
-
 import 'package:the_green_whale/widgets/home_page_widgets/my_app_bar.dart';
 
 import '../provider/api.dart';
@@ -61,7 +60,7 @@ class _MapPageState extends State<MapPage> {
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
     return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.best);
+        desiredAccuracy: LocationAccuracy.bestForNavigation);
   }
 
   getLatLong() async {
@@ -79,8 +78,6 @@ class _MapPageState extends State<MapPage> {
           .load("assets/icons/stationMarker.png");
       Uint8List imageData = byteData.buffer.asUint8List();
       myIcon = BitmapDescriptor.fromBytes(imageData);
-
-    
 
       if (mounted) {
         setState(() {
@@ -103,7 +100,6 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double textFactor = MediaQuery.of(context).textScaleFactor;
-    
 
     return Scaffold(
       backgroundColor: primaryColor,
@@ -127,7 +123,6 @@ class _MapPageState extends State<MapPage> {
                 )
               : Stack(
                   alignment: Alignment.center,
-                 
                   children: [
                     Container(
                       padding: EdgeInsets.only(bottom: 15.sp),
@@ -176,7 +171,6 @@ class _MapPageState extends State<MapPage> {
                                     customInfoWindowController
                                         .googleMapController = gcontroller;
                                     controller = gcontroller;
-                                   
                                   },
                                   myLocationEnabled: false,
                                   zoomControlsEnabled: false,
@@ -184,12 +178,11 @@ class _MapPageState extends State<MapPage> {
                                 );
                               },
                             ),
-
-                     
                     ),
                     CustomInfoWindow(
                       controller: customInfoWindowController,
                       height: 150.h,
+                      width: 350.w,
                     ),
                     Positioned(
                       top: size.height * 0.62,
@@ -269,10 +262,10 @@ class _MapPageState extends State<MapPage> {
             stations[i]['location']['coordinates'][1],
             stations[i]['location']['coordinates'][0],
           ),
-          onTap: () {
-            customInfoWindowController.addInfoWindow!(
+          onTap: () async {
+            print(stations[i]['chargers'][0]['standard']);
+            await customInfoWindowController.addInfoWindow!(
                 Column(
-                  
                   children: [
                     Container(
                       height: 150.h,
@@ -297,8 +290,10 @@ class _MapPageState extends State<MapPage> {
                                 ),
                               ),
                               Text(
-                                stations[i]['evses'][i]['connectors'][0]['standard'],
+                                stations[i]['chargers'][0]['standard'],
+                                overflow: TextOverflow.ellipsis,
                                 style: subtitleTextStyle,
+                                textAlign: TextAlign.center,
                               ),
                             ],
                           ),

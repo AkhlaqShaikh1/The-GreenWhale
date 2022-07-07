@@ -230,6 +230,7 @@ query station(\$stationId: ID!) {
     }
     chargers{
       price
+      standard
     }
     time_zone
     opening_times{

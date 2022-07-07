@@ -225,7 +225,7 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
                                             [1],
                                         widget.data['location']['coordinates']
                                             [0],
-                                      ).toString().substring(0, 3) +
+                                      ).toString().substring(0, 6) +
                                       " km",
                                 ),
                                 TimeBox(
