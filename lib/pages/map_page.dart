@@ -253,7 +253,7 @@ class _MapPageState extends State<MapPage> {
 
   Set<Marker> getmarkers(QueryResult result) {
     List? stations = result.data?['stationAround'];
-    print(stations?[0]['status']);
+    
     for (int i = 0; i < stations!.length; i++) {
       markers.add(
         Marker(
@@ -264,7 +264,7 @@ class _MapPageState extends State<MapPage> {
             stations[i]['location']['coordinates'][0],
           ),
           onTap: () async {
-            print(stations[i]['chargers'][0]['standard']);
+           
             await customInfoWindowController.addInfoWindow!(
                 Column(
                   children: [

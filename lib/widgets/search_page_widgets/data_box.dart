@@ -38,7 +38,6 @@ class DataBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(isAvailable);
     return Stack(
       children: [
         Container(
