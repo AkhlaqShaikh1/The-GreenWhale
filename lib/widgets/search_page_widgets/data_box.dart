@@ -38,6 +38,7 @@ class DataBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(isAvailable);
     return Stack(
       children: [
         Container(
@@ -55,9 +56,7 @@ class DataBox extends StatelessWidget {
                       Container(
                         height: 405.h,
                         width: 10.w,
-                        color: isAvailable == "AVAILABLE"
-                            ? greenColor
-                            : notAvailableColor,
+                        color: setAvailable(isAvailable),
                       ),
                     ],
                   ),
@@ -286,5 +285,17 @@ class DataBox extends StatelessWidget {
     }
 
     return data[0]['period_begin'] + " - " + data[0]['period_end'];
+  }
+
+  setAvailable(data) {
+    if (data == "free") {
+      return greenColor;
+    }
+    if (data == "busy") {
+      return notAvailableColor;
+    }
+    if (data == "unknown" || data == "error") {
+      return subtitleColor;
+    }
   }
 }

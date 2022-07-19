@@ -182,7 +182,7 @@ class _SearchPageState extends State<SearchPage> {
                                         [0]['power'],
                                     stationDistance: item['location']
                                         ['coordinates'],
-                                    isAvailable: "AVAILABLE",
+                                    isAvailable: item['status'],
                                     stationTime: item['opening_times']
                                         ['regular_hours'],
                                   ),
@@ -261,7 +261,7 @@ class _SearchPageState extends State<SearchPage> {
                                             ['connectors'][0]['power'],
                                         stationDistance: item['location']
                                             ['coordinates'],
-                                        isAvailable: "AVAILABLE",
+                                        isAvailable: item['status'],
                                         stationTime: item['opening_times']
                                             ['regular_hours'],
                                       ),

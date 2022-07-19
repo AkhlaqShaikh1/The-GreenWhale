@@ -233,6 +233,7 @@ query station(\$stationId: ID!) {
       standard
     }
     time_zone
+    status
     opening_times{
       twentyfourseven
       regular_hours{

@@ -253,6 +253,7 @@ class _MapPageState extends State<MapPage> {
 
   Set<Marker> getmarkers(QueryResult result) {
     List? stations = result.data?['stationAround'];
+    print(stations?[0]['status']);
     for (int i = 0; i < stations!.length; i++) {
       markers.add(
         Marker(

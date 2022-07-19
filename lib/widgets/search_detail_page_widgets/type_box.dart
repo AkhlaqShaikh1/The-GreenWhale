@@ -75,9 +75,7 @@ class TypeBox extends StatelessWidget {
                         width: size.height * 0.02,
                       ),
                       Container(
-                        color: checkAvailability(isAvailable)[0]
-                            ? greenColor
-                            : notAvailableColor,
+                        color: setAvailable(isAvailable),
                         height: size.height * 0.01,
                         width: size.height * 0.01,
                       ),
@@ -85,9 +83,7 @@ class TypeBox extends StatelessWidget {
                       Text(
                         checkAvailability(isAvailable)[1],
                         style: titleTextStyle.copyWith(
-                          color: checkAvailability(isAvailable)[0]
-                              ? greenColor
-                              : notAvailableColor,
+                          color: setAvailable(isAvailable),
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -179,5 +175,16 @@ class TypeBox extends StatelessWidget {
     }
     isAvai = false;
     return [isAvai, data];
+  }
+
+  setAvailable(data) {
+    if (data == "AVAILABLE") {
+      return greenColor;
+    }
+    if (data == "UNKNOWN") {
+      return subtitleColor;
+    } else {
+      return notAvailableColor;
+    }
   }
 }
