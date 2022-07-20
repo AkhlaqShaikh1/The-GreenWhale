@@ -142,6 +142,14 @@ class _MapPageState extends State<MapPage> {
                               builder: (QueryResult result,
                                   {VoidCallback? refetch,
                                   FetchMore? fetchMore}) {
+                                if (result.exception?.linkException
+                                        .toString() ==
+                                    "ServerException(originalException: SocketException: Failed host lookup: 'api.chargetrip.io' (OS Error: No address associated with hostname, errno = 7), parsedResponse: null)") {
+                                  return Icon(
+                                    Icons.wifi_off,
+                                    size: 150.h,
+                                  );
+                                }
                                 if (result.isLoading) {
                                   return Container(
                                     alignment: Alignment.center,
@@ -158,7 +166,7 @@ class _MapPageState extends State<MapPage> {
                                       MapPage.lat,
                                       MapPage.long,
                                     ),
-                                    zoom: 10,
+                                    zoom: 16,
                                   ),
                                   onTap: (position) {
                                     customInfoWindowController
@@ -172,7 +180,7 @@ class _MapPageState extends State<MapPage> {
                                         .googleMapController = gcontroller;
                                     controller = gcontroller;
                                   },
-                                  myLocationEnabled: false,
+                                  // myLocationEnabled: true,
                                   zoomControlsEnabled: false,
                                   markers: getmarkers(result),
                                 );
@@ -192,7 +200,7 @@ class _MapPageState extends State<MapPage> {
                             horizontal: size.height * 0.01,
                             vertical: size.height * 0.013,
                           ),
-                          width: size.height * 0.26,
+                          width: size.height * 0.2,
                           decoration: BoxDecoration(
                             color: primaryColor,
                             borderRadius: BorderRadius.circular(45),
@@ -201,6 +209,19 @@ class _MapPageState extends State<MapPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               GestureDetector(
+                                onTap: () {
+                                  controller.animateCamera(
+                                    CameraUpdate.newCameraPosition(
+                                      CameraPosition(
+                                        target: LatLng(
+                                          MapPage.lat,
+                                          MapPage.long,
+                                        ),
+                                        zoom: 13,
+                                      ),
+                                    ),
+                                  );
+                                },
                                 child: Image.asset(
                                   "assets/icons/layer.png",
                                   height: size.height * 0.029,
@@ -220,7 +241,7 @@ class _MapPageState extends State<MapPage> {
                                           MapPage.lat,
                                           MapPage.long,
                                         ),
-                                        zoom: 15,
+                                        zoom: 17,
                                       ),
                                     ),
                                   );
@@ -229,15 +250,6 @@ class _MapPageState extends State<MapPage> {
                                   "assets/icons/gps.png",
                                   height: size.height * 0.029,
                                 ),
-                              ),
-                              Container(
-                                color: subtitleColor,
-                                height: size.height * 0.04,
-                                width: size.width * 0.003,
-                              ),
-                              Image.asset(
-                                "assets/icons/send.png",
-                                height: size.height * 0.029,
                               ),
                             ],
                           ),
@@ -253,7 +265,7 @@ class _MapPageState extends State<MapPage> {
 
   Set<Marker> getmarkers(QueryResult result) {
     List? stations = result.data?['stationAround'];
-    
+
     for (int i = 0; i < stations!.length; i++) {
       markers.add(
         Marker(
@@ -264,7 +276,6 @@ class _MapPageState extends State<MapPage> {
             stations[i]['location']['coordinates'][0],
           ),
           onTap: () async {
-           
             await customInfoWindowController.addInfoWindow!(
                 Column(
                   children: [
@@ -311,6 +322,9 @@ class _MapPageState extends State<MapPage> {
         ),
       );
     }
+    markers.add(Marker(
+        markerId: const MarkerId("myLocation"),
+        position: LatLng(MapPage.lat, MapPage.long)));
     return markers;
   }
 }

@@ -12,6 +12,7 @@ import 'package:the_green_whale/authentication/signup_page.dart';
 import 'package:the_green_whale/pages/main_page.dart';
 import 'package:the_green_whale/pages/map_page.dart';
 import 'package:the_green_whale/pages/search_page.dart';
+import 'package:the_green_whale/pages/splash_screen.dart';
 import 'package:the_green_whale/provider/api.dart';
 
 void main() async {
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget {
               title: 'The Greenwhale',
               debugShowCheckedModeBanner: false,
               theme: ThemeData(brightness: Brightness.dark),
-              home: const MainPage(),
+              home: const SplashScreen(),
               routes: {
                 MainPage.id: (context) => const MainPage(),
                 SearchPage.id: (context) => const SearchPage(),

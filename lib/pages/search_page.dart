@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -43,14 +45,21 @@ class _SearchPageState extends State<SearchPage> {
       setState(() {
         isLoading = false;
       });
+    } on SocketException {
+      setState(() {
+        isLoading = false;
+      });
+      return const Center(
+        child: Icon(Icons.wifi_off),
+      );
     } catch (e) {
       setState(() {
         isLoading = false;
       });
       return ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text(
-            e.toString(),
+            "City Not Found",
           ),
         ),
       );

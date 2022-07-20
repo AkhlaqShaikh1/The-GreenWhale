@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
 import 'package:the_green_whale/utils/text_styles.dart';
 
 import '../../pages/search_page.dart';
@@ -76,17 +75,15 @@ class _CustomAppBarState extends State<CustomAppBar> {
             const Spacer(),
             Row(
               children: [
-                MyAppBarIcon(
-                  size: widget.size,
-                  imgSrc: "search",
-                  ontap: () {
-                    Navigator.of(context).pushNamed(SearchPage.id);
-                  },
-                ),
-                MyAppBarIcon(
-                  size: widget.size,
-                  imgSrc: "list",
-                  ontap: () {},
+                Padding(
+                  padding: EdgeInsets.all(15.w),
+                  child: MyAppBarIcon(
+                    size: widget.size,
+                    imgSrc: "search",
+                    ontap: () {
+                      Navigator.of(context).pushNamed(SearchPage.id);
+                    },
+                  ),
                 ),
               ],
             ),
