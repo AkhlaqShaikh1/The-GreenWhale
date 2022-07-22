@@ -42,7 +42,7 @@ class _SearchBarState extends State<SearchBar> {
           ),
           SizedBox(width: 30.w),
           SizedBox(
-            width: 500.w,
+            width: 800.w,
             child: TextField(
               cursorHeight: 60.sp,
               cursorColor: greenColor,

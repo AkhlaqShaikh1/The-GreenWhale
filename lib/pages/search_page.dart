@@ -49,8 +49,23 @@ class _SearchPageState extends State<SearchPage> {
       setState(() {
         isLoading = false;
       });
-      return const Center(
-        child: Icon(Icons.wifi_off),
+      return ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "No Internet Connection",
+          ),
+        ),
+      );
+    } on HttpException {
+      setState(() {
+        isLoading = false;
+      });
+      return ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "No Internet Connection",
+          ),
+        ),
       );
     } catch (e) {
       setState(() {
@@ -70,7 +85,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    double textFactor = MediaQuery.of(context).textScaleFactor;
+    // double textFactor = MediaQuery.of(context).textScaleFactor;
 
     return Scaffold(
       backgroundColor: primaryColor,
@@ -91,7 +106,7 @@ class _SearchPageState extends State<SearchPage> {
         title: Text(
           "Search",
           style: titleTextStyle.copyWith(
-            fontSize: Theme.of(context).textTheme.titleLarge!.fontSize,
+            fontSize: 60.sp,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -123,7 +138,7 @@ class _SearchPageState extends State<SearchPage> {
               padding: EdgeInsets.only(left: 65.w),
               child: Text(
                 "NEAR ${searchController.text.trim().toUpperCase()}",
-                style: subtitleTextStyle.copyWith(fontSize: textFactor * 14),
+                style: subtitleTextStyle.copyWith(fontSize: 45.sp),
               ),
             ),
             SizedBox(
@@ -230,8 +245,7 @@ class _SearchPageState extends State<SearchPage> {
                           if (stations == null || stations.isEmpty) {
                             return Center(
                               child: Text(
-                                "No Stations Around " +
-                                    searchController.text.toUpperCase(),
+                                "No Stations Around " + searchController.text,
                                 textAlign: TextAlign.center,
                               ),
                             );
