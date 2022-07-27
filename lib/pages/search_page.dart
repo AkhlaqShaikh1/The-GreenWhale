@@ -64,7 +64,7 @@ class _SearchPageState extends State<SearchPage> {
         const SnackBar(
           content: Text(
             "No Internet Connection",
-          ),
+          )
         ),
       );
     } catch (e) {
@@ -85,7 +85,6 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    // double textFactor = MediaQuery.of(context).textScaleFactor;
 
     return Scaffold(
       backgroundColor: primaryColor,

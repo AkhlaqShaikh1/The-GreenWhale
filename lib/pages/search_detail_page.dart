@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:the_green_whale/model/data_box_model.dart';
@@ -166,13 +167,7 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
                           children: [
                             Text(
                               widget.data['name'],
-                              style: titleTextStyle.copyWith(
-                                fontSize: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge!
-                                        .fontSize! +
-                                    10,
-                              ),
+                              style: titleTextStyle.copyWith(fontSize: 50.sp),
                             ),
                             SizedBox(
                               height: size.height * 0.01,
@@ -182,11 +177,7 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
                                   ', ' +
                                   widget.data['country_code'],
                               style: subtitleTextStyle.copyWith(
-                                fontSize: Theme.of(context)
-                                        .textTheme
-                                        .subtitle2!
-                                        .fontSize! +
-                                    5,
+                                fontSize: 35.sp,
                               ),
                             ),
                             SizedBox(
@@ -225,7 +216,7 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
                                             [1],
                                         widget.data['location']['coordinates']
                                             [0],
-                                      ).toString().substring(0, 6) +
+                                      ).toString().substring(0, 7) +
                                       " km",
                                 ),
                                 TimeBox(
@@ -243,24 +234,13 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
                             ),
                             Text(
                               "Charging Plugs",
-                              style: titleTextStyle.copyWith(
-                                fontSize: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge!
-                                        .fontSize! +
-                                    10,
-                              ),
+                              style: titleTextStyle.copyWith(fontSize: 60.sp),
                             ),
                             SizedBox(height: size.height * 0.01),
                             Text(
                               "Pick One To Start Charging",
-                              style: subtitleTextStyle.copyWith(
-                                fontSize: Theme.of(context)
-                                        .textTheme
-                                        .subtitle2!
-                                        .fontSize! +
-                                    5,
-                              ),
+                              style:
+                                  subtitleTextStyle.copyWith(fontSize: 35.sp),
                             ),
                             SizedBox(height: size.height * 0.02),
                             ListView.builder(

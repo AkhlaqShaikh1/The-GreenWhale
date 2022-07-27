@@ -30,7 +30,6 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    
 
     return Scaffold(
       body: pages[pageIndex],
@@ -108,7 +107,7 @@ class _MainPageState extends State<MainPage> {
           child: Text(
             title,
             style:
-                titleTextStyle.copyWith(color: Colors.white, fontSize: 40.sp),
+                titleTextStyle.copyWith(color: Colors.white, fontSize: 35.sp),
           ),
         ),
       ],

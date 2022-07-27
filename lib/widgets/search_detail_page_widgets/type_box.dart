@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:the_green_whale/utils/colors.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
@@ -62,14 +63,14 @@ class TypeBox extends StatelessWidget {
                     setConnectorText(connectorType),
                     style: titleTextStyle.copyWith(
                       fontSize:
-                          Theme.of(context).textTheme.titleLarge!.fontSize,
+                          50.sp,
                     ),
                   ),
                   subtitle: Row(
                     children: [
                       Text(
                         power + " kw",
-                        style: subtitleTextStyle,
+                        style: subtitleTextStyle.copyWith(fontSize: 35.sp),
                       ),
                       SizedBox(
                         width: size.height * 0.02,
@@ -107,10 +108,7 @@ class TypeBox extends StatelessWidget {
                       Text(
                         "Price",
                         style: subtitleTextStyle.copyWith(
-                            fontSize: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .fontSize),
+                            fontSize: 50.sp),
                       ),
                       const Spacer(),
                       Text(
@@ -120,7 +118,7 @@ class TypeBox extends StatelessWidget {
                               ? greenColor
                               : notAvailableColor,
                           fontSize:
-                              Theme.of(context).textTheme.titleLarge!.fontSize,
+                              50.sp,
                         ),
                       )
                     ]),
