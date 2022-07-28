@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:the_green_whale/authentication/login_page.dart';
+import 'package:the_green_whale/pages/main_page.dart';
 
 import 'package:the_green_whale/utils/colors.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
@@ -23,46 +24,50 @@ class ProfilePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: size.height * 0.258,
-                  width: size.width,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/start-charging.png"),
+                GestureDetector(
+                  onTap: () =>
+                      Navigator.pushReplacementNamed(context, MainPage.id),
+                  child: Container(
+                    height: size.height * 0.258,
+                    width: size.width,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/start-charging.png"),
+                      ),
                     ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: size.height * 0.02,
-                      vertical: size.height * 0.07,
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Start".toUpperCase(),
-                          style: titleTextStyle.copyWith(
-                            fontSize: 45.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: size.height * 0.02,
+                        vertical: size.height * 0.07,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Start".toUpperCase(),
+                            style: titleTextStyle.copyWith(
+                              fontSize: 45.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        Text(
-                          "Charging".toUpperCase(),
-                          style: titleTextStyle.copyWith(
-                            fontSize: 45.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
+                          Text(
+                            "Charging".toUpperCase(),
+                            style: titleTextStyle.copyWith(
+                              fontSize: 45.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        const Spacer(),
-                        Image.asset(
-                          "assets/icons/button.png",
-                          height: 80.h,
-                          width: 80.w,
-                        ),
-                      ],
+                          const Spacer(),
+                          Image.asset(
+                            "assets/icons/button.png",
+                            height: 80.h,
+                            width: 80.w,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:the_green_whale/pages/search_detail_page.dart';
 
 import 'package:the_green_whale/utils/colors.dart';
 import 'package:the_green_whale/utils/text_styles.dart';
 
-import '../model/data_box_model.dart';
 import '../widgets/reserve_page_widgets/set_time_box.dart';
-
 
 class ReservePage extends StatelessWidget {
   const ReservePage({Key? key}) : super(key: key);
@@ -20,7 +15,6 @@ class ReservePage extends StatelessWidget {
       backgroundColor: primaryColor,
       appBar: AppBar(
         backgroundColor: primaryColor,
-        
         elevation: 1.5,
         shadowColor: subtitleColor.withOpacity(0.5),
         title: const Text("Reserve Your V2G Spot"),

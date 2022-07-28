@@ -67,6 +67,84 @@ class _MainPageState extends State<MainPage> {
               child: InkWell(
                 splashColor: greenColor,
                 onTap: () {
+                  showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) => SizedBox(
+                          height: 985.w,
+                          width: 995.w,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              AlertDialog(
+                                // contentPadding: EdgeInsets.zero,
+                                actionsPadding: const EdgeInsets.all(0),
+
+                                backgroundColor: Colors.white,
+                                content: RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              " Earn money by helping us. Reserve your spot to connect your electric vehicle!",
+                                          style: subtitleTextStyle.copyWith(
+                                            fontSize: 35.sp,
+                                          ),
+                                        )
+                                      ],
+                                      style: titleTextStyle.copyWith(
+                                        color: Colors.black,
+                                        fontSize: 40.sp,
+                                      ),
+                                      text:
+                                          "There are peak prices coming today!\n"),
+                                ),
+                                title: Image.asset(
+                                  "assets/icons/price high.png",
+                                  height: 270.h,
+                                  width: 300.w,
+                                ),
+                                actions: [
+                                  GestureDetector(
+                                    onTap: () => Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => const ReservePage(),
+                                    )),
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      color: greenColor,
+                                      width: 995.w,
+                                      height: 160.h,
+                                      child: Text(
+                                        "Reserve Now",
+                                        style: titleTextStyle.copyWith(
+                                            fontSize: 50.sp),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              GestureDetector(
+                                onTap: () =>
+                                    Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => const MainPage(),
+                                  ),
+                                ),
+                                child: Container(
+                                  width: 160.w,
+                                  height: 160.h,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                  ),
+                                  child: Image.asset("assets/icons/cancel.png",
+                                      height: 120.h, width: 120.w),
+                                ),
+                              )
+                            ],
+                          )));
                   setState(() {
                     pageIndex = 2;
                   });
