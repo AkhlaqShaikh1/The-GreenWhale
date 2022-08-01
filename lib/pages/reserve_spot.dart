@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pie_chart/pie_chart.dart';
 
 import 'package:the_green_whale/model/data_box_model.dart';
 import 'package:the_green_whale/pages/peak_time.dart';
@@ -40,7 +42,6 @@ class ReserveSpotPage extends StatelessWidget {
         centerTitle: true,
       ),
       bottomNavigationBar: InkWell(
-       
         onTap: () {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -50,7 +51,6 @@ class ReserveSpotPage extends StatelessWidget {
                 reserve.contains(data)
                     ? "Already In Your Reserves"
                     : "Added to Reserves",
-                
                 style: titleTextStyle.copyWith(color: subtitleColor),
               ),
             ),
@@ -131,13 +131,44 @@ class ReserveSpotPage extends StatelessWidget {
               SizedBox(
                 height: size.height * 0.02,
               ),
-              Container(
-                  width: size.width,
-                  height: size.height * 0.33,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
+              Center(
+                child: Container(
+                  alignment: Alignment.center,
+                  width: 750.w,
+                  height: 750.w,
+                  child: PieChart(
+                    centerText: "12h",
+
+                    // degreeOptions: const DegreeOptions(
+                    //     totalDegrees: 360, initialAngle: 270),
+                    totalValue: 180,
+                    colorList: [
+                      const Color(0xffC8F1D4),
+                      notAvailableColor,
+                    ],
+                    emptyColor: subtitleColor,
+                    chartType: ChartType.ring,
+                    baseChartColor: subtitleColor,
+                    ringStrokeWidth: 10,
+                    chartRadius: 750.h,
+                    legendOptions: const LegendOptions(showLegends: true),
+                    chartValuesOptions:
+                        const ChartValuesOptions(showChartValues: true),
+                    initialAngleInDegree: 270,
+                    dataMap: {
+                      "toGrid": 7.5 * 19,
+                      "want": 7,
+                    },
                   ),
-                  child: Image.asset("assets/images/temp-clock1.png")),
+                ),
+              ),
+              // Container(
+              //     width: size.width,
+              //     height: size.height * 0.33,
+              //     decoration: const BoxDecoration(
+              //       shape: BoxShape.circle,
+              //     ),
+              //     child: Image.asset("assets/images/temp-clock1.png")),
               SizedBox(
                 height: size.height * 0.05,
               ),

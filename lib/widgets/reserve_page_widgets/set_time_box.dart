@@ -144,6 +144,7 @@ class _SetTimeBoxState extends State<SetTimeBox> {
                       mode: CupertinoDatePickerMode.time,
                       initialDateTime: DateTime.now(),
                       use24hFormat: true,
+
                       onDateTimeChanged: (value) {
                         _chosen = value;
                         setState(() {
